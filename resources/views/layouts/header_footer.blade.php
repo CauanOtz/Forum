@@ -18,13 +18,13 @@
 
 <body>
     
-    <div id="app"></div>
+    <!-- <div id="app"></div> -->
     
     <main>
         @yield('content')
     </main>
 
-    <div id="footer"></div>
+    <!-- <div id="footer"></div> -->
 
 </body>
 <script src="{{ mix('js/app.js') }}"></script>
