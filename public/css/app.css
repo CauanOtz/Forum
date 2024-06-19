@@ -39,9 +39,10 @@ main {
   background: #E3E3E3;
   outline: none;
   border: none;
-  margin-top: 35px;
+  margin-top: 25px;
   border-radius: 7.68px;
   padding: 10px;
+  width: 260px;
 }
 
 .form-inputs > input::placeholder {
@@ -66,7 +67,49 @@ main {
   display: flex;
 }
 
+.form-low {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 35px;
+}
+
+.form-connections > p:nth-child(1) {
+  color: #828282;
+  font-size: 12px;
+  text-align: center;
+}
+
+.form-connections {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 120px;
+  margin-top: 30px;
+}
+
+.form-connections > p:nth-child(3) > strong{
+  font-size: 14px;
+  color: #9B12CB;
+  cursor: pointer;
+}
+
+.connections {
+  display: flex;
+  justify-content: space-around;
+}
+
+.connections > img{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
 .form-btn {
-  margin: auto;
-  width: 120px;
+  width: 175px;
+  height: 40px;
+  border: none;
+  background-color: #9B12CB;
+  color: white;
+  border-radius: 5px;
 }
