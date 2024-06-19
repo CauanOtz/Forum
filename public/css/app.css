@@ -1,0 +1,31 @@
+/* public/css/sidebar.css */
+main {
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f0f0f0; /* Cor de fundo para o corpo da aplicação */
+}
+
+#menu {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  background-color: #1A202C; /* Cor de fundo para o menu onde está o ícone do menu hamburguer */
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  display: flex;
+  background: white;
+}
