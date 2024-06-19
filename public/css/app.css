@@ -35,7 +35,23 @@ main {
   align-items: center;
 }
 
-.form-inputs > input{
+.form-title {
+  color: #563939;
+}
+.form-title > h1 {
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+.form-title > p {
+  margin-top: -5px;
+}
+
+
+.input-wrapper {
+    
+}
+.form-inputs > .input-wrapper > input{
   background: #E3E3E3;
   outline: none;
   border: none;
@@ -43,8 +59,15 @@ main {
   border-radius: 7.68px;
   padding: 10px;
   width: 260px;
+  padding-left: 25px;
+  position: relative;
 }
 
+.input-icons {
+  position: absolute;
+  left: 0;
+  color: #767676;
+}
 .form-inputs > input::placeholder {
   font-size: 14px;
 }
@@ -78,6 +101,7 @@ main {
   color: #828282;
   font-size: 12px;
   text-align: center;
+  margin-bottom: 0px;
 }
 
 .form-connections {
@@ -86,6 +110,10 @@ main {
   justify-content: space-around;
   height: 120px;
   margin-top: 30px;
+}
+
+.form-connections > p:nth-child(3){
+  color: #563939;
 }
 
 .form-connections > p:nth-child(3) > strong{
@@ -100,8 +128,8 @@ main {
 }
 
 .connections > img{
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
 }
 

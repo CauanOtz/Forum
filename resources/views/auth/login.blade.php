@@ -30,8 +30,15 @@
             <form action="{{ route('login')}}" method="POST">
                 @csrf
                 <div class="form-inputs">
-                    <input type="email" id="email" name="email" class="form-control"  value="{{ old('email') }}" placeholder="Email | Username" required>         
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user input-icons"></i>
+                        <input type="email" id="email" name="email" class="form-control"  value="{{ old('email') }}" placeholder="Email | Username" required> 
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icons"></i>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    
                 </div>
                 <div class="form-logins">
                     <p>Sign in with OTP</p>
