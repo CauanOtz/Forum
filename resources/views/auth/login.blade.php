@@ -1,4 +1,4 @@
-@extends('layouts.header_footer')
+@extends('layouts.header')
 
 @section('content')
 <!-- <div class="container d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
@@ -37,6 +37,7 @@
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock input-icons"></i>
                         <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                        <i class="fa-regular fa-eye-slash input-icons_password" id="togglePassword"></i>
                     </div>
                     
                 </div>
@@ -60,7 +61,7 @@
             </form>
         </div>
         <div class="form-right">
-            <img src="https://static.vecteezy.com/system/resources/previews/000/601/617/original/digital-print-logo-design-vector.jpg" alt="">
+            <img src="../../../img/NewarkConsulting.png" alt="">
         </div>
     </div>
 </div>

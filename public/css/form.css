@@ -1,37 +1,43 @@
 /* public/css/sidebar.css */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+* {
+  background-color: #f0f0f0;
+}
+
+body {
+  overflow-x: hidden;
+}
 
 main {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
   background-color: #f0f0f0; /* Cor de fundo para o corpo da aplicação */
 }
 
-#menu {
+/* #menu {
   position: absolute;
   top: 20px;
   left: 20px;
   font-size: 30px;
   color: white;
   cursor: pointer;
-  background-color: #1A202C; /* Cor de fundo para o menu onde está o ícone do menu hamburguer */
-}
+  background-color: #1A202C; 
+} */
 
 .container {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0px;
+  padding: 20px;
 }
 
 .form-container {
   display: flex;
   width: 100vw;
-  justify-content: space-around;
+  height: 100vh;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -49,9 +55,10 @@ main {
 
 
 .input-wrapper {
-    
+    position: relative;
 }
-.form-inputs > .input-wrapper > input{
+
+.form-inputs > .input-wrapper input{
   background: #E3E3E3;
   outline: none;
   border: none;
@@ -61,12 +68,32 @@ main {
   width: 260px;
   padding-left: 25px;
   position: relative;
+  z-index: 1;
 }
 
+.form-inputs > .input-wrapper input:focus {
+  outline: none;
+  box-shadow: none;
+}
 .input-icons {
   position: absolute;
-  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 8px;
   color: #767676;
+  z-index: 2;
+  font-size: 13px;
+}
+
+.input-icons_password {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+  color: #767676;
+  z-index: 2;
+  font-size: 16px;
+  cursor: pointer;
 }
 .form-inputs > input::placeholder {
   font-size: 14px;
@@ -80,10 +107,12 @@ main {
   font-size: 12px;
   color: #9B12CB;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .form-right > img {
-  height: 200px;
+  max-height: 1800px;
+  height: 800px;
 }
 
 .form-logins {
@@ -108,7 +137,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 120px;
+  height: 150px;
   margin-top: 30px;
 }
 
@@ -137,7 +166,11 @@ main {
   width: 175px;
   height: 40px;
   border: none;
-  background-color: #9B12CB;
+  background: linear-gradient(90deg, #9B12CB, #9B12CB);
   color: white;
   border-radius: 5px;
+}
+
+.form-left {
+  margin-left: 350px;
 }
