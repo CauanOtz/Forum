@@ -69,6 +69,7 @@ main {
   padding-left: 25px;
   position: relative;
   z-index: 1;
+  color: #767676;
 }
 
 .form-inputs > .input-wrapper input:focus {
@@ -83,6 +84,7 @@ main {
   color: #767676;
   z-index: 2;
   font-size: 13px;
+  background: #E3E3E3;
 }
 
 .input-icons_password {
@@ -94,7 +96,7 @@ main {
   z-index: 2;
   font-size: 16px;
   cursor: pointer;
-  background: none;
+  background: #E3E3E3;
 }
 .form-inputs > input::placeholder {
   font-size: 14px;

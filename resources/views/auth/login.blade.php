@@ -39,11 +39,6 @@
                         <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                         <i class="fa-regular fa-eye-slash input-icons_password" id="togglePassword"></i>
                     </div>
-                    
-                </div>
-                <div class="form-logins">
-                    <p>Sign in with OTP</p>
-                    <p>Forgot Password?</p>
                 </div>
                 <div class="form-low">
                     <input type="submit" value="Login" class="form-btn">

@@ -8,11 +8,13 @@ header {
     padding: 20px;
 }
 
-.nav-signup > button{
+.nav-signup > a{
     background: #BE06FF;
     color: white;
     border: none;
     width: 200px;
     padding: 8px 0px;
     border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
 }

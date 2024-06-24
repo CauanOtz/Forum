@@ -19,7 +19,7 @@
 <body>
     <header>
         <div class="nav-signup">
-            <button>Sign Up</button>
+            <a href="{{route('register')}}">Sign Up</a>
         </div>
     </header>
     <main>
