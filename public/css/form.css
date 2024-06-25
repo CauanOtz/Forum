@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-* {
-  background-color: #f0f0f0;
-}
-
 body {
   overflow-x: hidden;
 }
@@ -14,16 +10,6 @@ main {
   box-sizing: border-box;
   background-color: #f0f0f0;
 }
-
-/* #menu {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: 30px;
-  color: white;
-  cursor: pointer;
-  background-color: #1A202C; 
-} */
 
 .container {
   width: 100vw;
@@ -148,15 +134,18 @@ main {
   color: #563939;
 }
 
-.form-connections > p:nth-child(3) > strong{
+.form-connections > p:nth-child(3) > a{
   font-size: 14px;
   color: #9B12CB;
   cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .connections {
   display: flex;
   justify-content: space-around;
+  width: 200px;
 }
 
 .connections > img{

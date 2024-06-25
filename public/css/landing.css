@@ -1,0 +1,209 @@
+/* Estilos para a estrutura principal */
+.landing {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar {
+    width: 250px;
+}
+
+/* Estilos para os menus da barra lateral */
+.sidebar .sidebar-menu,
+.sidebar .sidebar-personalnav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+}
+
+.sidebar-menu > h2,
+.sidebar-personalnav > h2 {
+    font-size: 25px;
+    font-weight: 300;
+    color: #594545;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu p,
+.sidebar-personalnav p {
+    transition: background-color 0.6s;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+.sidebar-menu p:hover,
+.sidebar-personalnav p:hover {
+    background-color: #d8d8d8;
+}
+
+.sidebar-menu p i,
+.sidebar-personalnav p i {
+    margin-right: 10px;
+    background: none;
+}
+
+/* Estilos para o conteúdo central */
+.center {
+    width: 900px;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    margin: auto;
+}
+
+.filter {
+    background: #e8e8e8;
+    display: flex;
+    align-items: center;
+    padding: 13px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.filter p,
+.filter i {
+    color: #808080;
+    background: none;
+    margin: 0;
+}
+
+.filter > p > i {
+    margin-right: 8px;
+}
+
+/* Estilos para os cards de conteúdo */
+.card-content {
+    width: 850px;
+    height: 200px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.question > .question-title {
+    font-size: 20px;
+    width: 400px;
+}
+
+.question-view {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 500px;
+}
+
+.votes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.votes p {
+    margin: 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 850px;
+    background: #fff;
+    height: 200px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.23);
+    margin-top: 20px;
+}
+
+
+.red-text {
+    color: red;
+}
+
+.red-icon {
+    color: red;
+}
+
+.green-text {
+    color: green;
+}
+
+.green-icon {
+    color: green;
+}
+
+.views {
+    display: flex;
+    padding: 5px;
+    background: white;
+}
+
+.views > p {
+    margin-left: 10px;
+    color: #808080;
+}
+
+.views > p > i {
+    margin-right: 2px;
+}
+
+.topics > button {
+    padding: 15px;
+    border: none;
+    background: #9B12CB;
+    color: white;
+    border-radius: 5px;
+    width: 180px;
+}
+
+.topics > button > i {
+    margin-right: 10px;
+}
+
+.suggestions > h3 {
+    font-size: 20px;
+    color: #808080;
+    font-weight: 300;
+    
+}
+
+.suggestions {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestions-users {
+    margin-top: 30px;
+}
+
+.suggestions-users > .user{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 200px;
+}
+
+.suggestions-users > .user > button {
+    width: 70px;
+    border: none;
+    padding: 7px;
+    background: #9B12CB;
+    color: white;
+    border-radius: 5px;
+}
+
+.suggestions-users > .user > button > i {
+    margin-right: 5px;
+}

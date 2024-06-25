@@ -1,34 +1,74 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel Sidebar</title>
-    <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/sidebar.js') }}" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-</head>
+@extends('layouts.header')
+
+@section('content')
 <body>
-    <div id="app">
-        <div id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <span id="close-btn">&times;</span>
-            </div>
-            <div class="sidebar-content">
-                <a href="users"><i class="fa fa-home"></i> Início</a>
-                <a href="register"><i class="fa fa-user-plus"></i> Cadastre-se</a>
-                <a href="users"><i class="fa fa-user"></i> Perfil</a>
-                <a href="login"><i class="fa fa-sign-in"></i> Logar</a>
-                <a href="logout"><i class="fa fa-sign-out"></i> Sair</a>
-                <a href="settings"><i class="fa fa-cog"></i> Configurações</a>
-            </div>
+<div class="landing">
+    <div class="sidebar">
+        <div class="sidebar-menu">
+            <h2>Menu</h2>
+            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-circle-question"></i>Questions</p>
+            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-compass"></i>Explore Topics</p>
+            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-tag"></i>Tags</p>
         </div>
-        <div id="menu">
-            <i class="fa fa-bars"></i>
+        <div class="sidebar-personalnav">
+            <h2>Personal Navigator</h2>
+            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-circle-question"></i>My Questions</p>
+            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-comments"></i>My Answers</p>
+            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
         </div>
-        <div class="content">
-            <h1>AEEEEEEEE</h1>
+        <div class="sidebar-premium">
+
         </div>
     </div>
+    <div class="center">
+        <div class="filters">
+            <div class="filters-new filter">
+                <p><i class="fa-regular fa-clock"></i>New</p>
+            </div>
+            <div class="filters-trending filter ">
+                <p><i class="fa-solid fa-turn-up"></i>Trending</p>
+            </div>
+            <div class="filters-category filter">
+                <p><i class="fa-solid fa-sliders"></i>Category</p>
+            </div>
+        </div>
+        <div class="content">
+            <div class="card">
+                <div class="card-content">
+                    <div class="votes">
+                        <i class="fa-solid fa-chevron-up"></i>
+                        <span class="vote-count">45</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div> 
+                    <div class="question">
+                        <h3 class="question-title">Which of sci-fi’s favourite technologies would you like to see become a reality?</h3>
+                        <p id="question-date">09:00 pm</p>
+                        <p class="question-view">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus earum praesentium minus quae hic a? Sequi molestias dignissimos rem? Dolorem cum id fugiat, quas doloremque suscipit ipsa blanditiis voluptates sed!</p>
+                    </div>
+                    
+                </div>
+                <div class="views">
+                    <p><i class="fa-regular fa-eye"></i>30</p>
+                    <p><i class="fa-regular fa-comment"></i>20</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="topics">
+            <button><i class="fa-solid fa-plus"></i>Start a New Topic</button>
+        </div>
+        <div class="suggestions">
+            <h3>Suggestions</h3>
+            <div class="suggestions-users">
+                <div class="user">
+                    <img src="" alt="">
+                    <p>Nome</p>
+                    <button><i class="fa-solid fa-plus"></i>Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-</html>
+@endsection
