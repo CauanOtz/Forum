@@ -1,3 +1,5 @@
+
+
 header {
     display: flex;
     justify-content: space-around;
@@ -90,10 +92,15 @@ header {
     display: flex;
     flex-direction: column;
     align-items: left;
+    width: 150px;
 }
 
 .profile-info > a {
     color: #9B12CB;
+}
+
+.profile-info > p {
+    margin-bottom: 3px;
 }
 
 .profile-modal-close {
@@ -101,4 +108,13 @@ header {
     top: 15px;
     right: 25px;
     cursor: pointer;
+}
+
+.profile-info > .logout > a {
+    color: #9B12CB;
+}
+
+.logout {
+    display: flex;
+    justify-content: space-between;
 }

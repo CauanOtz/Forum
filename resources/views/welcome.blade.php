@@ -5,13 +5,13 @@
 <div class="landing">
     <div class="sidebar">
         <div class="sidebar-menu">
-            <h2>Menu</h2>
+            <h2>MENU</h2>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-circle-question"></i>Questions</p>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-compass"></i>Explore Topics</p>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-tag"></i>Tags</p>
         </div>
         <div class="sidebar-personalnav">
-            <h2>Personal Navigator</h2>
+            <h2>PERSONAL NAVIGATOR</h2>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-circle-question"></i>My Questions</p>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-comments"></i>My Answers</p>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
@@ -41,8 +41,10 @@
                         <i class="fa-solid fa-chevron-down"></i>
                     </div> 
                     <div class="question">
-                        <h3 class="question-title">Which of sci-fi’s favourite technologies would you like to see become a reality?</h3>
-                        <p id="question-date">09:00 pm</p>
+                        <div class="question-top">
+                            <h3 class="question-title">Which of sci-fi’s favourite technologies would you like to see become a reality?</h3>
+                            <p id="question-date">09:00 pm</p>
+                        </div>
                         <p class="question-view">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus earum praesentium minus quae hic a? Sequi molestias dignissimos rem? Dolorem cum id fugiat, quas doloremque suscipit ipsa blanditiis voluptates sed!</p>
                     </div>
                     

@@ -14,19 +14,19 @@
                     <div class="input-wrapper">
                         <i class="fa-regular fa-user input-icons"></i>
                         <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" placeholder="Nome" required>
-                        @error('name') <span>{{ $message }}</span> @enderror
                     </div>
+                    @error('name') <span>{{ $message }}</span> @enderror
                     <div class="input-wrapper">
                         <i class="fa-regular fa-user input-icons"></i>
                         <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" required>
-                        @error('email') <span>{{ $message }}</span> @enderror
                     </div>
+                    @error('email') <span>{{ $message }}</span> @enderror
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock input-icons"></i>
                         <input type="password" id="password" name="password" class="form-control" placeholder="Senha" required>
                         <i class="fa-regular fa-eye-slash input-icons_password" id="togglePassword"></i>
-                        @error('password') <span>{{ $message }}</span> @enderror
                     </div>
+                    @error('password') <span>{{ $message }}</span> @enderror
                 </div>
                 <div class="form-low">
                     <input type="submit" value="Enviar" class="form-btn">
