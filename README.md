@@ -1,7 +1,3 @@
-Aqui está uma versão revisada do seu README para o projeto "Newark Consulting":
-
----
-
 # Newark Consulting
 
 Este projeto é desenvolvido como parte de um trabalho escolar na FATEC SOROCABA, com o objetivo de criar um fórum completo que inclui tópicos, tags, posts, e outras funcionalidades típicas de um fórum convencional.
