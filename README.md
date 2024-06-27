@@ -4,7 +4,7 @@ Este projeto é desenvolvido como parte de um trabalho escolar na FATEC SOROCABA
 
 ## Visão Geral
 
-O Newark Consulting foca em discussões relacionadas a finanças, oferecendo um espaço para troca de ideias e informações sobre esse tema específico.
+O Forum foca em discussões relacionadas a finanças, oferecendo um espaço para troca de ideias e informações sobre esse tema específico.
 
 ## Arquitetura e Metodologia
 
