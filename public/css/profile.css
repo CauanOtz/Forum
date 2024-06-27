@@ -47,22 +47,24 @@
     display: flex;
 }
 
-.settings-content > .left > form  > .btns > input {
+.settings-content > .left > .profile-btn, 
+.settings-content > .left > form > .profile-btn {
     padding: 8px;
     border: none;
     color: white;
     margin-right: 50px;
     border-radius: 5px;
     width: 50px;
-    
-}
-
-.edit {
     background: #9B12CB;
 }
 
 .delete {
     background: red;
+    width: 50px;
+    padding: 8px;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
 .right > p {
@@ -98,6 +100,8 @@
 .right > .user-wrapper > .edit > i {
     margin-right: 5px;
 }
-.right > .user-wrapper > .edit > i, p {
+
+.right > .user-wrapper > .edit > i, 
+.right > .user-wrapper > .edit > p {
     color: #9B12CB;
 }

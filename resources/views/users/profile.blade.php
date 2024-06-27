@@ -60,15 +60,21 @@
             <h1>Public Profile</h1>
             <div class="settings-content">
                 <div class="left">
-                        <form action="{{route('updateUser', [$user->id])}}" method="POST">
+                    <form action="{{route('updateUser', [$user->id])}}" method="POST">
                         @csrf
                         @method('PUT')
 
-                        <label>Name</label>
-                        <input type="text" placeholder="{{ $user->name }}" value="{{ $user->name }}" required>
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" placeholder="{{ $user->name }}" value="{{ $user->name }}" required>
+                        @error('name') <span>{{ $message }}</span> @enderror
 
-                        <label>Public Email</label>
-                        <input type="text" placeholder="{{ $user->email}}" value="{{ $user->email}}">
+                        <label for="email">Public Email</label>
+                        <input type="text" name="email" id="email" placeholder="{{ $user->email}}" value="{{ $user->email}}" required>
+                        @error('email') <span>{{ $message }}</span> @enderror
+
+                        <label for="senha">Senha</label>
+                        <input type="password" name="password" id="password" placeholder="{{ $user->password}}" value="{{ $user->password}}" required>
+                        @error('password') <span>{{ $message }}</span> @enderror
 
                         <label for="">Bio</label>
                         <input type="text" placeholder="Tell us a little bit about yourself">
@@ -78,13 +84,17 @@
                             <option value="She/her">She/her</option>
                             <option value="He/Him">He Him</option>
                         </select>
-
+                        <input type="submit" value="Edit" class="profile-btn edit">
+                        </form>
                         <div class="btns">
-                            <input type="submit" value="Edit" class="edit">
-                            <input type="submit" Value="Delete" class="delete">
+                        <form action="{{ route('deleteUser', [$user->id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" class="profile-btn delete" value="Delete">
+                    </form>
                         </div>
+                    
                 </div>
-                </form>
                 <div class="right">
                     <p>Profile Picture</p>
                     <div class="user-wrapper">

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <link rel="shortcut icon" href="img/Logo nav.png" type="image/x-icon">
 </head>
 
 <link rel="stylesheet" href="css/form.css">

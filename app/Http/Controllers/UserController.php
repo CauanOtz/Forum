@@ -44,14 +44,46 @@ public function register(Request $request) {
 }
 
     public function UpdateUser(Request $request, $id) {
-        $user = User::where('id', $id)->first();
+        $user = User::find($id);
+
+        if(!$user){
+            return redirect()->route('listAllUsers')->with('error', 'Usuário não encontrado');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+        ]);
+
         $user->name = $request->name;
         $user->email = $request->email;
-        if ($request->password != ''){
+        if($request->filled('password')){
             $user->password = Hash::make($request->password);
         }
+
         $user->save();
-        return redirect()->route('listUserById', [$user->id])->with('message', 'Alteração realizada com sucesso');
+
+        return redirect()->route('listUserById', [$user->id])->with('message', 'Alteração funcionou');
+        // $user = User::find($id);
+        // if (!$user) {
+        //     return redirect()->route('listAllUsers')->with('error', 'Usuário não encontrado');
+        // }
+    
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        //     'password' => 'nullable|string|min:8',
+        // ]);
+    
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // if ($request->filled('password')) {
+        //     $user->password = Hash::make($request->password);
+        // }
+        // $user->save();
+    
+        // return redirect()->route('listUserById', [$user->id])->with('message', 'Alteração realizada com sucesso');
     }
 
     public function deleteUser(Request $request, $id) {

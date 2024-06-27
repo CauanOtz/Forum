@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/{id}', [UserController::class, 'listUserById'])->name('listUserById');
     Route::put('/users/{id}/update', [UserController::class, 'updateUser'])->name('updateUser');
     Route::get('/users/{id}/edit', [UserController::class, 'editUser'])->name('editUser');
-    Route::get('/users/{id}/delete', [UserController::class, 'deleteUser'])->name('deleteUser');
+    Route::delete('/users/{id}/delete', [UserController::class, 'deleteUser'])->name('deleteUser');
 
     Route::get('/topics', [TopicController::class, 'listAllTopics'])->name('listAllTopics');
     Route::get('/topics/{id}', [TopicController::class, 'listTopicById'])->name('listTopicById');

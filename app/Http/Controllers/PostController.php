@@ -4,7 +4,7 @@
     use Illuminate\Http\Request;
     use App\Models\Topic;
 
-    class TopicController extends Controller
+    class PostController extends Controller
     {
         public function listAllPosts(){
             $posts = Topic::all();
