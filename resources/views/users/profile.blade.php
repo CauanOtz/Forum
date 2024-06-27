@@ -1,7 +1,7 @@
-@extends('layouts.header_footer')
+@extends('layouts.header')
 
 @section('content')
-<div class="container d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
+<!-- <div class="container d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
     <h2 class="text-center">Perfil</h2>
     <span>{{ session('message') }}</span>
     @if ($user != null)
@@ -34,5 +34,71 @@
             <input type="submit" class="btn btn-danger" value="Excluir">
         </form>
     @endif
+</div> -->
+<div class="container">
+    <div class="settings-container">
+        <div class="sidebar">
+            <div class="sidebar">
+                <div class="sidebar-menu">
+                    <h2>MENU</h2>
+                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-circle-question"></i>Questions</p>
+                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-compass"></i>Explore Topics</p>
+                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-tag"></i>Tags</p>
+                </div>
+                <div class="sidebar-personalnav">
+                    <h2>PERSONAL NAVIGATOR</h2>
+                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-circle-question"></i>My Questions</p>
+                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-comments"></i>My Answers</p>
+                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
+                </div>
+                <div class="sidebar-premium">
+
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <h1>Public Profile</h1>
+            <div class="settings-content">
+                <div class="left">
+                        <form action="{{route('updateUser', [$user->id])}}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <label>Name</label>
+                        <input type="text" placeholder="{{ $user->name }}" value="{{ $user->name }}" required>
+
+                        <label>Public Email</label>
+                        <input type="text" placeholder="{{ $user->email}}" value="{{ $user->email}}">
+
+                        <label for="">Bio</label>
+                        <input type="text" placeholder="Tell us a little bit about yourself">
+
+                        <label for="">Pronouns</label>
+                        <select name="" id="">
+                            <option value="She/her">She/her</option>
+                            <option value="He/Him">He Him</option>
+                        </select>
+
+                        <div class="btns">
+                            <input type="submit" value="Edit" class="edit">
+                            <input type="submit" Value="Delete" class="delete">
+                        </div>
+                </div>
+                </form>
+                <div class="right">
+                    <p>Profile Picture</p>
+                    <div class="user-wrapper">
+                        <div class="user"></div>
+                        <div class="edit">
+                            <i class="fa-solid fa-pen"></i>
+                            <p>Edit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
 </div>
 @endsection

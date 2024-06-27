@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/users.css">
 <link rel="stylesheet" href="css/landing.css">
+<link rel="stylesheet" href="css/topic.css">
+<link rel="stylesheet" href="css/profile.css">
 <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -45,7 +47,7 @@
                 <p>{{ Auth::user()->name }}</p>
                 <p>{{ Auth::user()->email }}</p>
                 <div class="logout">
-                    <a href="#">My Account</a>
+                    <a href="{{route('myAccount')}}">My Account</a>
                     <a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Exit</a>
                     <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
                         @csrf

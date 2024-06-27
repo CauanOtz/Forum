@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TopicController;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,4 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/tags/{id}/update', [TagController::class, 'updateTag'])->name('updateTag');
     Route::get('/tags/{id}/edit', [TagController::class, 'editTag'])->name('editTag');
     Route::get('/tags/{id}/delete', [TagController::class, 'deleteTag'])->name('deleteTag');
+
+    Route::get('/myaccount', [UserController::class, 'myAccount'])->name('myAccount');
+    Route::put('/myaccount/update', [UserController::class, 'updateAccount'])->name('updateAccount');
+    Route::delete('/myaccount/delete', [UserController::class, 'deleteAccount'])->name('deleteAccount');
 });

@@ -58,5 +58,38 @@ public function register(Request $request) {
         $user = User::where('id', $id)->delete();
         return redirect()->route('listAllUsers');
     }
-    
+
+    public function myAccount() {
+        $user = Auth::user();
+        return view('users.profile', ['user' => $user]);
+    }
+
+    public function updateAccount(Request $request) {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+
+        return redirect()->route('myAccount')->with('success', 'Account updated successfully');
+    }
+
+    public function deleteAccount() {
+        $user = Auth::user();
+        $user->delete();
+        
+        Auth::logout();
+
+        return redirect()->route('login')->with('success', 'Account deleted successfully');
+    }
+
 }
