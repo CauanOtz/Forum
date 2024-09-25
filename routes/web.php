@@ -56,4 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [UserController::class, 'myAccount'])->name('myAccount');
     Route::put('/myaccount/update', [UserController::class, 'updateAccount'])->name('updateAccount');
     Route::delete('/myaccount/delete', [UserController::class, 'deleteAccount'])->name('deleteAccount');
+
+    
 });

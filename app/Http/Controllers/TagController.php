@@ -22,11 +22,13 @@ class TagController extends Controller
     public function createTag(Request $request)
     {
         $request->validate([
+            'id' => 'required|int|max:255',
             'name' => 'required|string|max:255',
   
         ]);
 
         $tag = Tag::create([
+            'id' => $request->id,
             'name' => $request->name,
 
         ]);
@@ -43,6 +45,7 @@ class TagController extends Controller
     public function updateTag(Request $request, $id)
     {
         $request->validate([
+            'id' => 'required|int|max:255',
             'name' => 'required|string|max:255',
             
         ]);
