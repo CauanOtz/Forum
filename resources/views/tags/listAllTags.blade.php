@@ -6,7 +6,7 @@
 <div class="topic-container">
     <h1 class="text-center">All Tags</h1>
     <div class="text-center mb-3">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTagModal">Create New Tag</button>
+        <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#createTagModal">Create New Tag</button>
     </div>
 
     @if(session('success'))

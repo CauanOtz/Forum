@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="css/landing.css">
 <link rel="stylesheet" href="css/topic.css">
 <link rel="stylesheet" href="css/profile.css">
+<link rel="stylesheet" href="css/btn.css">
 <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
