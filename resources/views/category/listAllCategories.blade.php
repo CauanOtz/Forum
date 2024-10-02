@@ -31,7 +31,7 @@
                         <td>{{ $category->description }}</td>
                         <td>
                             <a href="{{ route('listCategoryById', $category->id) }}" class="btn btn-info">View</a>
-                            <a href="{{ route('updateCategory', $category->id) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ route('editCategory', $category->id) }}" class="btn btn-warning">Edit</a>
 
                             <button class="btn btn-danger" onclick="deleteTag({{ $category->id }})">Delete</button>
 

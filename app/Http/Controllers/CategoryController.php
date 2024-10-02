@@ -27,10 +27,15 @@ class CategoryController extends Controller
             'description' => 'required|string|max:255',
         ]);
 
-        $category = Category::create([
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
+        // $category = Category::create([
+        //     'title' => $request->title,
+        //     'description' => $request->description,
+        // ]);
+
+        $category = new Category();
+        $category->title = $request->title;
+        $category->description = $request->description;
+        $category->save();
 
         return redirect()->route('listAllCategories')->with('success', 'Category created successfully');
     }
