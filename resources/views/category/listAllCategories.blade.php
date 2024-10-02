@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="topic-container">
-    <h1 class="text-center">All Tags</h1>
+    <h1 class="text-center">All Categories</h1>
     <div class="text-center mb-3">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTagModal">Create New Tag</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">Create New Category</button>
     </div>
 
     @if(session('success'))
@@ -19,22 +19,23 @@
                 <tr>
                     <th>ID</th>
                     <th>Title</th>
+                    <th>Description</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($tags as $tag)
+                @foreach($categories as $category)
                     <tr>
-                        <td>{{ $tag->id }}</td>
-                        <td>{{ $tag->title }}</td>
+                        <td>{{ $category->id }}</td>
+                        <td>{{ $category->title }}</td>
+                        <td>{{ $category->description }}</td>
                         <td>
-                            <a href="{{ route('listTagById', $tag->id) }}" class="btn btn-info">View</a>
-                            <a href="{{ route('updateTag', $tag->id) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ route('listCategoryById', $category->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('updateCategory', $category->id) }}" class="btn btn-warning">Edit</a>
 
-                            <!-- Alterado o botão de exclusão para usar SweetAlert -->
-                            <button class="btn btn-danger" onclick="deleteTag({{ $tag->id }})">Delete</button>
+                            <button class="btn btn-danger" onclick="deleteTag({{ $category->id }})">Delete</button>
 
-                            <form id="delete-form-{{ $tag->id }}" action="{{ route('deleteTag', $tag->id) }}" method="GET" style="display: none;">
+                            <form id="delete-form-{{ $category->id }}" action="{{ route('deleteCategory', $category->id) }}" method="GET" style="display: none;">
                                 @csrf
                             </form>
                         </td>
@@ -45,21 +46,23 @@
     </div>
 </div>
 
-<div class="modal fade" id="createTagModal" tabindex="-1" aria-labelledby="createTagModalLabel" aria-hidden="true">
+<div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createTagModalLabel">Create New Tag</h5>
+                <h5 class="modal-title" id="createCategoryModalLabel">Create New Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="createTagForm" action="{{ route('createTag') }}" method="POST">
+                <form id="createCategoryForm" action="{{ route('createCategory') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="title" required>
+                        <label for="title" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create Tag</button>
+                    <button type="submit" class="btn btn-primary">Create Category</button>
                 </form>
             </div>
         </div>
@@ -89,3 +92,4 @@
 </script>
 
 @endsection
+    

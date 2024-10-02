@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,10 +49,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/tags', [TagController::class, 'listAllTags'])->name('listAllTags');
     Route::get('/tags/{id}', [TagController::class, 'listTagById'])->name('listTagById');
-    Route::post('/tags', [TagController::class, 'createTag'])->name('createTag');
+    Route::post('/tags/create', [TagController::class, 'createTag'])->name('createTag');
     Route::put('/tags/{id}/update', [TagController::class, 'updateTag'])->name('updateTag');
     Route::get('/tags/{id}/edit', [TagController::class, 'editTag'])->name('editTag');
     Route::get('/tags/{id}/delete', [TagController::class, 'deleteTag'])->name('deleteTag');
+    
+    Route::get('/categories', [CategoryController::class, 'listAllCategories'])->name('listAllCategories');
+    Route::get('/categories/{id}', [CategoryController::class, 'listCategoryById'])->name('listCategoryById');
+    Route::post('/categories/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+    Route::put('/categories/{id}/update', [CategoryController::class, 'updateCategory'])->name('updateCategory');
+    Route::get('/categories/{id}/edit', [CategoryController::class, 'editCategory'])->name('editCategory');
+    Route::get('/categories/{id}/delete', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
 
     Route::get('/myaccount', [UserController::class, 'myAccount'])->name('myAccount');
     Route::put('/myaccount/update', [UserController::class, 'updateAccount'])->name('updateAccount');

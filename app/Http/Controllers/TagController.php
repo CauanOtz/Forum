@@ -22,14 +22,12 @@ class TagController extends Controller
     public function createTag(Request $request)
     {
         $request->validate([
-            'id' => 'required|int|max:255',
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
   
         ]);
 
         $tag = Tag::create([
-            'id' => $request->id,
-            'name' => $request->name,
+            'title' => $request->title,
 
         ]);
 
@@ -46,12 +44,12 @@ class TagController extends Controller
     {
         $request->validate([
             'id' => 'required|int|max:255',
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             
         ]);
 
         $tag = Tag::findOrFail($id);
-        $tag->name = $request->name;
+        $tag->title = $request->title;
 
         $tag->save();
 
