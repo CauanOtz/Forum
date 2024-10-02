@@ -20,9 +20,7 @@
 
 <body>
     <header>
-        <div class="nav-signup">
-            <a href="{{route('register')}}">Sign Up</a>
-        </div>
+        
     </header>
     <main>
         @yield('content')
