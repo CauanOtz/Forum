@@ -15,6 +15,9 @@ class Topic extends Model
         'status'
     ];
            
+    public function post(){
+        return $this->belongsTo(Post::class);
+    }
     public function tag()
     {
         return $this->belongsToMany(Tag::class);
