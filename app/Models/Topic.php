@@ -15,4 +15,8 @@ class Topic extends Model
         'status'
     ];
            
+    public function tag()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }
