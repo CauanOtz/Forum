@@ -26,14 +26,29 @@
             $request->validate([
                 'title' => 'required|max:255',
                 'description' => 'required',
+                'image' => 'required|string',
+                'status' => 'required|int'
             ]);
 
-            $topic = new Topic;
-            $topic->title = $request->title;
-            $topic->description = $request->description;
-            $topic-save();
+            $topic = Topic::create([
+                'title' => $request->input('title'),
+                'title' => $request->input('description'),
+                'status' => $request->input('status')
+            ]);
 
-            return redirect()->route('listAllTopics')->with('success', 'Topic created successfully');
+            $post = new Post([
+                'image' => $request->image
+            ]);
+
+            $topic->post()->save($post);
+
+            return ($topic);
+            // $topic = new Topic;
+            // $topic->title = $request->title;
+            // $topic->description = $request->description;
+            // $topic-save();
+
+            // return redirect()->route('listAllTopics')->with('success', 'Topic created successfully');
 
         }
 

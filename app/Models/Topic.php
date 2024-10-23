@@ -15,9 +15,14 @@ class Topic extends Model
         'status'
     ];
            
+    // public function post(){
+    //     return $this->belongsTo(Post::class); 
+    // }
+
     public function post(){
-        return $this->belongsTo(Post::class);
+        return $this->morphOne(Post::class, 'postable');
     }
+
     public function tag()
     {
         return $this->belongsToMany(Tag::class);
