@@ -4,6 +4,7 @@
     use Illuminate\Http\Request;
     use App\Models\Topic;
     use App\Models\Post;
+    use App\Models\Category;
 
     class TopicController extends Controller
     {

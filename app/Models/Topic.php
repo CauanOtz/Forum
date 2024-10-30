@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Topic extends Model
+class Topic extends Post
 {
     use HasFactory;
 
@@ -14,16 +14,28 @@ class Topic extends Model
         'description',
         'status'
     ];
-           
-    // public function post(){
-    //     return $this->belongsTo(Post::class); 
-    // }
 
-    public function post(){
+    public function post()
+    {
         return $this->morphOne(Post::class, 'postable');
     }
 
-    public function tag()
+    // public function post()
+    // {
+    //     return $this->belongsTo(Post::class);
+    // }
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
