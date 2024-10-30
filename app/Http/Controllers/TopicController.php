@@ -24,32 +24,46 @@
         }
 
         public function store(Request $request){
-            $request->validate([
-                'title' => 'required|max:255',
-                'description' => 'required',
-                'image' => 'required|string',
-                'status' => 'required|int'
-            ]);
+            $userId = Auth::id();
 
-            $topic = Topic::create([
-                'title' => $request->input('title'),
-                'title' => $request->input('description'),
-                'status' => $request->input('status')
-            ]);
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'required|string',
+            'status' => 'required|int',
+            'category' => 'required'
+        ]);
 
-            $post = new Post([
-                'image' => $request->image
-            ]);
+        $topic = Topic::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'status' => $request->status,
+            'category_id' => $request->category
+        ]);
 
-            $topic->post()->save($post);
+        $topic->post()->create([
+            'user_id' => Auth::id(),
+            'image' => $request->image,
+            // 'image' => $request->file('image')->store('images', 'public')
+        ]);
 
-            return ($topic);
-            // $topic = new Topic;
-            // $topic->title = $request->title;
-            // $topic->description = $request->description;
-            // $topic-save();
+        // $topic = new Topic([
+        //     'title' => $request->title,
+        //     'description' => $request->description,
+        //     'status' => $request->status,
+        //     'category_id' => $request->category
+        // ]);
 
-            // return redirect()->route('listAllTopics')->with('success', 'Topic created successfully');
+        // $post = new Post([
+        //     'image' => $request->image
+        // ]);
+
+        
+        // $topic->post()->save($post);
+
+
+
+        return($topic);
 
         }
 

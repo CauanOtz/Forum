@@ -10,7 +10,8 @@ abstract class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'image'
+        'image',
+        'user_id'
     ];
 
     public function user()
