@@ -41,11 +41,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
 
     Route::get('/posts', [PostController::class, 'listAllPosts'])->name('listAllPosts');
-    Route::get('/posts/{id}', [PostController::class, 'listPostById'])->name('listPostById');
-    Route::post('/posts', [PostController::class, 'createPost'])->name('createPost');
-    Route::put('/posts/{id}/update', [PostController::class, 'updatePost'])->name('updatePost');
+    Route::post('/posts', [PostController::class, 'store'])->name('storePost');
     Route::get('/posts/{id}/edit', [PostController::class, 'editPost'])->name('editPost');
-    Route::get('/posts/{id}/delete', [PostController::class, 'deletePost'])->name('deletePost');
+    Route::put('/posts/{id}/update', [PostController::class, 'updatePost'])->name('updatePost');
+    Route::delete('/posts/{id}', [PostController::class, 'deletePost'])->name('deletePost');
+
 
     Route::get('/tags', [TagController::class, 'listAllTags'])->name('listAllTags');
     Route::get('/tags/{id}', [TagController::class, 'listTagById'])->name('listTagById');

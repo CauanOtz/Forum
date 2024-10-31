@@ -162,8 +162,17 @@
             if (result.isConfirmed) {
                 document.getElementById('delete-form-' + id).submit();
             }
-        })
+        });
     }
+
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @endif
 
     var editTopicModal = document.getElementById('editTopicModal');
     editTopicModal.addEventListener('show.bs.modal', function (event) {

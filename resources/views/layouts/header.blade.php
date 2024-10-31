@@ -20,6 +20,7 @@
 <script src="js/togglePassword.js" defer></script>
 <script src="js/toggleModal.js" defer></script>
 <script src="js/voteCount.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <title> Fórum - Laravel </title>
 </head>
 

@@ -32,7 +32,7 @@
                         <td>
                             <a href="{{ route('listCategoryById', $category->id) }}" class="btn btn-info">View</a>
                             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal" data-id="{{ $category->id }}" data-title="{{ $category->title }}" data-description="{{ $category->description }}">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteTag({{ $category->id }})">Delete</button>
+                            <button class="btn btn-danger" onclick="deleteCategory({{ $category->id }})">Delete</button>
                             <form id="delete-form-{{ $category->id }}" action="{{ route('deleteCategory', $category->id) }}" method="GET" style="display: none;">
                                 @csrf
                             </form>
@@ -97,7 +97,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    function deleteTag(id) {
+    function deleteCategory(id) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -110,7 +110,7 @@
             if (result.isConfirmed) {
                 document.getElementById('delete-form-' + id).submit();
             }
-        })
+        });
     }
 
     var editCategoryModal = document.getElementById('editCategoryModal');
@@ -127,6 +127,15 @@
         var formAction = "{{ url('categories') }}" + '/' + categoryId + '/update';
         editCategoryModal.querySelector('form').setAttribute('action', formAction);
     });
+
+    @if(session('success'))
+        Swal.fire({
+            title: 'Success!',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    @endif
 </script>
 
 @endsection

@@ -117,13 +117,21 @@
         var editTagIdInput = editTagModal.querySelector('#edit-tag-id'); 
         var editTagTitleInput = editTagModal.querySelector('#edit-title'); 
 
-       
         modalTitle.textContent = 'Edit Tag ' + tagTitle;
         editTagIdInput.value = tagId; 
         editTagTitleInput.value = tagTitle; 
         var formAction = "{{ url('tags') }}" + '/' + tagId + '/update'; 
         editTagModal.querySelector('form').setAttribute('action', formAction); 
     });
+
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @endif
 </script>
 
 @endsection
