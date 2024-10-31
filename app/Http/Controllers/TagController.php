@@ -43,14 +43,15 @@ class TagController extends Controller
     public function updateTag(Request $request, $id)
     {
         $request->validate([
-            'id' => 'required|int|max:255',
             'title' => 'required|string|max:255',
-            
         ]);
 
-        $tag = Tag::findOrFail($id);
-        $tag->title = $request->title;
+        $tag = Tag::find($id);
+        if (!$tag) {
+            return redirect()->back()->with('error', 'Tag not found');
+        }
 
+        $tag->title = $request->input('title');
         $tag->save();
 
         return redirect()->route('listAllTags')->with('success', 'Tag updated successfully');

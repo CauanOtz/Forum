@@ -31,10 +31,8 @@
                         <td>{{ $category->description }}</td>
                         <td>
                             <a href="{{ route('listCategoryById', $category->id) }}" class="btn btn-info">View</a>
-                            <a href="{{ route('editCategory', $category->id) }}" class="btn btn-warning">Edit</a>
-
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal" data-id="{{ $category->id }}" data-title="{{ $category->title }}" data-description="{{ $category->description }}">Edit</button>
                             <button class="btn btn-danger" onclick="deleteTag({{ $category->id }})">Delete</button>
-
                             <form id="delete-form-{{ $category->id }}" action="{{ route('deleteCategory', $category->id) }}" method="GET" style="display: none;">
                                 @csrf
                             </form>
@@ -59,10 +57,35 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="title" required>
-                        <label for="title" class="form-label">Description</label>
+                        <label for="description" class="form-label">Description</label>
                         <input type="text" class="form-control" id="description" name="description" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Create Category</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editCategoryForm" action="{{ route('updateCategory', '') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="edit-category-id" name="category_id">
+                    <div class="mb-3">
+                        <label for="edit-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="edit-title" name="title" required>
+                        <label for="edit-description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="edit-description" name="description" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update Category</button>
                 </form>
             </div>
         </div>
@@ -89,7 +112,21 @@
             }
         })
     }
+
+    var editCategoryModal = document.getElementById('editCategoryModal');
+    editCategoryModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget; 
+        var categoryId = button.getAttribute('data-id'); 
+        var categoryTitle = button.getAttribute('data-title'); 
+        var categoryDescription = button.getAttribute('data-description'); 
+
+        editCategoryModal.querySelector('#edit-category-id').value = categoryId;
+        editCategoryModal.querySelector('#edit-title').value = categoryTitle;
+        editCategoryModal.querySelector('#edit-description').value = categoryDescription;
+
+        var formAction = "{{ url('categories') }}" + '/' + categoryId + '/update';
+        editCategoryModal.querySelector('form').setAttribute('action', formAction);
+    });
 </script>
 
 @endsection
-    

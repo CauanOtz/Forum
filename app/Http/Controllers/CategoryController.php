@@ -48,11 +48,21 @@ class CategoryController extends Controller
 
     public function updateCategory(Request $request, $id)
     {
+        
         $request->validate([
-            'id' => 'required|int|max:255',
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
         ]);
+
+    
+        $category = Category::findOrFail($id);
+
+        $category->title = $request->title;
+        $category->description = $request->description;
+
+        $category->save();
+
+        return redirect()->route('listAllCategories')->with('success', 'Category updated successfully');
     }
 
     public function deleteCategory($id)

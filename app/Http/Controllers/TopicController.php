@@ -10,7 +10,8 @@
     {
         public function listAllTopics(){
             $topics = Topic::all();
-            return view('topics.listAllTopics', compact('topics'));
+            $categories = Category::all();
+            return view('topics.listAllTopics', compact('topics', 'categories'));
         }
 
         public function listTopicById($id){
@@ -18,10 +19,28 @@
             return view('topics.listTopicById', compact('topic'));
         }
 
-        public function createTopic()
-        {
-            return view('topics.createTopic');
-        }
+        public function createTopic(Request $request)
+{
+
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image' => 'nullable|url',
+        'status' => 'nullable|string',
+        'category_id' => 'nullable|exists:categories,id',
+    ]);
+
+    Topic::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'image' => $request->image,
+        'status' => $request->status,
+        'category_id' => $request->category_id, 
+    ]);
+
+   
+    return redirect()->route('listAllTopics')->with('success', 'Topic created successfully.');
+}
 
         public function store(Request $request){
             $userId = Auth::id();
@@ -67,29 +86,25 @@
 
         }
 
-        public function editTopic($id){
-            $topic = Topic::findOrFall($id);
-            return view('topics.editTopic', compact('topic'));
-        }
+        public function updateTopic(Request $request, $id)
+        {
 
-        public function updateTopic(Request $request, $id){
             $request->validate([
                 'title' => 'required|max:255',
                 'description' => 'required',
+                'category_id' => 'required|exists:categories,id',
+                'status' => 'required|boolean',
             ]);
 
             $topic = Topic::findOrFail($id);
             $topic->title = $request->title;
             $topic->description = $request->description;
+
+            $topic->category_id = $request->category_id;
+            $topic->status = $request->status;
+            
             $topic->save();
 
             return redirect()->route('listAllTopics')->with('success', 'Topic updated successfully');
-        }
-
-        public function deleteTopic($id){
-            $topic = Topic::findOrFail($id);
-            $topic->delete();
-
-            return redirect()->route('listAllTopics')->with('success', 'Topic deleted successfully');
         }
     }

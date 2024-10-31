@@ -12,7 +12,8 @@ class Topic extends Post
     protected $fillable = [
         'title',
         'description',
-        'status'
+        'status',
+        'category_id'
     ];
 
     public function post()

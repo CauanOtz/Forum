@@ -104,24 +104,25 @@
             if (result.isConfirmed) {
                 document.getElementById('delete-form-' + id).submit();
             }
-        })
+        });
     }
 
     var editTagModal = document.getElementById('editTagModal');
     editTagModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var tagId = button.getAttribute('data-id');
-        var tagTitle = button.getAttribute('data-title');
+        var button = event.relatedTarget; 
+        var tagId = button.getAttribute('data-id'); 
+        var tagTitle = button.getAttribute('data-title'); 
 
-        var modalTitle = editTagModal.querySelector('.modal-title');
-        var editTagIdInput = editTagModal.querySelector('#edit-tag-id');
-        var editTagTitleInput = editTagModal.querySelector('#edit-title');
+        var modalTitle = editTagModal.querySelector('.modal-title'); 
+        var editTagIdInput = editTagModal.querySelector('#edit-tag-id'); 
+        var editTagTitleInput = editTagModal.querySelector('#edit-title'); 
 
+       
         modalTitle.textContent = 'Edit Tag ' + tagTitle;
-        editTagIdInput.value = tagId;
-        editTagTitleInput.value = tagTitle;
-        var formAction = "{{ route('updateTag', '') }}" + '/' + tagId;
-        editTagModal.querySelector('form').setAttribute('action', formAction);
+        editTagIdInput.value = tagId; 
+        editTagTitleInput.value = tagTitle; 
+        var formAction = "{{ url('tags') }}" + '/' + tagId + '/update'; 
+        editTagModal.querySelector('form').setAttribute('action', formAction); 
     });
 </script>
 
