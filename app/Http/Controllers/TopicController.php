@@ -19,6 +19,15 @@
             return view('topics.listTopicById', compact('topic'));
         }
 
+        public function showTopics(){
+            $topics = Topic::with(['post', 'comments', 'category'])
+                ->withCount(['comments as comments_count', 'post as views_count']) // Conta os comentários e visualizações (ou outro campo de visualização se houver)
+                ->get();
+
+            $categories = Category::all();
+            return view('welcome', compact('topics', 'categories'));
+        }
+
         public function createTopic(Request $request)
 {
 
@@ -38,7 +47,11 @@
         'category_id' => $request->category_id, 
     ]);
 
-   
+    $topic->post()->create([
+        'user_id' => $userId,
+        'image' => $request->image
+    ]);
+
     return redirect()->route('listAllTopics')->with('success', 'Topic created successfully.');
 }
 

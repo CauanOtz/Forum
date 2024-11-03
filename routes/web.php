@@ -7,6 +7,7 @@ use App\Http\Controllers\TopicController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +18,7 @@ use App\Http\Controllers\CategoryController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [AuthController::class, 'teste'])->name('teste');
+Route::get('/', [TopicController::class, 'showTopics'])->name('home');
 
 Route::match(['get', 'post'], '/login', [AuthController::class, 'login'])->name('login');
 
@@ -38,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/topics', [TopicController::class, 'createTopic'])->name('createTopic');
     Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
     Route::get('/topics/{id}/edit', [TopicController::class, 'editTopic'])->name('editTopic');
-    Route::get('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
+    Route::delete('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
 
     Route::get('/posts', [PostController::class, 'listAllPosts'])->name('listAllPosts');
     Route::post('/posts', [PostController::class, 'store'])->name('storePost');
@@ -52,14 +53,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/tags/create', [TagController::class, 'createTag'])->name('createTag');
     Route::put('/tags/{id}/update', [TagController::class, 'updateTag'])->name('updateTag');
     Route::get('/tags/{id}/edit', [TagController::class, 'editTag'])->name('editTag');
-    Route::get('/tags/{id}/delete', [TagController::class, 'deleteTag'])->name('deleteTag');
+    Route::delete('/tags/{id}/delete', [TagController::class, 'deleteTag'])->name('deleteTag');
+
+    Route::get('/comments', [CommentController::class, 'listAllComments'])->name('listAllComments');
+    Route::get('/comments/{id}', [CommentController::class, 'listCommentById'])->name('listCommentById');
+    Route::post('/comments/create', [CommentController::class, 'createComment'])->name('createComment');
+    Route::put('/comments/{id}/update', [CommentController::class, 'updateComment'])->name('updateComment');
+    Route::get('/comments/{id}/edit', [CommentController::class, 'editComment'])->name('editComment');
+    Route::delete('/comments/{id}/delete', [CommentController::class, 'deleteComment'])->name('deleteComment');
     
     Route::get('/categories', [CategoryController::class, 'listAllCategories'])->name('listAllCategories');
     Route::get('/categories/{id}', [CategoryController::class, 'listCategoryById'])->name('listCategoryById');
     Route::post('/categories/create', [CategoryController::class, 'createCategory'])->name('createCategory');
     Route::put('/categories/{id}/update', [CategoryController::class, 'updateCategory'])->name('updateCategory');
     Route::get('/categories/{id}/edit', [CategoryController::class, 'editCategory'])->name('editCategory');
-    Route::get('/categories/{id}/delete', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
+    Route::delete('/categories/{id}/delete', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
 
     Route::get('/myaccount', [UserController::class, 'myAccount'])->name('myAccount');
     Route::put('/myaccount/update', [UserController::class, 'updateAccount'])->name('updateAccount');

@@ -32,9 +32,4 @@ class Post extends Model
     {
         return $this->hasOne(Topic::class);
     }
-
-    public function tag()
-    {
-        return $this->hasOne(Tag::class);
-    }
 }
