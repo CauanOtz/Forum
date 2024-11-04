@@ -118,4 +118,11 @@
 
             return redirect()->route('listAllTopics')->with('success', 'Topic updated successfully');
         }
+
+        public function deleteTopic($id){
+            $topic = Topic::findOrFail($id);
+            $topic->delete();
+
+            return redirect()->route('listAllTopics')->with('success', 'Topic deleted successfully');
+        }
     }

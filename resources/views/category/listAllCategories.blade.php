@@ -6,7 +6,7 @@
 <div class="topic-container">
     <h1 class="text-center">All Categories</h1>
     <div class="text-center mb-3">
-        <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#createCategoryModal">Create New Category</button>
+        <button class="btn-purple" data-bs-toggle="modal" data-bs-target="#createCategoryModal">Create New Category</button>
     </div>
 
     @if(session('success'))
@@ -30,7 +30,7 @@
                         <td>{{ $category->title }}</td>
                         <td>{{ $category->description }}</td>
                         <td>
-                            <a href="{{ route('listCategoryById', $category->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('listCategoryById', $category->id) }}" class="btn btn-success">View</a>
                             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal" data-id="{{ $category->id }}" data-title="{{ $category->title }}" data-description="{{ $category->description }}">Edit</button>
                             <button class="btn btn-danger" onclick="deleteCategory({{ $category->id }})">Delete</button>
                             <form id="delete-form-{{ $category->id }}" action="{{ route('deleteCategory', $category->id) }}" method="GET" style="display: none;">

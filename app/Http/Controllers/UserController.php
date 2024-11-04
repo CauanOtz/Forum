@@ -64,7 +64,7 @@ public function register(Request $request) {
 
         $user->save();
 
-        return redirect()->route('listUserById', [$user->id])->with('message', 'Alteração funcionou');
+        return redirect()->route('myAccount')->with('message', 'Alteração funcionou');
 
     }
 

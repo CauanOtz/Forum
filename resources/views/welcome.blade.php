@@ -6,7 +6,6 @@
     <div class="sidebar">
         <div class="sidebar-menu">
             <h2>MENU</h2>
-            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-circle-question"></i>Questions</p>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-compass"></i>Explore Topics</p>
             <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-tag"></i>Tags</p>
         </div>

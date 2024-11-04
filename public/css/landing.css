@@ -121,9 +121,9 @@
     align-items: center;
 }
 
-.votes > i, span{
+.votes > i, .votes > span{
     font-size: 20px;
-    margin: 0px 80px;
+    margin: 0px 50px;
 }
 
 .card {
@@ -159,6 +159,7 @@
     display: flex;
     padding: 5px;
     background: none;
+    margin-right: 40px;
 }
 
 .views > p {
@@ -176,7 +177,7 @@
     background: #9B12CB;
     color: white;
     border-radius: 5px;
-    width: 180px;
+    width: 200px;
 }
 
 .topics > button > i {

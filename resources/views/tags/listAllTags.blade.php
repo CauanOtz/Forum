@@ -6,7 +6,7 @@
 <div class="topic-container">
     <h1 class="text-center">All Tags</h1>
     <div class="text-center mb-3">
-        <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#createTagModal">Create New Tag</button>
+        <button class="btn-purple" data-bs-toggle="modal" data-bs-target="#createTagModal">Create New Tag</button>
     </div>
 
     @if(session('success'))
@@ -28,7 +28,7 @@
                         <td>{{ $tag->id }}</td>
                         <td>{{ $tag->title }}</td>
                         <td>
-                            <a href="{{ route('listTagById', $tag->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('listTagById', $tag->id) }}" class="btn btn-success">View</a>
                             <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editTagModal" data-id="{{ $tag->id }}" data-title="{{ $tag->title }}">Edit</a>
                             <button class="btn btn-danger" onclick="deleteTag({{ $tag->id }})">Delete</button>
                             <form id="delete-form-{{ $tag->id }}" action="{{ route('deleteTag', $tag->id) }}" method="GET" style="display: none;">

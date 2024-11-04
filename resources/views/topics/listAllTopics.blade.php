@@ -6,7 +6,7 @@
 <div class="topic-container">
     <h1 class="text-center">All Topics</h1>
     <div class="text-center mb-3">
-        <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#createTopicModal">Create New Topic</button>
+        <button class="btn-purple" data-bs-toggle="modal" data-bs-target="#createTopicModal">Create New Topic</button>
     </div>
 
     @if(session('success'))
@@ -42,7 +42,7 @@
                         <td>{{ $topic->status == 1 ? 'Active' : 'Inactive' }}</td>
                         <td>{{ $topic->category->title }}</td>
                         <td>
-                            <a href="{{ route('listTopicById', $topic->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('listTopicById', $topic->id) }}" class="btn btn-success">View</a>
                             <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editTopicModal"
                                data-id="{{ $topic->id }}" data-title="{{ $topic->title }}" 
                                data-description="{{ $topic->description }}" data-status="{{ $topic->status }}"
@@ -148,7 +148,8 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <script>
     function deleteTopic(id) {
         Swal.fire({
