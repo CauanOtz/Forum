@@ -112,7 +112,7 @@
     </div>
     <div class="sidebar">
         <div class="topics">
-            <button><i class="fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#createTopicModal"></i>Start a New Topic</button>
+            <button data-bs-toggle="modal" data-bs-target="#createTopicModal"><i class="fa-solid fa-plus" ></i>Start a New Topic</button>
         </div>
         <div class="suggestions">
             <h3>Suggestions</h3>
@@ -127,6 +127,7 @@
     </div>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6A2E1A4TuGU6C92Dl7qGWE1Jpw2IdaCk5eAn1KzOH2OV51Xr+S7XnKKKla0j" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 @endsection

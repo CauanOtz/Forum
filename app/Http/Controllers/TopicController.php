@@ -15,7 +15,7 @@
         }
 
         public function listTopicById($id){
-            $topic = topic::findOrFail($id);
+            $topic = Topic::findOrFail($id);
             return view('topics.listTopicById', compact('topic'));
         }
 
@@ -47,10 +47,10 @@
         'category_id' => $request->category_id, 
     ]);
 
-    $topic->post()->create([
-        'user_id' => $userId,
-        'image' => $request->image
-    ]);
+    // $topic->post()->create([
+    //     'user_id' => $userId,
+    //     'image' => $request->image
+    // ]);
 
     return redirect()->route('listAllTopics')->with('success', 'Topic created successfully.');
 }
@@ -71,12 +71,6 @@
             'description' => $request->description,
             'status' => $request->status,
             'category_id' => $request->category
-        ]);
-
-        $topic->post()->create([
-            'user_id' => Auth::id(),
-            'image' => $request->image,
-            // 'image' => $request->file('image')->store('images', 'public')
         ]);
 
         // $topic = new Topic([
