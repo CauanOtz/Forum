@@ -51,8 +51,12 @@
     //     'user_id' => $userId,
     //     'image' => $request->image
     // ]);
-
-    return redirect()->route('listAllTopics')->with('success', 'Topic created successfully.');
+   
+    if ($request->input('viewName') === 'welcome') {
+        return redirect()->route('welcome');
+    } else {
+        return redirect()->route('listAllTopics')->with('success', 'Topic created successfully.');
+    }
 }
 
         public function store(Request $request){

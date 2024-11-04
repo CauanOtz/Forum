@@ -76,6 +76,7 @@
                     <div class="modal-body">
                         <form id="createTopicForm" action="{{ route('createTopic') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            <input type="hidden" name="viewName" value="{{request()->routeIs('welcome') ? 'welcome' : 'listAllTopics' }}">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title" name="title" required>
