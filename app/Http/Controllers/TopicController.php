@@ -5,10 +5,12 @@
     use App\Models\Topic;
     use App\Models\Post;
     use App\Models\Category;
+    use App\Models\User;
 
     class TopicController extends Controller
     {
         public function listAllTopics(){
+            
             $topics = Topic::all();
             $categories = Category::all();
             return view('topics.listAllTopics', compact('topics', 'categories'));
@@ -19,13 +21,21 @@
             return view('topics.listTopicById', compact('topic'));
         }
 
-        public function showTopics(){
-            $topics = Topic::with(['post', 'comments', 'category'])
-                ->withCount(['comments as comments_count', 'post as views_count']) // Conta os comentários e visualizações (ou outro campo de visualização se houver)
+        public function showTopics(Request $request ){
+            $filter = $request->input('filter');
+            if($filter === 'new'){
+                $topics = Topic::with(['post', 'comments', 'category'])
+                ->withCount(['comments as comments_count', 'post as views_count'])
+                ->orderBy('created_at', 'desc') // Ordena por data de criação (mais recente primeiro)
                 ->get();
-
+            }else {
+                $topics = Topic::with(['post', 'comments', 'category'])
+                ->withCount(['comments as comments_count', 'post as views_count'])
+                ->get();
+            }
             $categories = Category::all();
-            return view('welcome', compact('topics', 'categories'));
+            $suggestedUsers = User::inRandomOrder()->take(5)->get();
+            return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
         }
 
         public function createTopic(Request $request)
@@ -124,5 +134,29 @@
             $topic->delete();
 
             return redirect()->route('listAllTopics')->with('success', 'Topic deleted successfully');
+        }
+
+        public function searchTopics(Request $request){
+            $query = $request->input('query');
+            
+
+            $topics = Topic::where('title', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->get();
+
+            $categories = Category::all();
+            $suggestedUsers = User::inRandomOrder()->take(5)->get();
+
+        return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
+
+        }
+
+        public function listNewestTopics()
+        {
+            $topics = Topic::orderBy('created_at', 'desc')->get();
+            $categories = Category::all();
+            $suggestedUsers = User::inRandomOrder()->take(5)->get();
+
+            return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
         }
     }

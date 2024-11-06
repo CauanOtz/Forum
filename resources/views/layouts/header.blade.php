@@ -34,10 +34,12 @@
             </a>
         </div>
         <div class="nav-search">
-            <div class="search-wrapper">
+            <form action="{{ route('searchTopics') }}" method="GET" class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="search" name="" id="" placeholder="Search for topics">
-            </div>
+                <input type="search" name="query" id="" placeholder="Search for topics">
+                <button type="submit" style="display: none;"></button>  
+            </form>
+            
         </div>
         <div class="nav-user">
             <i class="fa-solid fa-bell"></i>

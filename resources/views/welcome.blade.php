@@ -21,10 +21,10 @@
     </div>
     <div class="center">
         <div class="filters">
-            <div class="filters-new filter">
+            <div class="filters-new filter" onclick="window.location='route{{('newestTopics')}}'">
                 <p><i class="fa-regular fa-clock"></i>New</p>
             </div>
-            <div class="filters-trending filter ">
+            <div class="filters-trending filter">
                 <p><i class="fa-solid fa-turn-up"></i>Trending</p>
             </div>
             <div class="filters-category filter">
@@ -115,13 +115,16 @@
             <button data-bs-toggle="modal" data-bs-target="#createTopicModal"><i class="fa-solid fa-plus" ></i>Start a New Topic</button>
         </div>
         <div class="suggestions">
+        
             <h3>Suggestions</h3>
             <div class="suggestions-users">
+                @foreach($suggestedUsers as $user)
                 <div class="user">
-                    <img src="" alt="">
-                    <p>Nome</p>
+                    <img src="{{ $user->profile_picture_url }}" alt="">
+                    <p>{{ $user->name }}</p>
                     <button><i class="fa-solid fa-plus"></i>Follow</button>
                 </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -129,5 +132,11 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script>
+    document.querySelector('.filters-new').addEventListener('click', function() {
+    // Redireciona o usuário para a rota que lista os tópicos mais recentes
+    window.location.href = '/newest-topics';
+    });
 
+</script>
 @endsection

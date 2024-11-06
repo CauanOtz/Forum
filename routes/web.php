@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
     Route::get('/topics/{id}/edit', [TopicController::class, 'editTopic'])->name('editTopic');
     Route::get('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
+    Route::get('/search', [TopicController::class, 'searchTopics'])->name('searchTopics');
+    Route::get('newest-topics', [TopicController::class, 'listNewestTopics'])->name('newestTopics');
 
     Route::get('/posts', [PostController::class, 'listAllPosts'])->name('listAllPosts');
     Route::post('/posts', [PostController::class, 'store'])->name('storePost');

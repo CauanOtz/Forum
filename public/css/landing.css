@@ -204,13 +204,17 @@
 
 .suggestions-users > .user{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 200px;
+    height: 60px;
+}
+.suggestions-users > .user > p{
+    margin-bottom: 0px;
 }
 
 .suggestions-users > .user > button {
-    width: 70px;
+    width: 90px;
     border: none;
     padding: 7px;
     background: #9B12CB;
