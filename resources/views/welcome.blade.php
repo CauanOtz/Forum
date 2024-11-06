@@ -134,9 +134,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
     document.querySelector('.filters-new').addEventListener('click', function() {
-    // Redireciona o usuário para a rota que lista os tópicos mais recentes
-    window.location.href = '/newest-topics';
-    });
+    const url = new URL(window.location.href); 
+    const searchParams = url.searchParams; 
+
+    if (searchParams.get('filter') === 'new') {
+        searchParams.delete('filter'); 
+    } else {
+        searchParams.set('filter', 'new'); 
+    }
+
+    window.history.pushState({}, '', url.toString());
+
+    window.location.reload();
+});
+
 
 </script>
 @endsection
