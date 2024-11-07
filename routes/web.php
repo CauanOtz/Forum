@@ -76,6 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/myaccount', [UserController::class, 'myAccount'])->name('myAccount');
     Route::put('/myaccount/update', [UserController::class, 'updateAccount'])->name('updateAccount');
     Route::delete('/myaccount/delete', [UserController::class, 'deleteAccount'])->name('deleteAccount');
+    Route::get('/person/{id}', [UserController::class, 'person'])->name('person');
+
 
     Route::post('/posts/{post}/rate', [RateController::class, 'rate'])->name('posts.rate');
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -77,6 +78,17 @@ public function register(Request $request) {
         $user = Auth::user();
         return view('users.profile', ['user' => $user]);
     }
+
+    public function person($id) {
+        $user = User::findOrFail($id);
+
+        $posts = Post::with(['topic', 'comments']) 
+            ->where('user_id', $id)
+            ->get();
+    
+        return view('users.person', compact('user', 'posts')); 
+    }
+    
 
     public function updateAccount(Request $request) {
         $user = Auth::user();

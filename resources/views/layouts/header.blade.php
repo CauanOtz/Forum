@@ -6,13 +6,13 @@
     <link rel="shortcut icon" href="img/Logo nav.png" type="image/x-icon">
 </head>
 
-<link rel="stylesheet" href="css/form.css">
-<link rel="stylesheet" href="css/header.css">
-<link rel="stylesheet" href="css/users.css">
-<link rel="stylesheet" href="css/landing.css">
-<link rel="stylesheet" href="css/topic.css">
-<link rel="stylesheet" href="css/profile.css">
-<link rel="stylesheet" href="css/btn.css">
+<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+<link rel="stylesheet" href="{{ asset('css/header.css') }}">
+<link rel="stylesheet" href="{{ asset('css/users.css') }}">
+<link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+<link rel="stylesheet" href="{{ asset('css/topic.css') }}">
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+<link rel="stylesheet" href="{{ asset('css/btn.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
 
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

@@ -213,7 +213,7 @@
     margin-bottom: 0px;
 }
 
-.suggestions-users > .user > button {
+.suggestions-users > .user> form > button {
     width: 90px;
     border: none;
     padding: 7px;
