@@ -40,8 +40,5 @@ class Post extends Model
         return $this->morphTo();
     }
 
-    public function topic()
-    {
-        return $this->hasOne(Topic::class);
-    }
+
 }

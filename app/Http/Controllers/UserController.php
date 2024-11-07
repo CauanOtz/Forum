@@ -79,15 +79,16 @@ public function register(Request $request) {
         return view('users.profile', ['user' => $user]);
     }
 
-    public function person($id) {
+    public function person($id)
+    {
+    // Encontrar o usuário
         $user = User::findOrFail($id);
 
-        $posts = Post::with(['topic', 'comments']) 
-            ->where('user_id', $id)
-            ->get();
-    
-        return view('users.person', compact('user', 'posts')); 
+        $posts = Post::with('postable')->where('user_id', $id)->get();
+        
+        return view('users.person', compact('user', 'posts'));
     }
+
     
 
     public function updateAccount(Request $request) {

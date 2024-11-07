@@ -33,22 +33,16 @@
                     @foreach($posts as $post)
                         <div class="post">
                             <!-- Exibindo o título do tópico associado -->
-                            @if ($post->topic)
-                                <h4><a href="{{ route('topic.show', $post->topic->id) }}">{{ $post->topic->title }}</a></h4>
-                            @else
-                                <h4>Post sem Tópico</h4>
-                            @endif
+                            
+                                <h4><a href="{{ route('listTopicById', $post->topic->id) }}">{{ $post->postable->title}}</a></h4>
+                            
                             
                             <p>{{ $post->content }}</p>
                             <small>Publicado em: {{ $post->created_at->format('d/m/Y H:i') }}</small>
                             
                             <!-- Exibindo comentários relacionados ao post -->
                             <h5>Comentários:</h5>
-                            @foreach ($post->comments as $comment)
-                                <div class="comment">
-                                    <p><strong>{{ $comment->user->name }}:</strong> {{ $comment->content }}</p>
-                                </div>
-                            @endforeach
+                            
                         </div>
                     @endforeach
                 </div>
