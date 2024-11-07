@@ -8,6 +8,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\RateController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,5 +77,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/myaccount/update', [UserController::class, 'updateAccount'])->name('updateAccount');
     Route::delete('/myaccount/delete', [UserController::class, 'deleteAccount'])->name('deleteAccount');
 
-    
+    Route::post('/posts/{post}/rate', [RateController::class, 'rate'])->name('posts.rate');
 });

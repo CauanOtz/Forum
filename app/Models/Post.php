@@ -24,6 +24,18 @@ class Post extends Model
         return $this->hasMany(Rate::class);
     }
 
+    public function averageRating(){
+        return $this->rates()->avg('vote');
+    }
+
+    public function upVotesCount(){
+        return $this->rates()->where('vote', 1)->count();
+    }
+
+    public function downVotesCount(){
+        return $this->rates()->where('vote', -1)->count();
+    }
+
     public function postable(){
         return $this->morphTo();
     }

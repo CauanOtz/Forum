@@ -39,35 +39,35 @@
         }
 
         public function createTopic(Request $request)
-{
+        {
 
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'image' => 'nullable|url',
-        'status' => 'nullable|string',
-        'category_id' => 'nullable|exists:categories,id',
-    ]);
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'image' => 'nullable|url',
+                'status' => 'nullable|string',
+                'category_id' => 'nullable|exists:categories,id',
+            ]);
 
-    Topic::create([
-        'title' => $request->title,
-        'description' => $request->description,
-        'image' => $request->image,
-        'status' => $request->status,
-        'category_id' => $request->category_id, 
-    ]);
+            $topic = Topic::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'image' => $request->image,
+                'status' => $request->status,
+                'category_id' => $request->category_id, 
+            ]);
 
-    // $topic->post()->create([
-    //     'user_id' => $userId,
-    //     'image' => $request->image
-    // ]);
-   
-    if ($request->input('viewName') === 'welcome') {
-        return redirect()->route('welcome');
-    } else {
-        return redirect()->route('listAllTopics')->with('success', 'Topic created successfully.');
-    }
-}
+            $topic->post()->create([
+                'user_id' => auth()->id(), 
+                'image' => $request->image ??'',
+            ]);
+
+            if ($request->input('viewName') === 'welcome') {
+                return redirect()->route('welcome');
+            } else {
+                return redirect()->route('listAllTopics')->with('success', 'Topic created successfully.');
+            }
+        }
 
         public function store(Request $request){
             $userId = Auth::id();
@@ -85,6 +85,12 @@
             'description' => $request->description,
             'status' => $request->status,
             'category_id' => $request->category
+        ]);
+
+        $post = Post::create([
+            'topic_id' => $topic->id,
+            'content' => $request->description,
+            'user_id' => auth()->id(), 
         ]);
 
         // $topic = new Topic([

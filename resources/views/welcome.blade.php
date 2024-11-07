@@ -36,9 +36,13 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="votes">
-                            <i class="fa-solid fa-chevron-up"></i>
+                            <span onclick="ratePost({{ $topic->post->id }}, 1)" style="cursor: pointer;">
+                                <i class="fa-solid fa-chevron-up"></i>
+                            </span>
                             <span class="vote-count">{{ $topic->post->votes_count ?? 0 }}</span>
-                            <i class="fa-solid fa-chevron-down"></i>
+                            <span onclick="ratePost({{ $topic->post->id }}, -1)" style="cursor: pointer;">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
                         </div>
                         <div class="question">
                             <div class="question-top">
@@ -133,6 +137,33 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
+    function ratePost(postId, vote) {
+    fetch(`/posts/${postId}/rate`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify({ vote })
+})
+.then(async (response) => {
+    if (!response.ok) {
+        const errorMessage = await response.text();  // Captura a resposta de erro em texto
+        throw new Error(`Erro na requisição: ${response.status} - ${errorMessage}`);
+    }
+    return response.json();
+})
+.then(data => {
+    if (data.success) {
+        document.querySelector(`.vote-count[data-post="${postId}"]`).innerText = data.new_average;
+    } else {
+        console.error('Erro no backend:', data.error);
+    }
+})
+.catch(error => console.error('Erro:', error.message));
+    }
+
+
     document.querySelector('.filters-new').addEventListener('click', function() {
     const url = new URL(window.location.href); 
     const searchParams = url.searchParams; 
