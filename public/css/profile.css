@@ -63,6 +63,11 @@
     background: #9B12CB;
 }
 
+.settings-content > .left > h3 {
+    margin-top: 20px;
+    color: #9B12CB;
+}
+
 .delete {
     background: red;
     width: 50px;

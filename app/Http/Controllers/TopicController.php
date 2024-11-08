@@ -33,9 +33,10 @@
                 ->withCount(['comments as comments_count', 'post as views_count'])
                 ->get();
             }
+            $user = auth()->user();
             $categories = Category::all();
             $suggestedUsers = User::inRandomOrder()->take(5)->get();
-            return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
+            return view('welcome', compact('topics', 'categories', 'suggestedUsers', 'user'));
         }
 
         public function createTopic(Request $request)

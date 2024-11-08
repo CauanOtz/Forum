@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -84,9 +85,11 @@ public function register(Request $request) {
     // Encontrar o usuário
         $user = User::findOrFail($id);
 
-        $posts = Post::with('postable')->where('user_id', $id)->get();
+        $topics = Topic::whereHas('post', function($query) use ($id) {
+            $query->where('user_id', $id);
+        })->get();
         
-        return view('users.person', compact('user', 'posts'));
+        return view('users.person', compact('user', 'topics'));
     }
 
     
@@ -117,6 +120,16 @@ public function register(Request $request) {
         Auth::logout();
 
         return redirect()->route('login')->with('success', 'Account deleted successfully');
+    }
+
+    public function listUserTopics($id)
+    {
+        $user = User::findOrFail($id);
+        $topics = Topic::whereHas('post', function ($query) use ($id) {
+            $query->where('user_id', $id);
+        })->get();
+    
+        return view('users.person', compact('user', 'topics'));
     }
 
 }

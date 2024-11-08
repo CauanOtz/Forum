@@ -48,6 +48,8 @@
                             <div class="question-top">
                                 <h3 class="question-title">{{ $topic->title }}</h3>
                                 <p id="question-date">{{ $topic->created_at->format('H:i a') }}</p>
+                                <!-- Alterado para exibir o nome do usuário corretamente -->
+                                <p class="question-author">Publicado por: <strong>{{ $user->name }}</strong></p>
                             </div>
                             <p class="question-view">{{ $topic->description }}</p>
                         </div>
@@ -182,7 +184,5 @@
 
     window.location.reload();
 });
-
-
 </script>
 @endsection
