@@ -21,7 +21,7 @@
     </div>
     <div class="center">
         <div class="filters">
-            <div class="filters-new filter" onclick="window.location='route{{('newestTopics')}}'">
+            <div class="filters-new filter {{ request('filter') === 'new' ? 'active' : '' }}" onclick="window.location='{{ route('home', ['filter' => request('filter') === 'new' ? null : 'new']) }}'">
                 <p><i class="fa-regular fa-clock"></i>New</p>
             </div>
             <div class="filters-trending filter">
@@ -49,7 +49,7 @@
                                 <h3 class="question-title">{{ $topic->title }}</h3>
                                 <p id="question-date">{{ $topic->created_at->format('H:i a') }}</p>
                                 <!-- Alterado para exibir o nome do usuário corretamente -->
-                                <p class="question-author">Publicado por: <strong>{{ $user->name }}</strong></p>
+                                <p class="question-author">Publicado por: <strong>{{ $topic->post->user->name }}</strong></p>
                             </div>
                             <p class="question-view">{{ $topic->description }}</p>
                         </div>

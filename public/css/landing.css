@@ -225,3 +225,15 @@
 .suggestions-users > .user > button > i {
     margin-right: 5px;
 }
+
+.filter.active, .filter.active p, .filter.active i {
+    background-color: #9B12CB; 
+    color: white;
+}
+
+.filter p,
+.filter i {
+    color: #808080;
+    background: none;
+    margin: 0;
+}

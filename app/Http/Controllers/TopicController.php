@@ -24,19 +24,18 @@
         public function showTopics(Request $request ){
             $filter = $request->input('filter');
             if($filter === 'new'){
-                $topics = Topic::with(['post', 'comments', 'category'])
+                $topics = Topic::with(['post.user', 'comments', 'category'])
                 ->withCount(['comments as comments_count', 'post as views_count'])
                 ->orderBy('created_at', 'desc') // Ordena por data de criação (mais recente primeiro)
                 ->get();
             }else {
-                $topics = Topic::with(['post', 'comments', 'category'])
+                $topics = Topic::with(['post.user', 'comments', 'category'])
                 ->withCount(['comments as comments_count', 'post as views_count'])
                 ->get();
             }
-            $user = auth()->user();
             $categories = Category::all();
             $suggestedUsers = User::inRandomOrder()->take(5)->get();
-            return view('welcome', compact('topics', 'categories', 'suggestedUsers', 'user'));
+            return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
         }
 
         public function createTopic(Request $request)
