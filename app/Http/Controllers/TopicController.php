@@ -4,6 +4,7 @@
     use Illuminate\Http\Request;
     use App\Models\Topic;
     use App\Models\Post;
+    use App\Models\Tag;
     use App\Models\Category;
     use App\Models\User;
 
@@ -13,7 +14,8 @@
             
             $topics = Topic::all();
             $categories = Category::all();
-            return view('topics.listAllTopics', compact('topics', 'categories'));
+            $tags = Tag::all();
+            return view('topics.listAllTopics', compact('topics', 'categories', 'tags'));
         }
 
         public function listTopicById($id){
@@ -33,9 +35,11 @@
                 ->withCount(['comments as comments_count', 'post as views_count'])
                 ->get();
             }
+            
             $categories = Category::all();
             $suggestedUsers = User::inRandomOrder()->take(5)->get();
-            return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
+            $tags = Tag::all();
+            return view('welcome', compact('topics', 'categories', 'suggestedUsers', 'tags'));
         }
 
         public function createTopic(Request $request)
@@ -47,6 +51,8 @@
                 'image' => 'nullable|url',
                 'status' => 'nullable|string',
                 'category_id' => 'nullable|exists:categories,id',
+                'tags' => 'nullable|array',
+                'tags.*' => 'exists:tags,id',
             ]);
 
             $topic = Topic::create([
@@ -61,6 +67,10 @@
                 'user_id' => auth()->id(), 
                 'image' => $request->image ??'',
             ]);
+
+            if ($request->tags) {
+                $topic->tags()->sync($request->tags);
+            }
 
             if ($request->input('viewName') === 'welcome') {
                 return redirect()->route('welcome');
@@ -121,6 +131,8 @@
                 'description' => 'required',
                 'category_id' => 'required|exists:categories,id',
                 'status' => 'required|boolean',
+                'tags' => 'nullable|array',
+                'tags.*' => 'exists:tags,id',
             ]);
 
             $topic = Topic::findOrFail($id);
@@ -131,6 +143,12 @@
             $topic->status = $request->status;
             
             $topic->save();
+            
+            if($request->has('tags')){
+                $topic->tags()->sync($request->tags);
+            }else {
+                $topic->tags()->sync([]);
+            }
 
             return redirect()->route('listAllTopics')->with('success', 'Topic updated successfully');
         }

@@ -36,11 +36,11 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="votes">
-                            <span onclick="ratePost({{ $topic->post->id }}, 1)" style="cursor: pointer;">
+                            <span onclick="ratePost({{ $topic->post->id }}, true)" style="cursor: pointer;">
                                 <i class="fa-solid fa-chevron-up"></i>
                             </span>
-                            <span class="vote-count">{{ $topic->post->votes_count ?? 0 }}</span>
-                            <span onclick="ratePost({{ $topic->post->id }}, -1)" style="cursor: pointer;">
+                            <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->votes_count ?? 0 }}</span>
+                            <span onclick="ratePost({{ $topic->post->id }}, false)" style="cursor: pointer;">
                                 <i class="fa-solid fa-chevron-down"></i>
                             </span>
                         </div>
@@ -56,7 +56,8 @@
                     </div>
                     <div class="views">
                         <p><i class="fa-regular fa-eye"></i>{{ $topic->views_count ?? 0 }}</p>
-                        <p><i class="fa-regular fa-comment"></i>{{ $topic->comments_count ?? 0 }}</p>
+                        <p><i class="fa-regular fa-comment" onclick="openCommentModal({{ $topic->post->id }}, {{$topic->id}})" style="cursor: pointer;"></i>
+                        {{ $topic->comments_count ?? 0 }}</p>
                     </div>
                     <div class="comments-section">
                         @foreach($topic->comments as $comment)
@@ -66,10 +67,34 @@
                             </div>
                         @endforeach
                     </div>
-
                 </div>
             @endforeach
         </div>
+        
+        <!-- Modal do comentário -->
+        <div class="modal fade" id="createCommentModal" tabindex="-1" aria-labelledby="createCommentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createCommentModalLabel">Create New Comment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="createCommentForm" action="{{ route('createComment') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="post_id" id="comment-post-id" value="">
+                            <input type="hidden" name="topic_id" id="comment-topic-id" value="">
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Comment</label>
+                                <textarea class="form-control" id="content" name="content" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Comment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Create Topic Modal -->
         <div class="modal fade" id="createTopicModal" tabindex="-1" aria-labelledby="createTopicModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -109,6 +134,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags</label>
+                                <select class="form-control" id="tags" name="tags[]" multiple>
+                                    @foreach($tags as $tag)
+                                        <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
                             <button type="submit" class="btn btn-primary">Create Topic</button>
                         </form>
                     </div>
@@ -143,31 +177,35 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
-    function ratePost(postId, vote) {
-    fetch(`/posts/${postId}/rate`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    },
-    body: JSON.stringify({ vote })
-})
-.then(async (response) => {
-    if (!response.ok) {
-        const errorMessage = await response.text();  // Captura a resposta de erro em texto
-        throw new Error(`Erro na requisição: ${response.status} - ${errorMessage}`);
+   function ratePost(postId, isUpvote) {
+    
+    const vote = isUpvote ? true : false;
+    
+        fetch(`/posts/${postId}/rate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ vote }) 
+        })
+        .then(async (response) => {
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(`Erro na requisição: ${response.status} - ${errorMessage}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                document.querySelector(`.vote-count[data-post="${postId}"]`).innerText = data.new_average;
+            } else {
+                console.error('Erro no backend:', data.error);
+            }
+        })
+        .catch(error => console.error('Erro:', error.message));
     }
-    return response.json();
-})
-.then(data => {
-    if (data.success) {
-        document.querySelector(`.vote-count[data-post="${postId}"]`).innerText = data.new_average;
-    } else {
-        console.error('Erro no backend:', data.error);
-    }
-})
-.catch(error => console.error('Erro:', error.message));
-    }
+
 
 
     document.querySelector('.filters-new').addEventListener('click', function() {
@@ -184,5 +222,13 @@
 
     window.location.reload();
 });
+
+function openCommentModal(postId, topicId) {
+    document.getElementById('comment-post-id').value = postId; 
+    document.getElementById('comment-topic-id').value = topicId;
+    const commentModal = new bootstrap.Modal(document.getElementById('createCommentModal'));
+    commentModal.show();
+}
+
 </script>
 @endsection

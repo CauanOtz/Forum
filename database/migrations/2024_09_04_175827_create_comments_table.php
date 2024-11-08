@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('content');
             $table->unsignedBigInteger('topic_id');
             $table->foreign('topic_id')->references('id')->on('topics');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->morphs('commentable');  
             $table->timestamps();
         });
     }   

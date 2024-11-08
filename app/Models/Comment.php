@@ -17,6 +17,12 @@ class Comment extends Post
     {
         return $this->morphOne(Post::class, 'postable');
     }
+
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
+
     public function topic()
     {
         return $this->belongsTo(Topic::class);

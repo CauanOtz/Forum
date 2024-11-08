@@ -9,22 +9,22 @@ use App\Models\Rate;
 
 class RateController extends Controller
 {
-    public function rate(Request $request, $postId)
+    public function ratePost(Request $request, $postId)
     {
         try {
-            $validatedData = $request->validate([
-                'vote' => 'required|integer|in:1,-1',
-            ]);
-
             $post = Post::findOrFail($postId);
-            $rate = $post->rates()->updateOrCreate(
-                ['user_id' => auth()->id()],
-                ['vote' => $validatedData['vote']]
-            );
-
-            return response()->json(['success' => true, 'rate' => $rate, 'new_average' => $post->averageRating()]);
+    
+            Rate::create([
+                'vote' => true,
+                'user_id' => auth()->id(),
+                'post_id' => $post->id,
+            ]);
+    
+            return response()->json(['success' => true, 'message' => 'Avaliação criada com sucesso']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            \Log::error('Erro ao avaliar post:', ['error' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'Erro ao avaliar post'], 500);
         }
     }
+
 }

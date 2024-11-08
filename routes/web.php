@@ -79,5 +79,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/person/{id}', [UserController::class, 'person'])->name('person');
 
 
-    Route::post('/posts/{post}/rate', [RateController::class, 'rate'])->name('posts.rate');
+    Route::post('/posts/{post}/rate', [RateController::class, 'ratePost'])->name('ratePost');
 });

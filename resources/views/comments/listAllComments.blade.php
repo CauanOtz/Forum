@@ -37,10 +37,10 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editCommentModal{{ $comment->id }}">
                             Edit
                         </button>
-                        <form action="{{ route('comments.destroy', $comment) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('deleteComment', $comment->id) }}" method="POST" style="display:inline;" class="delete-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm delete-button" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -53,7 +53,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('comments.update', $comment) }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('updateComment', $comment->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="mb-3">
@@ -113,4 +113,30 @@
         </div>
     </div>
 </div>
+
+
+
+
 @endsection
+<script>
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const form = this.closest('.delete-form');
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Esta ação não pode ser desfeita!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sim, deletar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>

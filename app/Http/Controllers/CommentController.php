@@ -24,21 +24,22 @@ class CommentController extends Controller
 
     public function createComment(Request $request)
     {
+
         $request->validate([
-            'content' => 'required|string',
-            'image' => 'nullable|image',
+            'content' => 'required',
+            'post_id' => 'required|exists:posts,id',
+            'topic_id' => 'required|exists:topics,id',
         ]);
 
-        $comment = Comment::create([
-            'content' => $request->content,
-        ]);
-
-        $comment->post()->create([
-            'user_id' => auth()->id(),
-            'image' => $request->file('image') ? $request->file('image')->store('images', 'public') : null,
-        ]);
-
-        return redirect()->route('listAllComments')->with('success', 'Comment created successfully.');
+        $comment = new Comment();
+        $comment->content = $request->content;
+        $comment->user_id = auth()->id();
+        $comment->topic_id = $request->topic_id;
+        
+        $post = Post::find($request->post_id);
+        $post->comments()->save($comment);
+    
+        return redirect()->back()->with('success', 'Comment created successfully!');
     }
 
     public function updateComment(Request $request, $id)

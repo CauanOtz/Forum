@@ -23,6 +23,7 @@
                     <th>Image</th>
                     <th>Status</th>
                     <th>Category</th>
+                    <th>Tag</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -41,6 +42,11 @@
                         </td>
                         <td>{{ $topic->status == 1 ? 'Active' : 'Inactive' }}</td>
                         <td>{{ $topic->category->title }}</td>
+                        <td>
+                            @foreach($topic->tags as $tag)
+                                <span class="badge bg-secondary">{{ $tag->title }}</span>
+                            @endforeach
+                        </td>
                         <td>
                             <a href="{{ route('listTopicById', $topic->id) }}" class="btn btn-success">View</a>
                             <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editTopicModal"
@@ -98,6 +104,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags</label>
+                        <select class="form-control" id="tags" name="tags[]" multiple>
+                            @foreach($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
                     <button type="submit" class="btn btn-primary">Create Topic</button>
                 </form>
             </div>
@@ -141,6 +156,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags</label>
+                        <select class="form-control" id="tags" name="tags[]" multiple>
+                            @foreach($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-warning">Update Topic</button>
                 </form>
             </div>
