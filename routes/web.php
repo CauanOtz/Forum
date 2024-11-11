@@ -10,23 +10,15 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RateController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 Route::get('/', [TopicController::class, 'showTopics'])->name('home');
 
 Route::match(['get', 'post'], '/login', [AuthController::class, 'login'])->name('login');
-
 Route::match(['get', 'post'], '/register', [UserController::class, 'register'])->name('register');
-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/banned', function () {
+    return view('users.banned');
+})->name('banned');
 
 Route::middleware('auth')->group(function () {
 
@@ -53,7 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/posts/{id}/update', [PostController::class, 'updatePost'])->name('updatePost');
     Route::get('/posts/{id}', [PostController::class, 'deletePost'])->name('deletePost');
 
-
     Route::get('/tags', [TagController::class, 'listAllTags'])->name('listAllTags');
     Route::get('/tags/{id}', [TagController::class, 'listTagById'])->name('listTagById');
     Route::post('/tags/create', [TagController::class, 'createTag'])->name('createTag');
@@ -79,7 +70,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/myaccount/update', [UserController::class, 'updateAccount'])->name('updateAccount');
     Route::delete('/myaccount/delete', [UserController::class, 'deleteAccount'])->name('deleteAccount');
     Route::get('/person/{id}', [UserController::class, 'person'])->name('person');
-
 
     Route::post('/posts/{post}/rate', [RateController::class, 'ratePost'])->name('ratePost');
 });
