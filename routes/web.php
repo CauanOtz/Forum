@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{id}/update', [UserController::class, 'updateUser'])->name('updateUser');
     Route::get('/users/{id}/edit', [UserController::class, 'editUser'])->name('editUser');
     Route::delete('/users/{id}/delete', [UserController::class, 'deleteUser'])->name('deleteUser');
+    Route::put('/users/{id}/ban', [UserController::class, 'banUser'])->name('banUser');
+    Route::put('/users/{id}/unban', [UserController::class, 'unbanUser'])->name('unbanUser');
 
     Route::get('/topics', [TopicController::class, 'listAllTopics'])->name('listAllTopics');
     Route::get('/topics/{id}', [TopicController::class, 'listTopicById'])->name('listTopicById');

@@ -132,4 +132,31 @@ public function register(Request $request) {
         return view('users.person', compact('user', 'topics'));
     }
 
+    public function banUser($id) {
+        $user = User::find($id);
+
+        if(!$user) {
+            return redirect()->route('listAllUsers')->with('error', 'Usuário não encontrado');
+        }
+        $user->is_banned = true;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Usuário ' . $id . ' banido com sucesso.');
+    }
+
+    public function unbanUser($id) {
+        $user = User::find($id);
+    
+        if (!$user) {
+            return redirect()->route('listAllUsers')->with('error', 'Usuário não encontrado');
+        }
+    
+        $user->is_banned = false;
+        $user->save();
+    
+        return redirect()->back()->with('success', 'Usuário ' . $id . ' desbanido com sucesso.');
+    }
+    
+
 }
+
