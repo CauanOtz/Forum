@@ -141,7 +141,7 @@ public function register(Request $request) {
         $user->is_banned = true;
         $user->save();
 
-        return redirect()->back()->with('success', 'Usuário ' . $id . ' banido com sucesso.');
+        return redirect()->back()->with('success', 'Usuário ' . 'id: '. $id . ' nome: ' . $user->name  . ' banido com sucesso.');
     }
 
     public function unbanUser($id) {
@@ -154,7 +154,7 @@ public function register(Request $request) {
         $user->is_banned = false;
         $user->save();
     
-        return redirect()->back()->with('success', 'Usuário ' . $id . ' desbanido com sucesso.');
+        return redirect()->back()->with('success', 'Usuário ' . ' id: ' . $id . ' nome: ' . $user->name . ' desbanido com sucesso.');
     }
     
 

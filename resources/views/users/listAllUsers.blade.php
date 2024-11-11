@@ -36,11 +36,11 @@
                             
                             @if($user->is_banned)
                                 <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#unbanModal-{{ $user->id }}">
-                                    <i class="fa-solid fa-user-check"></i> Desbanir
+                                    <i class="fa-solid fa-user-check"></i> Unban
                                 </a>
                             @else
                                 <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#banModal-{{ $user->id }}">
-                                    <i class="fa-solid fa-user-slash"></i> Banir
+                                    <i class="fa-solid fa-user-slash"></i> Ban
                                 </a>
                             @endif
                         </td>

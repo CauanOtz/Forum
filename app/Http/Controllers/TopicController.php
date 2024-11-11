@@ -170,8 +170,9 @@
 
             $categories = Category::all();
             $suggestedUsers = User::inRandomOrder()->take(5)->get();
+            $tags = Tag::all();
 
-        return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
+        return view('welcome', compact('topics', 'categories', 'suggestedUsers', 'tags'));
 
         }
 
