@@ -31,6 +31,7 @@
                     <th>ID</th>
                     <th>Content</th>
                     <th>Image</th>
+                    <th>Replies</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -47,6 +48,20 @@
                         @endif
                     </td>
                     <td>
+                        @if($comment->comments->isNotEmpty())
+                            <ul>
+                                @foreach($comment->comments as $reply)
+                                    <li>
+                                        <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>: {{ $reply->content }}
+                                        <br><small>{{ $reply->created_at->format('d/m/Y H:i') }}</small>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            No replies
+                        @endif
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editCommentModal{{ $comment->id }}">
                             Edit
                         </button>
@@ -58,6 +73,7 @@
                     </td>
                 </tr>
 
+                
                 <div class="modal fade" id="editCommentModal{{ $comment->id }}" tabindex="-1" aria-labelledby="editCommentModalLabel{{ $comment->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -91,7 +107,7 @@
         </table>
     </div>
 
-    <!-- Modal de criação -->
+
     <div class="modal fade" id="createCommentModal" tabindex="-1" aria-labelledby="createCommentModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -100,35 +116,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <form action="{{ route('createComment') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="topic_id" class="form-label">Select Topic</label>
-                        <select name="topic_id" class="form-select" required>
-                            <option value="">Select a Topic</option>
-                            @foreach($topics as $topic)
-                                <option value="{{ $topic->id }}">{{ $topic->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea name="content" class="form-control" required>{{ old('content') }}</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <input type="file" name="image" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success">Create Comment</button>
-                </form>
+                    <form action="{{ route('createComment') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="topic_id" class="form-label">Select Topic</label>
+                            <select name="topic_id" class="form-select" required>
+                                <option value="">Select a Topic</option>
+                                @foreach($topics as $topic)
+                                    <option value="{{ $topic->id }}">{{ $topic->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea name="content" class="form-control" required>{{ old('content') }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Create Comment</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 @endsection
 <script>
