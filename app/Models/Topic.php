@@ -33,7 +33,7 @@ class Topic extends Post
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->distinct();
     }
 
     public function tags()

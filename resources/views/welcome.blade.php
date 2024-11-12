@@ -48,7 +48,6 @@
                             <div class="question-top">
                                 <h3 class="question-title">{{ $topic->title }}</h3>
                                 <p id="question-date">{{ $topic->created_at->format('H:i a') }}</p>
-                                <!-- Alterado para exibir o nome do usuário corretamente -->
                                 <p class="question-author">Publicado por: <strong>{{ $topic->post->user->name }}</strong></p>
                             </div>
                             <p class="question-view">{{ $topic->description }}</p>
@@ -59,8 +58,9 @@
                         <p><i class="fa-regular fa-comment" onclick="openCommentModal({{ $topic->post->id }}, {{$topic->id}})" style="cursor: pointer;"></i>
                         {{ $topic->comments_count ?? 0 }}</p>
                     </div>
+
                     <div class="comments-section">
-                        @foreach($topic->comments as $comment)
+                        @foreach($topic->comments->where('commentable_type', 'App\Models\Post') as $comment)
                             <div class="comment">
                                 <div class="comment-info">
                                     <span class="comment-author">{{ $comment->user->name ?? 'Anônimo' }}</span>
@@ -72,7 +72,7 @@
                                 </p>
 
                                 <!-- Exibindo respostas de comentários -->
-                                @foreach($comment->replies as $reply)
+                                @foreach($comment->comments as $reply) <!-- Respostas aninhadas -->
                                     <div class="comment-reply">
                                         <div class="comment-info">
                                             <span class="comment-author">{{ $reply->user->name ?? 'Anônimo' }}</span>
@@ -84,11 +84,10 @@
                             </div>
                         @endforeach
                     </div>
-
-
                 </div>
             @endforeach
         </div>
+
         
         <!-- Modal do comentário -->
         <div class="modal fade" id="createCommentModal" tabindex="-1" aria-labelledby="createCommentModalLabel" aria-hidden="true">
@@ -254,7 +253,7 @@ function openCommentModal(postId, topicId) {
 function openReplyModal(postId, topicId, parentCommentId) {
     document.getElementById('comment-post-id').value = postId;
     document.getElementById('comment-topic-id').value = topicId;
-    document.getElementById('comment-commentable-id').value = parentCommentId;
+    document.getElementById('comment-commentable-id').value = parentCommentId || '';
     document.getElementById('content').value = ''; 
     new bootstrap.Modal(document.getElementById('createCommentModal')).show();
 }

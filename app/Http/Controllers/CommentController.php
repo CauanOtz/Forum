@@ -25,30 +25,32 @@ class CommentController extends Controller
     public function createComment(Request $request)
     {
 
-        $request->validate([
-            'content' => 'required',
-            'post_id' => 'required|exists:posts,id',
+        $validatedData = $request->validate([
+            'content' => 'required|string',
+            'post_id' => 'required|integer|exists:posts,id',
+            'commentable_id' => 'nullable|integer|exists:comments,id',
             'topic_id' => 'required|exists:topics,id',
-            'commentable_id' => 'nullable|exists:comments,id', 
         ]);
-    
+        
+        
+
         $comment = new Comment();
-        $comment->content = $request->content;
+        $comment->content = $validatedData['content'];
         $comment->user_id = auth()->id();
-        $comment->topic_id = $request->topic_id;
-    
-        if ($request->filled('commentable_id')) {
-            $comment->commentable_id = $request->commentable_id;
-            $comment->commentable_type = Comment::class; 
+        $comment->topic_id = $validatedData['topic_id'];
+        
+        if (!empty($validatedData['commentable_id'])) {
+            $comment->commentable_id = $validatedData['commentable_id'];
+            $comment->commentable_type = Comment::class;
         } else {
-           
-            $comment->commentable_id = $request->post_id;
-            $comment->commentable_type = Post::class; 
+            $comment->commentable_id = $validatedData['post_id'];
+            $comment->commentable_type = Post::class;
         }
+        
 
         $comment->save();
-
-        return redirect()->back()->with('success', 'Comment created successfully!');
+    
+        return redirect()->back()->with('success', 'Comentário adicionado com sucesso.');
     }
 
     public function updateComment(Request $request, $id)

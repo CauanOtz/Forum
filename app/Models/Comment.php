@@ -10,7 +10,9 @@ class Comment extends Post
     use HasFactory;
 
     protected $fillable = [
-        'content'
+        'content',
+        'user_id',
+        'topic_id'
     ];
 
     public function post()
@@ -23,6 +25,11 @@ class Comment extends Post
         return $this->morphTo();
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     public function topic()
     {
         return $this->belongsTo(Topic::class);
@@ -30,6 +37,6 @@ class Comment extends Post
     
         public function replies()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable')->where('commentable_type', Comment::class);
     }
 }
