@@ -71,5 +71,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/myaccount/delete', [UserController::class, 'deleteAccount'])->name('deleteAccount');
     Route::get('/person/{id}', [UserController::class, 'person'])->name('person');
 
+    Route::get('/question', [UserController::class, 'question'])->name('question');
+    Route::get('/answers', [UserController::class, 'answers'])->name('answers');
+    Route::get('/likes', [UserController::class, 'likes'])->name('likes');
+
     Route::post('/posts/{post}/rate', [RateController::class, 'ratePost'])->name('ratePost');
 });

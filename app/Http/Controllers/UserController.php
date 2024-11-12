@@ -92,7 +92,20 @@ public function register(Request $request) {
         return view('users.person', compact('user', 'topics'));
     }
 
-    
+    public function question() {
+        $user = Auth::user();
+        return view('users.question', ['user' => $user]);
+    }
+
+    public function answers() {
+        $user = Auth::user();
+        return view('users.answers', ['user' => $user]);
+    }
+
+    public function likes() {
+        $user = Auth::user();
+        return view('users.likes', ['user' => $user]);
+    }
 
     public function updateAccount(Request $request) {
         $user = Auth::user();

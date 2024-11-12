@@ -11,9 +11,15 @@
         </div>
         <div class="sidebar-personalnav">
             <h2>PERSONAL NAVIGATOR</h2>
-            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-circle-question"></i>My Questions</p>
-            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-comments"></i>My Answers</p>
-            <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
+                <a href="{{ route('question') }}">
+                    <p class="menu-item"><i class="fa-regular fa-circle-question"></i>My Questions</p>
+                </a>
+                <a href="{{ route('answers') }}">
+                    <p class="menu-item"><i class="fa-regular fa-comments"></i>My Answers</p>
+                </a>
+                <a href="{{ route('likes') }}">
+                    <p class="menu-item"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
+                </a>
         </div>
         <div class="sidebar-premium">
 
