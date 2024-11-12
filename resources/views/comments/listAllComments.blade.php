@@ -49,14 +49,40 @@
                     </td>
                     <td>
                         @if($comment->comments->isNotEmpty())
-                            <ul>
-                                @foreach($comment->comments as $reply)
-                                    <li>
-                                        <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>: {{ $reply->content }}
-                                        <br><small>{{ $reply->created_at->format('d/m/Y H:i') }}</small>
+                            <ul style="max-height: 100px; overflow-y: auto; list-style-type: none; padding: 0;">
+                                @foreach($comment->comments->take(3) as $reply)
+                                    <li title="{{ $reply->content }}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>: {{ Str::limit($reply->content, 50) }}
                                     </li>
                                 @endforeach
                             </ul>
+                            @if($comment->comments->count() > 3)
+                                <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#repliesModal{{ $comment->id }}">
+                                    View all {{ $comment->comments->count() }} replies
+                                </button>
+
+                                <!-- Modal para visualizar todas as replies -->
+                                <div class="modal fade" id="repliesModal{{ $comment->id }}" tabindex="-1" aria-labelledby="repliesModalLabel{{ $comment->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="repliesModalLabel{{ $comment->id }}">All Replies</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul class="list-group">
+                                                    @foreach($comment->comments as $reply)
+                                                        <li class="list-group-item">
+                                                            <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>: {{ $reply->content }}
+                                                            <br><small>{{ $reply->created_at->format('d/m/Y H:i') }}</small>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         @else
                             No replies
                         @endif
@@ -73,7 +99,7 @@
                     </td>
                 </tr>
 
-                
+                <!-- Modal for editing comments -->
                 <div class="modal fade" id="editCommentModal{{ $comment->id }}" tabindex="-1" aria-labelledby="editCommentModalLabel{{ $comment->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -107,7 +133,7 @@
         </table>
     </div>
 
-
+    <!-- Modal for creating comments -->
     <div class="modal fade" id="createCommentModal" tabindex="-1" aria-labelledby="createCommentModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
