@@ -155,6 +155,11 @@
 
         public function deleteTopic($id){
             $topic = Topic::findOrFail($id);
+
+            $topic->tags()->detach();
+            
+            $topic->comments()->delete();
+            
             $topic->delete();
 
             return redirect()->route('listAllTopics')->with('success', 'Topic deleted successfully');

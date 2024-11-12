@@ -21,7 +21,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('commentable_id');
     }
 
     public function rates()

@@ -62,11 +62,30 @@
                     <div class="comments-section">
                         @foreach($topic->comments as $comment)
                             <div class="comment">
+                                <div class="comment-info">
+                                    <span class="comment-author">{{ $comment->user->name ?? 'Anônimo' }}</span>
+                                    <span>{{ $comment->created_at->format('d/m/Y H:i') }}</span>
+                                </div>
                                 <p>{{ $comment->content }}</p>
-                                <span>Comentado em: {{ $comment->created_at->format('d/m/Y H:i') }}</span>
+                                <p class="comment-reply-btn" onclick="openReplyModal({{ $topic->post->id }}, {{ $topic->id }}, {{ $comment->id }})">
+                                    <i class="fa-regular fa-comment"></i> Responder
+                                </p>
+
+                                <!-- Exibindo respostas de comentários -->
+                                @foreach($comment->replies as $reply)
+                                    <div class="comment-reply">
+                                        <div class="comment-info">
+                                            <span class="comment-author">{{ $reply->user->name ?? 'Anônimo' }}</span>
+                                            <span>{{ $reply->created_at->format('d/m/Y H:i') }}</span>
+                                        </div>
+                                        <p>{{ $reply->content }}</p>
+                                    </div>
+                                @endforeach
                             </div>
                         @endforeach
                     </div>
+
+
                 </div>
             @endforeach
         </div>
@@ -84,6 +103,7 @@
                             @csrf
                             <input type="hidden" name="post_id" id="comment-post-id" value="">
                             <input type="hidden" name="topic_id" id="comment-topic-id" value="">
+                            <input type="hidden" name="commentable_id" id="comment-commentable-id" value="">
                             <div class="mb-3">
                                 <label for="content" class="form-label">Comment</label>
                                 <textarea class="form-control" id="content" name="content" required></textarea>
@@ -224,11 +244,21 @@
 });
 
 function openCommentModal(postId, topicId) {
-    document.getElementById('comment-post-id').value = postId; 
+    document.getElementById('comment-post-id').value = postId;
     document.getElementById('comment-topic-id').value = topicId;
-    const commentModal = new bootstrap.Modal(document.getElementById('createCommentModal'));
-    commentModal.show();
+    document.getElementById('comment-commentable-id').value = ''; 
+    document.getElementById('content').value = ''; 
+    new bootstrap.Modal(document.getElementById('createCommentModal')).show();
 }
+
+function openReplyModal(postId, topicId, parentCommentId) {
+    document.getElementById('comment-post-id').value = postId;
+    document.getElementById('comment-topic-id').value = topicId;
+    document.getElementById('comment-commentable-id').value = parentCommentId;
+    document.getElementById('content').value = ''; 
+    new bootstrap.Modal(document.getElementById('createCommentModal')).show();
+}
+
 
 </script>
 @endsection

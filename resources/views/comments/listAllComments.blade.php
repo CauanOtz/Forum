@@ -3,6 +3,19 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 @section('content')
+
+@if (session('success'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
 <div class="comment-container">
     <h1 class="text-center">Comments</h1>
     <div class="text-center mb-3">

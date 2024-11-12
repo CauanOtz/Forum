@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments/create', [CommentController::class, 'createComment'])->name('createComment');
     Route::put('/comments/{id}/update', [CommentController::class, 'updateComment'])->name('updateComment');
     Route::get('/comments/{id}/edit', [CommentController::class, 'editComment'])->name('editComment');
-    Route::get('/comments/{id}/delete', [CommentController::class, 'deleteComment'])->name('deleteComment');
+    Route::delete('/comments/{id}/delete', [CommentController::class, 'deleteComment'])->name('deleteComment');
     
     Route::get('/categories', [CategoryController::class, 'listAllCategories'])->name('listAllCategories');
     Route::get('/categories/{id}', [CategoryController::class, 'listCategoryById'])->name('listCategoryById');

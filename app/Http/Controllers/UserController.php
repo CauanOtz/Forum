@@ -154,9 +154,9 @@ public function register(Request $request) {
         $user->is_banned = false;
         $user->save();
     
-        return redirect()->back()->with('success', 'Usuário ' . ' id: ' . $id . ' nome: ' . $user->name . ' desbanido com sucesso.');
+        return redirect()->back()->with('success', 'U   suário ' . ' id: ' . $id . ' nome: ' . $user->name . ' desbanido com sucesso.');
     }
-    
+
 
 }
 

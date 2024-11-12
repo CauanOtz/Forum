@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="{{ asset('css/topic.css') }}">
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 <link rel="stylesheet" href="{{ asset('css/btn.css') }}">
+<link rel="stylesheet" href="{{ asset('css/comments.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
 
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

@@ -29,16 +29,25 @@ class CommentController extends Controller
             'content' => 'required',
             'post_id' => 'required|exists:posts,id',
             'topic_id' => 'required|exists:topics,id',
+            'commentable_id' => 'nullable|exists:comments,id', 
         ]);
-
+    
         $comment = new Comment();
         $comment->content = $request->content;
         $comment->user_id = auth()->id();
         $comment->topic_id = $request->topic_id;
-        
-        $post = Post::find($request->post_id);
-        $post->comments()->save($comment);
     
+        if ($request->filled('commentable_id')) {
+            $comment->commentable_id = $request->commentable_id;
+            $comment->commentable_type = Comment::class; 
+        } else {
+           
+            $comment->commentable_id = $request->post_id;
+            $comment->commentable_type = Post::class; 
+        }
+
+        $comment->save();
+
         return redirect()->back()->with('success', 'Comment created successfully!');
     }
 

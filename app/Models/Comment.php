@@ -27,4 +27,9 @@ class Comment extends Post
     {
         return $this->belongsTo(Topic::class);
     }
+    
+        public function replies()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
