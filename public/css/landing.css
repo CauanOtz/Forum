@@ -58,6 +58,11 @@
     font-size: 18px;
 }
 
+.sidebar-personalnav p, .sidebar-personalnav a {
+    color: #594545;
+    text-decoration: none;
+}
+
 .center {
     width: 100%;
 }

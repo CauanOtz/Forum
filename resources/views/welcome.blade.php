@@ -45,10 +45,18 @@
                             <span onclick="ratePost({{ $topic->post->id }}, true)" style="cursor: pointer;">
                                 <i class="fa-solid fa-chevron-up"></i>
                             </span>
-                            <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->votes_count ?? 0 }}</span>
+                            <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->votes_count }}</span>
                             <span onclick="ratePost({{ $topic->post->id }}, false)" style="cursor: pointer;">
                                 <i class="fa-solid fa-chevron-down"></i>
                             </span>
+                            <div class="vote-details">
+                                <div class="likes" data-post="{{ $topic->post->id }}">
+                                    <i class="fa-solid fa-thumbs-up"></i> {{ $topic->post->rates->where('vote', 1)->count() }}
+                                </div>
+                                <div class="dislikes" data-post="{{ $topic->post->id }}">
+                                    <i class="fa-solid fa-thumbs-down"></i> {{ $topic->post->rates->where('vote', 0)->count() }}
+                                </div>
+                            </div>
                         </div>
                         <div class="question">
                             <div class="question-top">
@@ -203,33 +211,33 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
    function ratePost(postId, isUpvote) {
-    
-    const vote = isUpvote ? true : false;
-    
-        fetch(`/posts/${postId}/rate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ vote }) 
-        })
-        .then(async (response) => {
-            if (!response.ok) {
-                const errorMessage = await response.text();
-                throw new Error(`Erro na requisição: ${response.status} - ${errorMessage}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                document.querySelector(`.vote-count[data-post="${postId}"]`).innerText = data.new_average;
-            } else {
-                console.error('Erro no backend:', data.error);
-            }
-        })
-        .catch(error => console.error('Erro:', error.message));
-    }
+    const vote = isUpvote ? 1 : 0;
+
+    fetch(`/posts/${postId}/rate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ vote }) 
+    })
+    .then(async (response) => {
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(`Erro na requisição: ${response.status} - ${errorMessage}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            document.querySelector(`.likes[data-post="${postId}"]`).innerText = data.likes_count;
+            document.querySelector(`.dislikes[data-post="${postId}"]`).innerText = data.dislikes_count;
+        } else {
+            console.error('Erro no backend:', data.error);
+        }
+    })
+    .catch(error => console.error('Erro:', error.message));
+}
 
 
 

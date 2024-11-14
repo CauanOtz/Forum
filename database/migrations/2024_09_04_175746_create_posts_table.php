@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('image')->nullable();
             $table->morphs('postable');
+            $table->integer('votes_count')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')

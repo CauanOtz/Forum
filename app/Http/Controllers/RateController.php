@@ -11,20 +11,28 @@ class RateController extends Controller
 {
     public function ratePost(Request $request, $postId)
     {
-        try {
-            $post = Post::findOrFail($postId);
-    
-            Rate::create([
-                'vote' => true,
-                'user_id' => auth()->id(),
-                'post_id' => $post->id,
-            ]);
-    
-            return response()->json(['success' => true, 'message' => 'Avaliação criada com sucesso']);
-        } catch (\Exception $e) {
-            \Log::error('Erro ao avaliar post:', ['error' => $e->getMessage()]);
-            return response()->json(['success' => false, 'message' => 'Erro ao avaliar post'], 500);
-        }
+        $request->validate(['vote' => 'required|boolean']);
+    $voteValue = $request->vote ? 1 : 0;
+
+    // Encontra o post
+    $post = Post::findOrFail($postId);
+
+    // Cria ou atualiza o voto
+    $rate = Rate::updateOrCreate(
+        ['post_id' => $postId, 'user_id' => auth()->id()],
+        ['vote' => $voteValue]
+    );
+
+    // Calcula o total de likes e dislikes
+    $likesCount = Rate::where('post_id', $postId)->where('vote', 1)->count();
+    $dislikesCount = Rate::where('post_id', $postId)->where('vote', 0)->count();
+
+    // Retorna a resposta com as novas contagens
+    return response()->json([
+        'success' => true,
+        'likes_count' => $likesCount,
+        'dislikes_count' => $dislikesCount
+    ]);
     }
 
 }
