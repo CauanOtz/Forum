@@ -22,12 +22,11 @@
                     <a href="{{ route('likes') }}">
                         <p class="menu-item"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
                     </a>   
-                     
                 </div>
-                <div class="sidebar-premium">
-                </div>
+                <div class="sidebar-premium"></div>
             </div>
         </div>
+        
         <div class="content">
             <h1>{{ $user->name }}</h1>
             <h6>{{ $user->email }}</h6>
@@ -35,22 +34,34 @@
 
             <div class="settings-content">
                 <div class="left">
-                    <!-- Exibindo os tópicos do usuário como cards -->
                     <h3>Questions</h3>
 
                     @if (isset($topics) && $topics->isNotEmpty())
                         @foreach($topics as $topic)
                         <div class="card">
                             <div class="card-content">
-                                <div class="votes">
-                                    <span onclick="ratePost({{ $topic->post->id }}, 1)" style="cursor: pointer;">
-                                        <i class="fa-solid fa-chevron-up"></i>
-                                    </span>
-                                    <span class="vote-count">{{ $topic->post->votes_count ?? 0 }}</span>
-                                    <span onclick="ratePost({{ $topic->post->id }}, -1)" style="cursor: pointer;">
-                                        <i class="fa-solid fa-chevron-down"></i>
-                                    </span>
-                                </div>
+                                @if($topic->post) <!-- Verifique se o post existe -->
+                                    <div class="votes">
+                                        <span onclick="ratePost({{ $topic->post->id }}, true)" style="cursor: pointer;">
+                                            <i class="fa-solid fa-chevron-up"></i>
+                                        </span>
+                                        <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->votes_count }}</span>
+                                        <span onclick="ratePost({{ $topic->post->id }}, false)" style="cursor: pointer;">
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </span>
+                                        <div class="vote-details">
+                                            <div class="likes" data-post="{{ $topic->post->id }}">
+                                                <i class="fa-solid fa-thumbs-up"></i> {{ $topic->post->rates->where('vote', 1)->count() }}
+                                            </div>
+                                            <div class="dislikes" data-post="{{ $topic->post->id }}">
+                                                <i class="fa-solid fa-thumbs-down"></i> {{ $topic->post->rates->where('vote', 0)->count() }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <p>Este tópico não possui um post associado.</p>
+                                @endif
+
                                 <div class="question">
                                     <div class="question-top">
                                         <h3 class="question-title">{{ $topic->title }}</h3>

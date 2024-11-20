@@ -219,25 +219,22 @@
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        body: JSON.stringify({ vote }) 
+        body: JSON.stringify({ vote })
     })
-    .then(async (response) => {
-        if (!response.ok) {
-            const errorMessage = await response.text();
-            throw new Error(`Erro na requisição: ${response.status} - ${errorMessage}`);
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
-            document.querySelector(`.likes[data-post="${postId}"]`).innerText = data.likes_count;
-            document.querySelector(`.dislikes[data-post="${postId}"]`).innerText = data.dislikes_count;
-        } else {
-            console.error('Erro no backend:', data.error);
+
+            const voteCountElement = document.querySelector(`.vote-count[data-post="${postId}"]`);
+            voteCountElement.textContent = data.votes_count;
+
+            document.querySelector(`.likes[data-post="${postId}"]`).textContent = data.likes_count;
+            document.querySelector(`.dislikes[data-post="${postId}"]`).textContent = data.dislikes_count;
         }
     })
-    .catch(error => console.error('Erro:', error.message));
+    .catch(error => console.error('Erro:', error));
 }
+
 
 
 

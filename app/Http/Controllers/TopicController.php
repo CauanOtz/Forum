@@ -101,22 +101,6 @@
             'user_id' => auth()->id(), 
         ]);
 
-        // $topic = new Topic([
-        //     'title' => $request->title,
-        //     'description' => $request->description,
-        //     'status' => $request->status,
-        //     'category_id' => $request->category
-        // ]);
-
-        // $post = new Post([
-        //     'image' => $request->image
-        // ]);
-
-        
-        // $topic->post()->save($post);
-
-
-
         return($topic);
 
         }

@@ -93,8 +93,18 @@ public function register(Request $request) {
     }
 
     public function question() {
-        $user = Auth::user();
-        return view('users.question', ['user' => $user]);
+            $userId = auth()->id();
+
+            $topics = Topic::withCount([
+                'rates as likes_count' => function ($query) {
+                    $query->where('vote', 1);
+                },
+                'rates as dislikes_count' => function ($query) {
+                    $query->where('vote', 0);
+                }
+            ])->where('user_id', $userId)->get();
+        
+            return view('questions', compact('topics'));
     }
 
     public function answers() {

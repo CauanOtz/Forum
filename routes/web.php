@@ -75,5 +75,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/answers', [UserController::class, 'answers'])->name('answers');
     Route::get('/likes', [UserController::class, 'likes'])->name('likes');
 
-    Route::post('/posts/{post}/rate', [RateController::class, 'ratePost'])->name('ratePost');
+    Route::post('/posts/{postId}/rate', [RateController::class, 'ratePost'])->name('ratePost');
 });
