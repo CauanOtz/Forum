@@ -127,7 +127,7 @@
         var formAction = "{{ url('categories') }}" + '/' + categoryId + '/update';
         editCategoryModal.querySelector('form').setAttribute('action', formAction);
     });
-
+    
     @if(session('success'))
         Swal.fire({
             title: 'Success!',

@@ -20,6 +20,13 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getUserVoteAttribute()
+    {
+        $userId = auth()->id();
+        return $this->rates()->where('user_id', $userId)->value('vote');
+    }
+    
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')->whereNull('commentable_id');

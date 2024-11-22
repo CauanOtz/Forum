@@ -30,7 +30,7 @@
             <div class="filters-new filter {{ request('filter') === 'new' ? 'active' : '' }}" onclick="window.location='{{ route('home', ['filter' => request('filter') === 'new' ? null : 'new']) }}'">
                 <p><i class="fa-regular fa-clock"></i>New</p>
             </div>
-            <div class="filters-trending filter">
+            <div class="filters-trending filter {{ request('filter') === 'trending' ? 'active' : '' }}" onclick="window.location='{{ route('home', ['filter' => request('filter') === 'trending' ? null : 'trending']) }}'">
                 <p><i class="fa-solid fa-turn-up"></i>Trending</p>
             </div>
             <div class="filters-category filter">
@@ -42,22 +42,29 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="votes">
-                            <span onclick="ratePost({{ $topic->post->id }}, true)" style="cursor: pointer;">
+                            <span class="vote-up" data-post="{{ $topic->post->id }}" 
+                                onclick="ratePost({{ $topic->post->id }}, true)" 
+                                style="cursor: pointer; {{ $topic->post->user_vote === 1 ? 'color: green;' : '' }}">
                                 <i class="fa-solid fa-chevron-up"></i>
                             </span>
                             <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->votes_count }}</span>
-                            <span onclick="ratePost({{ $topic->post->id }}, false)" style="cursor: pointer;">
+                            <span class="vote-down" data-post="{{ $topic->post->id }}" 
+                                onclick="ratePost({{ $topic->post->id }}, false)" 
+                                style="cursor: pointer; {{ $topic->post->user_vote === 0 ? 'color: red;' : '' }}">
                                 <i class="fa-solid fa-chevron-down"></i>
                             </span>
+<!-- 
                             <div class="vote-details">
                                 <div class="likes" data-post="{{ $topic->post->id }}">
-                                    <i class="fa-solid fa-thumbs-up"></i> {{ $topic->post->rates->where('vote', 1)->count() }}
+                                    <i class="fa-solid fa-thumbs-up"></i> {{ $topic->post->likes_count ?? 0 }}
                                 </div>
                                 <div class="dislikes" data-post="{{ $topic->post->id }}">
-                                    <i class="fa-solid fa-thumbs-down"></i> {{ $topic->post->rates->where('vote', 0)->count() }}
+                                    <i class="fa-solid fa-thumbs-down"></i> {{ $topic->post->dislikes_count ?? 0 }}
                                 </div>
-                            </div>
+                            </div> -->
+
                         </div>
+
                         <div class="question">
                             <div class="question-top">
                                 <h3 class="question-title">{{ $topic->title }}</h3>
@@ -85,8 +92,7 @@
                                     <i class="fa-regular fa-comment"></i> Responder
                                 </p>
 
-                                <!-- Exibindo respostas de comentários -->
-                                @foreach($comment->comments as $reply) <!-- Respostas aninhadas -->
+                                @foreach($comment->comments as $reply)
                                     <div class="comment-reply">
                                         <div class="comment-info">
                                             <span class="comment-author">{{ $reply->user->name ?? 'Anônimo' }}</span>
@@ -210,7 +216,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
-   function ratePost(postId, isUpvote) {
+function ratePost(postId, isUpvote) {
     const vote = isUpvote ? 1 : 0;
 
     fetch(`/posts/${postId}/rate`, {
@@ -226,10 +232,28 @@
         if (data.success) {
 
             const voteCountElement = document.querySelector(`.vote-count[data-post="${postId}"]`);
-            voteCountElement.textContent = data.votes_count;
+            if (voteCountElement) voteCountElement.textContent = data.votes_count;
 
-            document.querySelector(`.likes[data-post="${postId}"]`).textContent = data.likes_count;
-            document.querySelector(`.dislikes[data-post="${postId}"]`).textContent = data.dislikes_count;
+            const likesElement = document.querySelector(`.likes[data-post="${postId}"]`);
+            const dislikesElement = document.querySelector(`.dislikes[data-post="${postId}"]`);
+            if (likesElement) likesElement.textContent = data.likes_count;
+            if (dislikesElement) dislikesElement.textContent = data.dislikes_count;
+
+            const upvoteIcon = document.querySelector(`.vote-up[data-post="${postId}"]`);
+            const downvoteIcon = document.querySelector(`.vote-down[data-post="${postId}"]`);
+
+            if (upvoteIcon && downvoteIcon) {
+                if (data.user_vote === 1) {
+                    upvoteIcon.classList.add('voted'); 
+                    downvoteIcon.classList.remove('voted'); 
+                } else if (data.user_vote === 0) {
+                    downvoteIcon.classList.add('voted'); 
+                    upvoteIcon.classList.remove('voted');
+                } else {
+                    upvoteIcon.classList.remove('voted');
+                    downvoteIcon.classList.remove('voted');
+                }
+            }
         }
     })
     .catch(error => console.error('Erro:', error));

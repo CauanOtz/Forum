@@ -242,3 +242,11 @@
     background: none;
     margin: 0;
 }
+
+.vote-up.voted {
+    color: green;  
+}
+
+.vote-down.voted {
+    color: red;  
+}
