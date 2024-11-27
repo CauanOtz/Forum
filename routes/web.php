@@ -76,4 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/likes', [UserController::class, 'likes'])->name('likes');
 
     Route::post('/posts/{postId}/rate', [RateController::class, 'ratePost'])->name('ratePost');
+
+    Route::get('/routes-list', function () {
+        return view('list_routes');
+    })->name('routesList');
 });
