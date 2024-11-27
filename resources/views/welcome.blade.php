@@ -26,6 +26,9 @@
         </div>
     </div>
     <div class="center">
+    @if(session('success'))
+        <div class="alert alert-success text-center">{{ session('success') }}</div>
+    @endif
         <div class="filters">
             <div class="filters-new filter {{ request('filter') === 'new' ? 'active' : '' }}" onclick="window.location='{{ route('home', ['filter' => request('filter') === 'new' ? null : 'new']) }}'">
                 <p><i class="fa-regular fa-clock"></i>New</p>
@@ -157,6 +160,7 @@
                             <div class="mb-3">
                                 <label for="image" class="form-label">Image</label>
                                 <input type="file" class="form-control" id="image" name="image">
+                                
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
@@ -181,7 +185,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            
+                            <input type="hidden" name="viewName" value="{{ request()->route()->getName() }}">
                             <button type="submit" class="btn btn-primary">Create Topic</button>
                         </form>
                     </div>
@@ -293,6 +297,14 @@ function openReplyModal(postId, topicId, parentCommentId) {
     new bootstrap.Modal(document.getElementById('createCommentModal')).show();
 }
 
+@if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @endif
 
 </script>
 @endsection

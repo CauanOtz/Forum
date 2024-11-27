@@ -94,6 +94,11 @@
     background: rgb(0, 0, 0);
 }
 
+.right > .user-wrapper .user > img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+}
 .right > .user-wrapper > .edit {
     width: 70px;
     height: 40px;

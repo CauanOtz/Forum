@@ -63,8 +63,14 @@
             @else
                 <p><a href="{{ route('login') }}">Sign In</a> or <a href="{{ route('register') }}">Sign Up</a></p>
             @endauth
-            @if(auth()->user()->role === 'admin' || auth()->user()->role === 'moderator')
-                <a href="{{ route('routesList') }}">Routes</a>
+            @if(Auth::check())
+                @if(auth()->user()->role === 'admin' || auth()->user()->role === 'moderator')
+                    <a href="{{ route('routesList') }}">Routes</a>
+                @else
+                    
+                @endif
+            @else
+    
             @endif
 
         </div>

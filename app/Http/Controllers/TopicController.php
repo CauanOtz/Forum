@@ -96,7 +96,7 @@ class TopicController extends Controller
             $topic->tags()->sync($request->tags);
         }
 
-        $redirectRoute = $request->input('viewName') === 'welcome' ? 'welcome' : 'listAllTopics';
+        $redirectRoute = $request->input('viewName') === 'home' ? 'home' : 'listAllTopics';
 
         return redirect()->route($redirectRoute)->with('success', 'Topic created successfully.');
     }

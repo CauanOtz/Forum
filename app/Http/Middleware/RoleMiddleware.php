@@ -9,16 +9,15 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, ...$roles)
     {
+
         if (!Auth::check()) {
-            return redirect('/');   
+            return redirect()->route('login');
         }
 
-        $userRole = Auth::user()->role;
-        if (!in_array($userRole, $roles)) {
-            return redirect('/');
+        if (!in_array(auth()->user()->role, $roles)) {
+            abort(403, 'Você não tem permissão para acessar esta página.');
         }
 
         return $next($request);
     }
 }
-

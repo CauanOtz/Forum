@@ -16,7 +16,7 @@ class AuthController extends Controller
                 'password' => 'required|string'
                ]);
             if (Auth::attempt($credentials)){
-                return redirect()->route('listAllUsers');
+                return redirect()->route('home');
             }
             return back()->withErrors([
                 'email' => 'Credenciais inválidas.',
@@ -27,7 +27,7 @@ class AuthController extends Controller
 
     public function teste() {
        
-        return view('welcome');
+        return view('home');
      }
 
     public function logout() {

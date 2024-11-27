@@ -1,4 +1,4 @@
-@extends('layouts.header_footer')
+@extends('layouts.header')
 
 @section('content')
 <div class="container d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
