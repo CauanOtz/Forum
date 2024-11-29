@@ -55,6 +55,11 @@ header {
     cursor: pointer;
 }
 
+.nav-profile > img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
 .nav-profile > i {
     cursor: pointer;
 }
@@ -110,6 +115,11 @@ header {
     cursor: pointer;
 }
 
+.profile-modal > img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
 .profile-info > .logout > a {
     color: #9B12CB;
 }

@@ -110,23 +110,27 @@ class TopicController extends Controller
             'status' => 'required|boolean',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+            'viewName' => 'nullable|string', 
         ]);
-
+    
         $topic = Topic::findOrFail($id);
+        
         $topic->update([
             'title' => $request->title,
             'description' => $request->description,
             'category_id' => $request->category_id,
             'status' => $request->status,
         ]);
-
+    
         if ($request->has('tags')) {
             $topic->tags()->sync($request->tags);
         } else {
             $topic->tags()->sync([]);
         }
-
-        return redirect()->route('listAllTopics')->with('success', 'Topic updated successfully.');
+    
+        $redirectRoute = $request->viewName === 'home' ? 'home' : 'listAllTopics';
+    
+        return redirect()->route($redirectRoute)->with('success', 'Topic updated successfully.');
     }
 
     public function deleteTopic($id)

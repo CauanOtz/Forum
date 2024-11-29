@@ -56,10 +56,24 @@ public function register(Request $request) {
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $imagePath = $request->file('image')->store('images', 'public');
 
         $user->name = $request->name;
         $user->email = $request->email;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->storeAs(
+                'images',
+                time() . '_' . $request->file('image')->getClientOriginalName(),
+                'public'
+            );
+            $user->photo = $imagePath;
+        }
+        
+    
+
         if($request->filled('password')){
             $user->password = Hash::make($request->password);
         }

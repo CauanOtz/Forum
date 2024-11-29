@@ -73,6 +73,15 @@
                                 <h3 class="question-title">{{ $topic->title }}</h3>
                                 <p id="question-date">{{ $topic->created_at->format('H:i a') }}</p>
                                 <p class="question-author">Publicado por: <strong>{{ $topic->post->user->name }}</strong></p>
+                                @if($topic->post->user_id === Auth::id())
+                                <button 
+                                    class="edit-topic-btn" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#editTopicModal" 
+                                    onclick="openEditModal({{ $topic }})">
+                                    <i class="fa-solid fa-pen" style="cursor: pointer;"></i>
+                                </button>
+                            @endif
                             </div>
                             <p class="question-view">{{ $topic->description }}</p>
                         </div>
@@ -111,7 +120,44 @@
             @endforeach
         </div>
 
-        
+        <!-- Modal da edição -->
+    <div class="modal fade" id="editTopicModal" tabindex="-1" aria-labelledby="editTopicModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTopicModalLabel">Edit Topic</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTopicForm" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="viewName" value="{{ request()->route()->getName() }}">
+                        <input type="hidden" name="topic_id" id="edit-topic-id" value="">
+                        <div class="mb-3">
+                            <label for="edit-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="edit-title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="edit-description" name="description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-category" class="form-label">Category</label>
+                            <select class="form-control" id="edit-category" name="category_id" required>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
         <!-- Modal do comentário -->
         <div class="modal fade" id="createCommentModal" tabindex="-1" aria-labelledby="createCommentModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -287,6 +333,16 @@ function openCommentModal(postId, topicId) {
     document.getElementById('comment-commentable-id').value = ''; 
     document.getElementById('content').value = ''; 
     new bootstrap.Modal(document.getElementById('createCommentModal')).show();
+}
+
+function openEditModal(topic) {
+    document.getElementById('edit-topic-id').value = topic.id;
+    document.getElementById('edit-title').value = topic.title;
+    document.getElementById('edit-description').value = topic.description;
+    document.getElementById('edit-category').value = topic.category_id;
+
+    const form = document.getElementById('editTopicForm');
+    form.action = `/topics/${topic.id}`; 
 }
 
 function openReplyModal(postId, topicId, parentCommentId) {

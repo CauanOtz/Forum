@@ -43,12 +43,19 @@
         </div>
         <div class="nav-user">
             <i class="fa-solid fa-bell"></i>
-            <div class="nav-profile"></div>
+            <div class="nav-profile">
+                <img src="{{  Auth::user() && Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/user.png') }}" 
+                class="user-photo">
+            </div>
         </div>
     </header>
     <div class="profile" id="profile-modal" > 
         <i class="fa-solid fa-x profile-modal-close"></i>
-        <div class="profile-modal"  @guest style="display:none;" @endguest></div>
+        <div class="profile-modal"  @guest style="display:none;" @endguest>
+            <img src="{{ Auth::user() && Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/user.png') }}" 
+                          
+                            class="user-photo">
+        </div>
         <div class="profile-info">
             @auth
                 <p>{{ Auth::user()->name }}</p>

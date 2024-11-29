@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/likes', [UserController::class, 'likes'])->name('likes');
 
     Route::post('/posts/{postId}/rate', [RateController::class, 'ratePost'])->name('ratePost');
+
+    Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
 });
 
 Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
@@ -49,7 +51,7 @@ Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
     Route::get('/topics', [TopicController::class, 'listAllTopics'])->name('listAllTopics');
     Route::get('/topics/{id}', [TopicController::class, 'listTopicById'])->name('listTopicById');
     
-    Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
+    
     Route::get('/topics/{id}/edit', [TopicController::class, 'editTopic'])->name('editTopic');
     Route::get('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
     Route::get('newest-topics', [TopicController::class, 'listNewestTopics'])->name('newestTopics');
