@@ -106,20 +106,31 @@ public function register(Request $request) {
         return view('users.person', compact('user', 'topics'));
     }
 
-    public function question() {
-            $userId = auth()->id();
+    public function question()
+{
+    $userId = auth()->id();
 
-            $topics = Topic::withCount([
-                'rates as likes_count' => function ($query) {
-                    $query->where('vote', 1);
-                },
-                'rates as dislikes_count' => function ($query) {
-                    $query->where('vote', 0);
-                }
-            ])->where('user_id', $userId)->get();
-        
-            return view('questions', compact('topics'));
-    }
+    $topics = Topic::with([
+        'post.rates', 
+        'comments',   
+    ])
+    ->withCount([
+        'rates as likes_count' => function ($query) {
+            $query->where('vote', 1);
+        },
+        'rates as dislikes_count' => function ($query) {
+            $query->where('vote', 0);
+        },
+        'comments as comments_count', 
+    ])
+    ->where('user_id', $userId)
+    ->get();
+
+    $user = auth()->user(); 
+
+    return view('questions', compact('topics', 'user'));
+}
+
 
     public function answers() {
         $user = Auth::user();

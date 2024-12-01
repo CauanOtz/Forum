@@ -14,6 +14,7 @@ Route::get('/', [TopicController::class, 'showTopics'])->name('home');
 
 Route::match(['get', 'post'], '/login', [AuthController::class, 'login'])->name('login');
 Route::match(['get', 'post'], '/register', [UserController::class, 'register'])->name('register');
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/search', [TopicController::class, 'searchTopics'])->name('searchTopics');
@@ -43,7 +44,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/posts/{postId}/rate', [RateController::class, 'ratePost'])->name('ratePost');
 
-    Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
+    Route::put('/topics/{id}/update-home', [TopicController::class, 'updateTopicFromHome'])->name('updateTopicHome');
+
+    Route::delete('/topics/{id}/deleteFromHome', [TopicController::class, 'deleteTopicHome'])->name('deleteTopicHome');
 });
 
 Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
@@ -51,9 +54,9 @@ Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
     Route::get('/topics', [TopicController::class, 'listAllTopics'])->name('listAllTopics');
     Route::get('/topics/{id}', [TopicController::class, 'listTopicById'])->name('listTopicById');
     
-    
+    Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
     Route::get('/topics/{id}/edit', [TopicController::class, 'editTopic'])->name('editTopic');
-    Route::get('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
+    Route::delete('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
     Route::get('newest-topics', [TopicController::class, 'listNewestTopics'])->name('newestTopics');
 
     // Gerenciamento de posts

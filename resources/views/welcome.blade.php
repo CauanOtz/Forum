@@ -1,5 +1,5 @@
 @extends('layouts.header')
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 @section('content')
 <body>
 <div class="landing">
@@ -43,6 +43,32 @@
         <div class="content">
             @foreach($topics as $topic)
                 <div class="card">
+                    <div class="card-top">
+                        <div class="question-crud">
+                            @if($topic->post->user_id === Auth::id())
+                                <button 
+                                    class="edit-topic-btn" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#editTopicModal" 
+                                    onclick="openEditModal({{ $topic }})">
+                                    <i class="fa-solid fa-pen" style="cursor: pointer;"></i>
+                                </button>
+                                
+                                @endif
+                                @if($topic->post->user_id === Auth::id())
+                                <span><strong>|</strong></span>
+                                @endif
+                                @if($topic->post->user_id === Auth::id())
+                                    <form action="{{ route('deleteTopicHome', $topic->id) }}" method="POST" onsubmit="return confirmDelete(this);;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="delete-topic-btn">
+                                            <i class="fa-solid fa-trash" style="color: red; cursor: pointer;"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                        </div>
+                    </div>
                     <div class="card-content">
                         <div class="votes">
                             <span class="vote-up" data-post="{{ $topic->post->id }}" 
@@ -72,26 +98,24 @@
                             <div class="question-top">
                                 <h3 class="question-title">{{ $topic->title }}</h3>
                                 <p id="question-date">{{ $topic->created_at->format('H:i a') }}</p>
-                                <p class="question-author">Publicado por: <strong>{{ $topic->post->user->name }}</strong></p>
-                                @if($topic->post->user_id === Auth::id())
-                                <button 
-                                    class="edit-topic-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#editTopicModal" 
-                                    onclick="openEditModal({{ $topic }})">
-                                    <i class="fa-solid fa-pen" style="cursor: pointer;"></i>
-                                </button>
-                            @endif
+                               
                             </div>
                             <p class="question-view">{{ $topic->description }}</p>
                         </div>
                     </div>
-                    <div class="views">
-                        <p><i class="fa-regular fa-eye"></i>{{ $topic->views_count ?? 0 }}</p>
-                        <p><i class="fa-regular fa-comment" onclick="openCommentModal({{ $topic->post->id }}, {{$topic->id}})" style="cursor: pointer;"></i>
-                        {{ $topic->comments_count ?? 0 }}</p>
+                   
+                    <div class="card-low">
+                        <div class="question-author">
+                                <p class="question-author">Publicado por: <strong>{{ $topic->post->user->name }}</strong></p>
+                        </div>  
+                        <div class="views">
+                            <p><i class="fa-regular fa-eye"></i>{{ $topic->views_count ?? 0 }}</p>
+                            <p><i class="fa-regular fa-comment" onclick="openCommentModal({{ $topic->post->id }}, {{$topic->id}})" style="cursor: pointer;"></i>
+                            {{ $topic->comments_count ?? 0 }}</p>
+                        </div>
                     </div>
-
+                    
+                    
                     <div class="comments-section">
                         @foreach($topic->comments->where('commentable_type', 'App\Models\Post') as $comment)
                             <div class="comment">
@@ -129,11 +153,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editTopicForm" method="POST" enctype="multipart/form-data">
+                    <form id="editTopicForm" action="{{ route('updateTopic', '') }}" method="POST">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="viewName" value="{{ request()->route()->getName() }}">
-                        <input type="hidden" name="topic_id" id="edit-topic-id" value="">
+                        <input type="hidden" id="edit-topic-id" name="topic_id">
                         <div class="mb-3">
                             <label for="edit-title" class="form-label">Title</label>
                             <input type="text" class="form-control" id="edit-title" name="title" required>
@@ -150,7 +173,16 @@
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">Tags</label>
+                            <select class="form-control" id="tags" name="tags[]" multiple>
+                                @foreach($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning">Save Changes</button>
                     </form>
                 </div>
             </div>
@@ -336,13 +368,16 @@ function openCommentModal(postId, topicId) {
 }
 
 function openEditModal(topic) {
+    
     document.getElementById('edit-topic-id').value = topic.id;
     document.getElementById('edit-title').value = topic.title;
     document.getElementById('edit-description').value = topic.description;
     document.getElementById('edit-category').value = topic.category_id;
 
-    const form = document.getElementById('editTopicForm');
-    form.action = `/topics/${topic.id}`; 
+    var formAction = "{{ url('topics') }}" + '/' + topic.id + '/update-home';
+    document.querySelector('#editTopicModal form').setAttribute('action', formAction);
+    console.log(formAction);
+
 }
 
 function openReplyModal(postId, topicId, parentCommentId) {
@@ -353,14 +388,22 @@ function openReplyModal(postId, topicId, parentCommentId) {
     new bootstrap.Modal(document.getElementById('createCommentModal')).show();
 }
 
-@if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: '{{ session('success') }}',
-            confirmButtonText: 'OK'
-        });
-    @endif
-
+function confirmDelete(form) {
+    Swal.fire({
+        title: 'Tem certeza?',
+        text: 'Você não poderá reverter esta ação!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sim, deletar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit(); 
+        }
+    });
+    return false; 
+}
 </script>
 @endsection

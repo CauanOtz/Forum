@@ -95,18 +95,16 @@
 }
 
 /* Estilos para os cards de conteúdo */
-.card-content {
-    width: 100%;
-    height: 200px;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
+
 
 .question > .question-top > .question-title {
     font-size: 20px;
     width: 400px;
+}
+
+.edit-topic-btn {
+    background: none;
+    border: none;
 }
 
 .question-top {
@@ -162,9 +160,7 @@
 
 .views {
     display: flex;
-    padding: 5px;
     background: none;
-    margin-right: 40px;
 }
 
 .views > p {
@@ -249,4 +245,60 @@
 
 .vote-down.voted {
     color: red;  
+}
+
+.edit-topic-btn {
+    color:  #9B12CB;
+}
+
+.delete-topic-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
+.delete-topic-btn:hover {
+    color: darkred;
+}
+
+.question-crud {
+    display: flex;  
+}
+
+.question-crud > button {
+    margin-right: 10px;
+}
+
+.card-low {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.card-top > .question-crud{
+    margin: 30px;
+    background: #e8e8e8;;
+    border-radius: 10px;
+    width: 80px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.card-top > .question-crud > span {
+    margin: 0px;
+    margin-right: 10px;
+}
+
+.card-content {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: -50px;
 }

@@ -40,27 +40,28 @@
                         @foreach($topics as $topic)
                         <div class="card">
                             <div class="card-content">
-                                @if($topic->post) <!-- Verifique se o post existe -->
-                                    <div class="votes">
-                                        <span onclick="ratePost({{ $topic->post->id }}, true)" style="cursor: pointer;">
-                                            <i class="fa-solid fa-chevron-up"></i>
-                                        </span>
-                                        <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->votes_count }}</span>
-                                        <span onclick="ratePost({{ $topic->post->id }}, false)" style="cursor: pointer;">
-                                            <i class="fa-solid fa-chevron-down"></i>
-                                        </span>
-                                        <div class="vote-details">
-                                            <div class="likes" data-post="{{ $topic->post->id }}">
-                                                <i class="fa-solid fa-thumbs-up"></i> {{ $topic->post->rates->where('vote', 1)->count() }}
-                                            </div>
-                                            <div class="dislikes" data-post="{{ $topic->post->id }}">
-                                                <i class="fa-solid fa-thumbs-down"></i> {{ $topic->post->rates->where('vote', 0)->count() }}
-                                            </div>
+                            @if($topic->post)
+                                <div class="votes">
+                                    <span onclick="ratePost({{ $topic->post->id }}, true)" style="cursor: pointer;">
+                                        <i class="fa-solid fa-chevron-up"></i>
+                                    </span>
+                                    <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->rates->sum('vote') ?? 0 }}</span>
+                                    <span onclick="ratePost({{ $topic->post->id }}, false)" style="cursor: pointer;">
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </span>
+                                    <div class="vote-details">
+                                        <div class="likes" data-post="{{ $topic->post->id }}">
+                                            <i class="fa-solid fa-thumbs-up"></i> {{ $topic->likes_count ?? 0 }}
+                                        </div>
+                                        <div class="dislikes" data-post="{{ $topic->post->id }}">
+                                            <i class="fa-solid fa-thumbs-down"></i> {{ $topic->dislikes_count ?? 0 }}
                                         </div>
                                     </div>
-                                @else
-                                    <p>Este tópico não possui um post associado.</p>
-                                @endif
+                                </div>
+                            @else
+                                <p>Este tópico não possui um post associado.</p>
+                            @endif
+
 
                                 <div class="question">
                                     <div class="question-top">
@@ -75,12 +76,16 @@
                                 <p><i class="fa-regular fa-comment"></i>{{ $topic->comments_count ?? 0 }}</p>
                             </div>
                             <div class="comments-section">
-                                @foreach($topic->comments as $comment)
-                                <div class="comment">
-                                    <p>{{ $comment->content }}</p>
-                                    <span>Comentado em: {{ $comment->created_at->format('d/m/Y H:i') }}</span>
-                                </div>
-                                @endforeach
+                                @if($topic->comments->isNotEmpty())
+                                    @foreach($topic->comments as $comment)
+                                        <div class="comment">
+                                            <p>{{ $comment->content }}</p>
+                                            <span>Comentado em: {{ $comment->created_at->format('d/m/Y H:i') }}</span>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p>Sem comentários neste tópico.</p>
+                                @endif
                             </div>
                         </div>
                         @endforeach

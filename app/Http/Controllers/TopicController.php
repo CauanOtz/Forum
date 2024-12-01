@@ -133,6 +133,34 @@ class TopicController extends Controller
         return redirect()->route($redirectRoute)->with('success', 'Topic updated successfully.');
     }
 
+    public function updateTopicFromHome(Request $request, $id){
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'array', 
+            'tags.*' => 'exists:tags,id' 
+        ]);
+
+        $topic = Topic::findOrFail($id);
+
+        if ($topic->post->user_id !== Auth::id()) {
+            return redirect()->route('home')->withErrors('Você não tem permissão para editar este tópico.');
+        }
+
+        $topic->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+        ]);
+
+        if ($request->has('tags')) {
+            $topic->tags()->sync($request->tags);
+        }
+
+        return redirect()->route('home')->with('success', 'Tópico atualizado com sucesso.');
+    }
+
     public function deleteTopic($id)
     {
         $topic = Topic::findOrFail($id);
@@ -142,6 +170,17 @@ class TopicController extends Controller
         $topic->delete();
 
         return redirect()->route('listAllTopics')->with('success', 'Topic deleted successfully.');
+    }
+
+    public function deleteTopicHome($id)
+    {
+        $topic = Topic::findOrFail($id);
+
+        $topic->tags()->detach();
+        $topic->comments()->delete();
+        $topic->delete();
+
+        return redirect()->route('home')->with('success', 'Topic deleted successfully.');
     }
 
     public function searchTopics(Request $request)
