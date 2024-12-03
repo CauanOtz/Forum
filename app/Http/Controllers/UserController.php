@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Topic;
+use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -45,44 +47,45 @@ public function register(Request $request) {
     }
 }
 
-    public function UpdateUser(Request $request, $id) {
-        $user = User::find($id);
+public function UpdateUser(Request $request, $id)
+{
+    $user = User::find($id);
 
-        if(!$user){
-            return redirect()->route('listAllUsers')->with('error', 'Usuário não encontrado');
-        }
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $imagePath = $request->file('image')->store('images', 'public');
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->storeAs(
-                'images',
-                time() . '_' . $request->file('image')->getClientOriginalName(),
-                'public'
-            );
-            $user->photo = $imagePath;
-        }
-        
-    
-
-        if($request->filled('password')){
-            $user->password = Hash::make($request->password);
-        }
-
-        $user->save();
-
-        return redirect()->route('myAccount')->with('message', 'Alteração funcionou');
-
+    if (!$user) {
+        return redirect()->route('listAllUsers')->with('error', 'Usuário não encontrado');
     }
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if (auth()->user()->id !== $user->id && auth()->user()->role === 'admin') {
+        $request->validate([
+            'role' => 'required|in:admin,user',
+        ]);
+        $user->role = $request->role; 
+    }
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->storeAs(
+            'images',
+            time() . '_' . $request->file('image')->getClientOriginalName(),
+            'public'
+        );
+        $user->photo = $imagePath;
+    }
+
+    $user->save();
+
+    $redirectRoute = auth()->user()->id === $user->id ? 'myAccount' : 'listAllUsers';
+    return redirect()->route($redirectRoute)->with('message', 'Alteração funcionou');
+}
+
 
     public function deleteUser(Request $request, $id) {
         $user = User::where('id', $id)->delete();
@@ -91,19 +94,24 @@ public function register(Request $request) {
 
     public function myAccount() {
         $user = Auth::user();
-        return view('users.profile', ['user' => $user]);
+        $suggestedUsers = User::inRandomOrder()->take(5)->get();
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('users.profile', compact('user', 'suggestedUsers', 'categories', 'tags'));
     }
 
     public function person($id)
     {
-    // Encontrar o usuário
         $user = User::findOrFail($id);
 
         $topics = Topic::whereHas('post', function($query) use ($id) {
             $query->where('user_id', $id);
         })->get();
         
-        return view('users.person', compact('user', 'topics'));
+        $suggestedUsers = User::inRandomOrder()->take(5)->get();
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('users.person', compact('user', 'topics', 'suggestedUsers', 'tags', 'categories'));
     }
 
     public function question()
@@ -129,10 +137,12 @@ public function register(Request $request) {
 
         $topic->comments_count = $topic->comments->count();
     });
-
+    $suggestedUsers = User::inRandomOrder()->take(5)->get();
+    $categories = Category::all();
+    $tags = Tag::all();
     $user = auth()->user();
 
-    return view('users.question', compact('topics', 'user'));
+    return view('users.question', compact('topics', 'user', 'suggestedUsers', 'categories', 'tags'));
 }
 
 
@@ -170,11 +180,20 @@ public function register(Request $request) {
 
     public function deleteAccount() {
         $user = Auth::user();
+        $user->topics()->each(function ($topic) {
+            $topic->comments()->delete();
+            $topic->delete();
+        });
+    
+        $user->comments()->delete();
+    
+        $user->posts()->delete();
+    
         $user->delete();
-        
-        Auth::logout();
 
-        return redirect()->route('login')->with('success', 'Account deleted successfully');
+        Auth::logout();
+    
+        return redirect()->route('login')->with('success', 'Conta excluída com sucesso.');
     }
 
     public function listUserTopics($id)

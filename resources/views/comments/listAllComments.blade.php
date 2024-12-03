@@ -5,15 +5,15 @@
 @section('content')
 
 @if (session('success'))
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Sucesso!',
-            text: "{{ session('success') }}",
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Sucesso!',
+    text: "{{ session('success') }}",
+    confirmButtonText: 'OK'
+});
+</script>
 @endif
 
 <div class="comment-container">
@@ -42,153 +42,79 @@
                     <td>{{ $comment->content }}</td>
                     <td>
                         @if($comment->postable && $comment->postable->image)
-                            <img src="{{ asset('storage/' . $comment->postable->image) }}" width="100" alt="Comment Image">
+                        <img src="{{ asset('storage/' . $comment->postable->image) }}" width="100" alt="Comment Image">
                         @else
-                            No image
+                        No image
                         @endif
                     </td>
                     <td>
                         @if($comment->comments->isNotEmpty())
-                            <ul style="max-height: 100px; overflow-y: auto; list-style-type: none; padding: 0;">
-                                @foreach($comment->comments->take(3) as $reply)
-                                    <li title="{{ $reply->content }}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>: {{ Str::limit($reply->content, 50) }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                            @if($comment->comments->count() > 3)
-                                <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#repliesModal{{ $comment->id }}">
-                                    View all {{ $comment->comments->count() }} replies
-                                </button>
+                        <ul style="max-height: 100px; overflow-y: auto; list-style-type: none; padding: 0;">
+                            @foreach($comment->comments->take(3) as $reply)
+                            <li title="{{ $reply->content }}"
+                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>:
+                                {{ Str::limit($reply->content, 50) }}
+                            </li>
+                            @endforeach
+                        </ul>
+                        @if($comment->comments->count() > 3)
+                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal"
+                            data-bs-target="#repliesModal{{ $comment->id }}">
+                            View all {{ $comment->comments->count() }} replies
+                        </button>
 
-                                <!-- Modal para visualizar todas as replies -->
-                                <div class="modal fade" id="repliesModal{{ $comment->id }}" tabindex="-1" aria-labelledby="repliesModalLabel{{ $comment->id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="repliesModalLabel{{ $comment->id }}">All Replies</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <ul class="list-group">
-                                                    @foreach($comment->comments as $reply)
-                                                        <li class="list-group-item">
-                                                            <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>: {{ $reply->content }}
-                                                            <br><small>{{ $reply->created_at->format('d/m/Y H:i') }}</small>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                        @include('components.modals.comments.repliesCommentModal')
+                        @endif
                         @else
-                            No replies
+                        No replies
                         @endif
                     </td>
                     <td>
-                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editCommentModal{{ $comment->id }}">
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#editCommentModal{{ $comment->id }}">
                             Edit
                         </button>
-                        <form action="{{ route('deleteComment', $comment->id) }}" method="POST" style="display:inline;" class="delete-form">
+                        <form action="{{ route('deleteComment', $comment->id) }}" method="POST" style="display:inline;"
+                            class="delete-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm delete-button" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm delete-button"
+                                onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </td>
                 </tr>
-
-                <!-- Modal for editing comments -->
-                <div class="modal fade" id="editCommentModal{{ $comment->id }}" tabindex="-1" aria-labelledby="editCommentModalLabel{{ $comment->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editCommentModalLabel{{ $comment->id }}">Edit Comment</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ route('updateComment', $comment->id) }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="mb-3">
-                                        <label for="content" class="form-label">Content</label>
-                                        <textarea name="content" class="form-control" required>{{ old('content', $comment->content) }}</textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="image" class="form-label">Image</label>
-                                        @if($comment->postable && $comment->postable->image)
-                                            <img src="{{ asset('storage/' . $comment->postable->image) }}" width="100" alt="Comment Image"><br>
-                                        @endif
-                                        <input type="file" name="image" class="form-control">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Update Comment</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @include('components.modals.comments.editCommentModal')
                 @endforeach
             </tbody>
         </table>
     </div>
 
-    <!-- Modal for creating comments -->
-    <div class="modal fade" id="createCommentModal" tabindex="-1" aria-labelledby="createCommentModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createCommentModalLabel">Create Comment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('createComment') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="topic_id" class="form-label">Select Topic</label>
-                            <select name="topic_id" class="form-select" required>
-                                <option value="">Select a Topic</option>
-                                @foreach($topics as $topic)
-                                    <option value="{{ $topic->id }}">{{ $topic->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            <textarea name="content" class="form-control" required>{{ old('content') }}</textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="image" class="form-label">Image</label>
-                            <input type="file" name="image" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Create Comment</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('components.modals.comments.createCommentModal')
+
+
 </div>
 
 @endsection
 <script>
-    document.querySelectorAll('.delete-button').forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-            const form = this.closest('.delete-form');
-            Swal.fire({
-                title: 'Tem certeza?',
-                text: "Esta ação não pode ser desfeita!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sim, deletar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
+document.querySelectorAll('.delete-button').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const form = this.closest('.delete-form');
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Esta ação não pode ser desfeita!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sim, deletar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
         });
     });
+});
 </script>

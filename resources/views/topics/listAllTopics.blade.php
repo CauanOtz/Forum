@@ -1,7 +1,6 @@
 @extends('layouts.header')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 @section('content')
 <div class="topic-container">
     <h1 class="text-center">All Topics</h1>
@@ -65,112 +64,8 @@
     </div>
 </div>
 
-<!-- Create Topic Modal -->
-<div class="modal fade" id="createTopicModal" tabindex="-1" aria-labelledby="createTopicModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createTopicModalLabel">Create New Topic</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="createTopicForm" action="{{ route('createTopic') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="viewName" value="{{request()->routeIs('welcome') ? 'welcome' : 'listAllTopics' }}">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="image" name="image">
-                    </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-control" id="status" name="status" required>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="category" class="form-label">Category</label>
-                        <select class="form-control" id="category" name="category_id" required>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tags" class="form-label">Tags</label>
-                        <select class="form-control" id="tags" name="tags[]" multiple>
-                            @foreach($tags as $tag)
-                                <option value="{{ $tag->id }}">{{ $tag->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Create Topic</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Topic Modal -->
-<div class="modal fade" id="editTopicModal" tabindex="-1" aria-labelledby="editTopicModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editTopicModalLabel">Edit Topic</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editTopicForm" action="{{ route('updateTopic', '') }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" id="edit-topic-id" name="topic_id">
-                    <div class="mb-3">
-                        <label for="edit-title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="edit-title" name="title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit-description" class="form-label">Description</label>
-                        <textarea class="form-control" id="edit-description" name="description" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit-status" class="form-label">Status</label>
-                        <select class="form-control" id="edit-status" name="status" required>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit-category" class="form-label">Category</label>
-                        <select class="form-control" id="edit-category" name="category_id" required>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tags" class="form-label">Tags</label>
-                        <select class="form-control" id="tags" name="tags[]" multiple>
-                            @foreach($tags as $tag)
-                                <option value="{{ $tag->id }}">{{ $tag->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-warning">Update Topic</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+@include('components.modals.topics.createTopicModal')
+@include('components.modals.topics.editTopicModal')
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-JFNSi4fY/Mpt/i2//0gqK1tU8W0NzxMD0L4FYV+U8H7vZp0n6eP+k20w0H4xhIgL" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-DyZvW+1C0C6/Qu4/TPfgST4L5XgGB6V5pcS7I1cf2HcnUMRZz3RkgbpA/m9ow4B7" crossorigin="anonymous"></script>
@@ -194,15 +89,6 @@
         });
     }
 
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: '{{ session('success') }}',
-            confirmButtonText: 'OK'
-        });
-    @endif
-
     var editTopicModal = document.getElementById('editTopicModal');
     editTopicModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
@@ -222,5 +108,16 @@
         editTopicModal.querySelector('form').setAttribute('action', formAction);
         console.log(formAction);
     });
+
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @endif
+
+
 </script>
 @endsection

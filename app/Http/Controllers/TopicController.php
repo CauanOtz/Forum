@@ -43,23 +43,30 @@ class TopicController extends Controller
             'post as views_count',
         ]);
     
-        // Incluir votos do usuário autenticado
         $query->with(['post' => function ($query) {
-            $query->with('rates')->withCount([
+            $query->withCount([
                 'rates as likes_count' => function ($query) {
                     $query->where('vote', 1);
                 },
                 'rates as dislikes_count' => function ($query) {
                     $query->where('vote', 0);
                 },
-            ])->get()->each->setAppends(['user_vote']);
+            ])->with('rates');
         }]);
     
         if ($filter === 'new') {
+
             $query->orderBy('created_at', 'desc');
+        } elseif ($filter === 'trending') {
+
+            $query->select('topics.*')
+                ->join('posts', 'posts.postable_id', '=', 'topics.id')
+                ->where('posts.postable_type', Topic::class)
+                ->orderByDesc('posts.votes_count'); 
         }
-    
-        $topics = $query->get();
+
+        $topics = $query->take(10)->get();
+
         $categories = Category::all();
         $suggestedUsers = User::inRandomOrder()->take(5)->get();
         $tags = Tag::all();
@@ -98,7 +105,7 @@ class TopicController extends Controller
 
         $redirectRoute = $request->input('viewName') === 'home' ? 'home' : 'listAllTopics';
 
-        return redirect()->route($redirectRoute)->with('success', 'Topic created successfully.');
+        return redirect()->back()->with('success', 'Topic created successfully.');
     }
 
     public function updateTopic(Request $request, $id)
@@ -167,6 +174,7 @@ class TopicController extends Controller
 
         $topic->tags()->detach();
         $topic->comments()->delete();
+        $topic->post()->delete();
         $topic->delete();
 
         return redirect()->route('listAllTopics')->with('success', 'Topic deleted successfully.');
@@ -178,6 +186,7 @@ class TopicController extends Controller
 
         $topic->tags()->detach();
         $topic->comments()->delete();
+        $topic->post()->delete();
         $topic->delete();
 
         return redirect()->route('home')->with('success', 'Topic deleted successfully.');
@@ -207,16 +216,18 @@ class TopicController extends Controller
     }
 
     public function listMostViewedTopics()
-{
-    $topics = Topic::withCount('post')
-        ->orderBy('post_count', 'desc')
-        ->take(10) 
+    {
+        $topics = Topic::with(['post'])
+        ->whereHas('post', function ($query) {
+            $query->orderBy('votes_count', 'desc');
+        })
+        ->take(10)
         ->get();
-        
-    $categories = Category::all();
-    $suggestedUsers = User::inRandomOrder()->take(5)->get();
+
+        $categories = Category::all();
+        $suggestedUsers = User::inRandomOrder()->take(5)->get();
 
     return view('welcome', compact('topics', 'categories', 'suggestedUsers'));
-}
+    }
 
 }

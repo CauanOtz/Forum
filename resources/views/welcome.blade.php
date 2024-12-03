@@ -3,28 +3,7 @@
 @section('content')
 <body>
 <div class="landing">
-    <div class="sidebar">
-        <div class="sidebar-menu">
-            <h2>MENU</h2>
-            <a class="menu-item" onclick="selectMenuItem(this)" href="{{ route('home') }}"><i class="fa-regular fa-compass"></i>Explore Topics</a>
-            <a class="menu-item" onclick="selectMenuItem(this)" href="{{ route('showTags') }}" ><i class="fa-solid fa-tag"></i>Tags</a>
-        </div>
-        <div class="sidebar-personalnav">
-            <h2>PERSONAL NAVIGATOR</h2>
-                <a href="{{ route('question') }}">
-                    <p class="menu-item"><i class="fa-regular fa-circle-question"></i>My Questions</p>
-                </a>
-                <!-- <a href="{{ route('answers') }}">
-                    <p class="menu-item"><i class="fa-regular fa-comments"></i>My Answers</p>
-                </a>
-                <a href="{{ route('likes') }}">
-                    <p class="menu-item"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
-                </a>  Sem funcionamento (Em desenvolvimento) -->
-        </div>
-        <div class="sidebar-premium">
-
-        </div>
-    </div>
+    @include('layouts.sidebarLeft.sidebar')
     <div class="center">
     @if(session('success'))
         <div class="alert alert-success text-center">{{ session('success') }}</div>
@@ -33,9 +12,11 @@
             <div class="filters-new filter {{ request('filter') === 'new' ? 'active' : '' }}" onclick="window.location='{{ route('home', ['filter' => request('filter') === 'new' ? null : 'new']) }}'">
                 <p><i class="fa-regular fa-clock"></i>New</p>
             </div>
-            <div class="filters-trending filter {{ request('filter') === 'trending' ? 'active' : '' }}" onclick="window.location='{{ route('home', ['filter' => request('filter') === 'trending' ? null : 'trending']) }}'">
+            <div class="filters-trending filter {{ request('filter') === 'trending' ? 'active' : '' }}" 
+                onclick="window.location='{{ route('home', ['filter' => request('filter') === 'trending' ? null : 'trending']) }}'">
                 <p><i class="fa-solid fa-turn-up"></i>Trending</p>
             </div>
+
             <div class="filters-category filter">
                 <p><i class="fa-solid fa-sliders"></i>Category</p>
             </div>
@@ -145,155 +126,13 @@
             @endforeach
         </div>
 
-        <!-- Modal da edição -->
-    <div class="modal fade" id="editTopicModal" tabindex="-1" aria-labelledby="editTopicModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editTopicModalLabel">Edit Topic</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editTopicForm" action="{{ route('updateTopic', '') }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" id="edit-topic-id" name="topic_id">
-                        <div class="mb-3">
-                            <label for="edit-title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="edit-title" name="title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-description" class="form-label">Description</label>
-                            <textarea class="form-control" id="edit-description" name="description" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-category" class="form-label">Category</label>
-                            <select class="form-control" id="edit-category" name="category_id" required>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tags" class="form-label">Tags</label>
-                            <select class="form-control" id="tags" name="tags[]" multiple>
-                                @foreach($tags as $tag)
-                                    <option value="{{ $tag->id }}">{{ $tag->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+        @include('components.modals.home.editTopicHomeModal')
 
-                        <button type="submit" class="btn btn-warning">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        @include('components.modals.home.commentHomeModal')
+
+        @include('components.modals.home.createTopicHomeModal')
     </div>
-
-
-        <!-- Modal do comentário -->
-        <div class="modal fade" id="createCommentModal" tabindex="-1" aria-labelledby="createCommentModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createCommentModalLabel">Create New Comment</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="createCommentForm" action="{{ route('createComment') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="post_id" id="comment-post-id" value="">
-                            <input type="hidden" name="topic_id" id="comment-topic-id" value="">
-                            <input type="hidden" name="commentable_id" id="comment-commentable-id" value="">
-                            <div class="mb-3">
-                                <label for="content" class="form-label">Comment</label>
-                                <textarea class="form-control" id="content" name="content" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit Comment</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Create Topic Modal -->
-        <div class="modal fade" id="createTopicModal" tabindex="-1" aria-labelledby="createTopicModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createTopicModalLabel">Create New Topic</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="createTopicForm" action="{{ route('createTopic') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="viewName" value="{{request()->routeIs('welcome') ? 'welcome' : 'listAllTopics' }}">
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" class="form-control" id="image" name="image">
-                                
-                            </div>
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-control" id="status" name="status" required>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="category" class="form-label">Category</label>
-                                <select class="form-control" id="category" name="category_id" required>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="tags" class="form-label">Tags</label>
-                                <select class="form-control" id="tags" name="tags[]" multiple>
-                                    @foreach($tags as $tag)
-                                        <option value="{{ $tag->id }}">{{ $tag->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <input type="hidden" name="viewName" value="{{ request()->route()->getName() }}">
-                            <button type="submit" class="btn btn-primary">Create Topic</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="sidebar">
-        <div class="topics">
-            <button data-bs-toggle="modal" data-bs-target="#createTopicModal"><i class="fa-solid fa-plus" ></i>Start a New Topic</button>
-        </div>
-        <div class="suggestions">
-            <h3>Suggestions</h3>
-            <div class="suggestions-users">
-                @foreach($suggestedUsers as $user)
-                <div class="user">
-                    <img src="{{ $user->profile_picture_url }}" alt="">
-                    <p>{{ $user->name }}</p>
-
-                    <!-- Formulário individual para cada usuário -->
-                    <form action="{{ route('person', ['id' => $user->id]) }}" method="GET">
-                        <button type="submit">Profile</button>
-                    </form>
-
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
+    @include('layouts.sidebarRight.sidebar')
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

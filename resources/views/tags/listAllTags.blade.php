@@ -42,49 +42,9 @@
     </div>
 </div>
 
-<div class="modal fade" id="createTagModal" tabindex="-1" aria-labelledby="createTagModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createTagModalLabel">Create New Tag</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="createTagForm" action="{{ route('createTag') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create Tag</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+@include('components.modals.tags.createTagModal')
 
-<div class="modal fade" id="editTagModal" tabindex="-1" aria-labelledby="editTagModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editTagModalLabel">Edit Tag</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editTagForm" action="{{ route('updateTag', '') }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" id="edit-tag-id" name="tag_id">
-                    <div class="mb-3">
-                        <label for="edit-title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="edit-title" name="title" required>
-                    </div>
-                    <button type="submit" class="btn btn-warning">Update Tag</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+@include('components.modals.tags.editTagModal')
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-JFNSi4fY/Mpt/i2//0gqK1tU8W0NzxMD0L4FYV+U8H7vZp0n6eP+k20w0H4xhIgL" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-DyZvW+1C0C6/Qu4/TPfgST4L5XgGB6V5pcS7I1cf2HcnUMRZz3RkgbpA/m9ow4B7" crossorigin="anonymous"></script>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use App\Models\Topic;
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -18,6 +20,7 @@ class TagController extends Controller
     {
         $tag = Tag::findOrFail($id);
         $topics = $tag->topics;
+
         return view('tags.listTagById', compact('tag', 'topics'));
     }
 
@@ -69,6 +72,8 @@ class TagController extends Controller
 
     public function showTags(){
         $tags = Tag::all();  
-        return view('tags.listTags', compact('tags'));
+        $suggestedUsers = User::inRandomOrder()->take(5)->get();
+        $categories = Category::all();
+        return view('tags.listTags', compact('tags', 'suggestedUsers', 'categories'));
     }
 }

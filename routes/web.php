@@ -18,13 +18,14 @@ Route::match(['get', 'post'], '/register', [UserController::class, 'register'])-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/search', [TopicController::class, 'searchTopics'])->name('searchTopics');
+Route::get('/trending-topics', [TopicController::class, 'listMostViewedTopics'])->name('trendingTopics');
 
 Route::post('/comments/create', [CommentController::class, 'createComment'])->name('createComment');
 
 Route::post('/tags/create', [TagController::class, 'createTag'])->name('createTag');
 Route::get('/tags/list', [TagController::class, 'showTags'])->name('showTags');
 Route::post('/topics', [TopicController::class, 'createTopic'])->name('createTopic');
-
+Route::get('/tags/{id}', [TagController::class, 'listTagById'])->name('listTagById');
 Route::post('/categories/create', [CategoryController::class, 'createCategory'])->name('createCategory');
 
 Route::get('/banned', function () {
@@ -56,7 +57,7 @@ Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
     
     Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
     Route::get('/topics/{id}/edit', [TopicController::class, 'editTopic'])->name('editTopic');
-    Route::delete('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
+    Route::get('/topics/{id}/delete', [TopicController::class, 'deleteTopic'])->name('deleteTopic');
     Route::get('newest-topics', [TopicController::class, 'listNewestTopics'])->name('newestTopics');
 
     // Gerenciamento de posts
@@ -75,7 +76,6 @@ Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
     Route::delete('/comments/{id}/delete', [CommentController::class, 'deleteComment'])->name('deleteComment');
 
     Route::get('/tags', [TagController::class, 'listAllTags'])->name('listAllTags');
-    Route::get('/tags/{id}', [TagController::class, 'listTagById'])->name('listTagById');
 
     Route::put('/tags/{id}/update', [TagController::class, 'updateTag'])->name('updateTag');
     Route::get('/tags/{id}/edit', [TagController::class, 'editTag'])->name('editTag');

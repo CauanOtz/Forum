@@ -32,7 +32,8 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            <a class="btn btn-edit"><i class="fa-solid fa-head-side-cough-slash"></i> Suspender</a>
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editUserModal" data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-email="{{ $user->email }}" data-role="{{ $user->role }}" data-avatar="{{ $user->avatar }}">Edit</button>
+
                             
                             @if($user->is_banned)
                                 <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#unbanModal-{{ $user->id }}">
@@ -46,54 +47,30 @@
                         </td>
                     </tr>
 
-                    <!-- Modal para confirmação de banimento -->
-                    <div class="modal fade" id="banModal-{{ $user->id }}" tabindex="-1" aria-labelledby="banModalLabel{{ $user->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="banModalLabel{{ $user->id }}">Banir Usuário</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Você tem certeza que deseja banir este usuário?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <form action="{{ route('banUser', $user->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-danger">Confirmar Banimento</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal para confirmação de desbanimento -->
-                    <div class="modal fade" id="unbanModal-{{ $user->id }}" tabindex="-1" aria-labelledby="unbanModalLabel{{ $user->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="unbanModalLabel{{ $user->id }}">Desbanir Usuário</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Você tem certeza que deseja desbanir este usuário?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <form action="{{ route('unbanUser', $user->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-primary">Confirmar Desbanimento</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('components.modals.users.confirmBanModal')
+                    @include('components.modals.users.editUserModal')
+                    @include('components.modals.users.confirmUnBanModal')
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
 @endsection
+
+<script>
+    var editUserModal = document.getElementById('editUserModal');
+editUserModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var userId = button.getAttribute('data-id');
+    var userName = button.getAttribute('data-name');
+    var userEmail = button.getAttribute('data-email');
+    var userRole = button.getAttribute('data-role');
+    var userAvatar = button.getAttribute('data-avatar');
+
+    editUserModal.querySelector('#name').value = userName;
+    editUserModal.querySelector('#email').value = userEmail;
+    editUserModal.querySelector('#role').value = userRole;
+    editUserModal.querySelector('form').setAttribute('action', `/users/${userId}/update`);
+});
+
+</script>
