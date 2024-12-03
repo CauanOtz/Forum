@@ -23,14 +23,11 @@ class RateController extends Controller
 
     if ($existingVote) {
         if ($existingVote->vote == $voteValue) {
-            // Neutralizar voto se o usuário clicar no mesmo botão
             $existingVote->delete();
         } else {
-            // Atualizar o voto para o novo valor
             $existingVote->update(['vote' => $voteValue]);
         }
     } else {
-        // Criar um novo voto
         Rate::create([
             'post_id' => $postId,
             'user_id' => auth()->id(),
@@ -38,11 +35,9 @@ class RateController extends Controller
         ]);
     }
 
-    // Recalcular likes e dislikes
     $likesCount = Rate::where('post_id', $postId)->where('vote', 1)->count();
     $dislikesCount = Rate::where('post_id', $postId)->where('vote', 0)->count();
-
-    // Atualizar a contagem de votos no Post
+    
     $post->update(['votes_count' => $likesCount + $dislikesCount]);
 
     return response()->json([

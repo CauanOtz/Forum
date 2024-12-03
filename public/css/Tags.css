@@ -1,0 +1,49 @@
+/* Container geral para as tags */
+.containerTag {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; /* Garante que as tags se ajustem no layout */
+    justify-content: center;
+    gap: 15px; /* Adiciona espaçamento entre as tags */
+    padding: 20px 0;
+}
+
+/* Estilo de cada tag */
+.cardTag {
+    width: 150px; /* Definindo um tamanho fixo para as tags */
+    height: 150px; /* Tamanho quadrado */
+    background-color: #f3f4f6; /* Cor de fundo mais clara */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px; 
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.cardTag:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); 
+}
+
+.cardTagTitle {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #4B4B4B;
+    text-align: center;
+}
+
+.titleTag {
+    color: #9B12CB; 
+    font-size: 20px; 
+    font-weight: bold; 
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}

@@ -22,7 +22,7 @@ Route::get('/search', [TopicController::class, 'searchTopics'])->name('searchTop
 Route::post('/comments/create', [CommentController::class, 'createComment'])->name('createComment');
 
 Route::post('/tags/create', [TagController::class, 'createTag'])->name('createTag');
-
+Route::get('/tags/list', [TagController::class, 'showTags'])->name('showTags');
 Route::post('/topics', [TopicController::class, 'createTopic'])->name('createTopic');
 
 Route::post('/categories/create', [CategoryController::class, 'createCategory'])->name('createCategory');

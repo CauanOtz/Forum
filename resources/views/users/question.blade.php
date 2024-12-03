@@ -1,101 +1,145 @@
 @extends('layouts.header')
 
 @section('content')
-<div class="container">
-    <div class="settings-container">
-        <div class="sidebar">
-            <div class="sidebar">
+<div class="landing">
+    <div class="container">
+        <div class="settings-container">
+            <aside class="sidebar">
                 <div class="sidebar-menu">
                     <h2>MENU</h2>
-                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-regular fa-compass"></i>Explore Topics</p>
-                    <p class="menu-item" onclick="selectMenuItem(this)"><i class="fa-solid fa-tag"></i>Tags</p>
+                    <a class="menu-item" onclick="selectMenuItem(this)" href="{{ route('home') }}"><i class="fa-regular fa-compass"></i>Explore Topics</a>
+                    <a class="menu-item" onclick="selectMenuItem(this)" href="{{ route('showTags') }}"><i class="fa-solid fa-tag"></i>Tags</a>
                 </div>
                 <div class="sidebar-personalnav">
                     <h2>PERSONAL NAVIGATOR</h2>
-
                     <a href="{{ route('question') }}">
                         <p class="menu-item"><i class="fa-regular fa-circle-question"></i>My Questions</p>
                     </a>
-                    <a href="{{ route('answers') }}">
-                        <p class="menu-item"><i class="fa-regular fa-comments"></i>My Answers</p>
-                    </a>
-                    <a href="{{ route('likes') }}">
-                        <p class="menu-item"><i class="fa-regular fa-thumbs-up"></i>My Likes</p>
                     </a>   
                 </div>
-                <div class="sidebar-premium"></div>
-            </div>
-        </div>
-        
-        <div class="content">
-            <h1>{{ $user->name }}</h1>
-            <h6>{{ $user->email }}</h6>
-            @error('name') <span>{{ $message }}</span> @enderror
+            </aside>
+            
+            <main class="content">
+                <header>
+                    <h1>{{ $user->name }}</h1>
+                    <h6>{{ $user->email }}</h6>
+                    @error('name') <span class="error">{{ $message }}</span> @enderror
+                </header>
 
-            <div class="settings-content">
-                <div class="left">
-                    <h3>Questions</h3>
+                <section class="settings-content">
+                    <div class="left">
+                        <h3>Questions</h3>
 
-                    @if (isset($topics) && $topics->isNotEmpty())
-                        @foreach($topics as $topic)
-                        <div class="card">
+                        @forelse ($topics as $topic)
+                        <article class="card">
                             <div class="card-content">
-                            @if($topic->post)
+                                @if ($topic->post)
                                 <div class="votes">
-                                    <span onclick="ratePost({{ $topic->post->id }}, true)" style="cursor: pointer;">
+                                    <span class="vote-up" data-post="{{ $topic->post->id }}" 
+                                        onclick="ratePost({{ $topic->post->id }}, true)" 
+                                        style="cursor: pointer; {{ $topic->post->user_vote === 1 ? 'color: green;' : '' }}">
                                         <i class="fa-solid fa-chevron-up"></i>
                                     </span>
-                                    <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->rates->sum('vote') ?? 0 }}</span>
-                                    <span onclick="ratePost({{ $topic->post->id }}, false)" style="cursor: pointer;">
+                                    <span class="vote-count" data-post="{{ $topic->post->id }}">{{ $topic->post->votes_count }}</span>
+                                    <span class="vote-down" data-post="{{ $topic->post->id }}" 
+                                        onclick="ratePost({{ $topic->post->id }}, false)" 
+                                        style="cursor: pointer; {{ $topic->post->user_vote === 0 ? 'color: red;' : '' }}">
                                         <i class="fa-solid fa-chevron-down"></i>
                                     </span>
-                                    <div class="vote-details">
-                                        <div class="likes" data-post="{{ $topic->post->id }}">
-                                            <i class="fa-solid fa-thumbs-up"></i> {{ $topic->likes_count ?? 0 }}
-                                        </div>
-                                        <div class="dislikes" data-post="{{ $topic->post->id }}">
-                                            <i class="fa-solid fa-thumbs-down"></i> {{ $topic->dislikes_count ?? 0 }}
-                                        </div>
-                                    </div>
                                 </div>
-                            @else
+                                @else
                                 <p>Este tópico não possui um post associado.</p>
-                            @endif
-
+                                @endif
 
                                 <div class="question">
                                     <div class="question-top">
                                         <h3 class="question-title">{{ $topic->title }}</h3>
-                                        <p id="question-date">{{ $topic->created_at->format('H:i a') }}</p>
+                                        <p class="question-date">{{ $topic->created_at->format('H:i a') }}</p>
                                     </div>
                                     <p class="question-view">{{ $topic->description }}</p>
                                 </div>
-                            </div>
-                            <div class="views">
-                                <p><i class="fa-regular fa-eye"></i>{{ $topic->views_count ?? 0 }}</p>
-                                <p><i class="fa-regular fa-comment"></i>{{ $topic->comments_count ?? 0 }}</p>
-                            </div>
-                            <div class="comments-section">
-                                @if($topic->comments->isNotEmpty())
-                                    @foreach($topic->comments as $comment)
-                                        <div class="comment">
-                                            <p>{{ $comment->content }}</p>
-                                            <span>Comentado em: {{ $comment->created_at->format('d/m/Y H:i') }}</span>
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <p>Sem comentários neste tópico.</p>
-                                @endif
-                            </div>
-                        </div>
-                        @endforeach
-                    @else
-                        <p>Você ainda não tem tópicos publicados.</p>
-                    @endif
 
-                </div>
-            </div>
+                                <div class="tags">
+                                    @foreach ($topic->tags as $tag)
+                                        <span class="tag">{{ $tag->name }}</span>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <section class="comments-section">
+                                @forelse ($topic->comments as $comment)
+                                <div class="comment">
+                                    <p>{{ $comment->content }}</p>
+                                    <span>Comentado em: {{ $comment->created_at->format('d/m/Y H:i') }}</span>
+                                </div>
+                                @empty
+                                <p>Sem comentários neste tópico.</p>
+                                @endforelse
+                            </section>
+                        </article>
+                        @empty
+                        <p>Você ainda não tem tópicos publicados.</p>
+                        @endforelse
+                    </div>
+                </section>
+            </main>
         </div>
     </div>
 </div>
+
+<script>
+
+function ratePost(postId, isUpvote) {
+    const vote = isUpvote ? 1 : 0;
+
+    fetch(`/posts/${postId}/rate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ vote })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+
+            const voteCountElement = document.querySelector(`.vote-count[data-post="${postId}"]`);
+            if (voteCountElement) voteCountElement.textContent = data.votes_count;
+
+            const likesElement = document.querySelector(`.likes[data-post="${postId}"]`);
+            const dislikesElement = document.querySelector(`.dislikes[data-post="${postId}"]`);
+            if (likesElement) likesElement.textContent = data.likes_count;
+            if (dislikesElement) dislikesElement.textContent = data.dislikes_count;
+
+            const upvoteIcon = document.querySelector(`.vote-up[data-post="${postId}"]`);
+            const downvoteIcon = document.querySelector(`.vote-down[data-post="${postId}"]`);
+
+            if (upvoteIcon && downvoteIcon) {
+                if (data.user_vote === 1) {
+                    upvoteIcon.classList.add('voted'); 
+                    downvoteIcon.classList.remove('voted'); 
+                } else if (data.user_vote === 0) {
+                    downvoteIcon.classList.add('voted'); 
+                    upvoteIcon.classList.remove('voted');
+                } else {
+                    upvoteIcon.classList.remove('voted');
+                    downvoteIcon.classList.remove('voted');
+                }
+            }
+        }
+    })
+    .catch(error => console.error('Erro:', error));
+}
+
+    function selectMenuItem(element) {
+        const items = document.querySelectorAll('.menu-item');
+        items.forEach(item => item.classList.remove('active'));
+        element.classList.add('active');
+    }
+</script>
+
 @endsection
+
+
+

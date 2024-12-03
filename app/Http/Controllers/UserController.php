@@ -110,26 +110,33 @@ public function register(Request $request) {
 {
     $userId = auth()->id();
 
-    $topics = Topic::with([
-        'post.rates', 
-        'comments',   
-    ])
-    ->withCount([
-        'rates as likes_count' => function ($query) {
-            $query->where('vote', 1);
-        },
-        'rates as dislikes_count' => function ($query) {
-            $query->where('vote', 0);
-        },
-        'comments as comments_count', 
-    ])
-    ->where('user_id', $userId)
+    // Buscar tópicos pelo autor do post
+    $topics = Topic::whereHas('post', function ($query) use ($userId) {
+        $query->where('user_id', $userId);
+    })
+    ->with(['post', 'comments'])
     ->get();
 
-    $user = auth()->user(); 
+    // Adicionar contagens de likes, dislikes e comentários
+    $topics->each(function ($topic) {
+        $topic->likes_count = $topic->post?->rates()
+            ->where('vote', 1)
+            ->count() ?? 0;
 
-    return view('questions', compact('topics', 'user'));
+        $topic->dislikes_count = $topic->post?->rates()
+            ->where('vote', 0)
+            ->count() ?? 0;
+
+        $topic->comments_count = $topic->comments->count();
+    });
+
+    $user = auth()->user();
+
+    return view('users.question', compact('topics', 'user'));
 }
+
+
+
 
 
     public function answers() {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -16,7 +17,8 @@ class TagController extends Controller
     public function listTagById($id)
     {
         $tag = Tag::findOrFail($id);
-        return view('tags.listTagById', ['tag' => $tag]);
+        $topics = $tag->topics;
+        return view('tags.listTagById', compact('tag', 'topics'));
     }
 
     public function createTag(Request $request)
@@ -63,5 +65,10 @@ class TagController extends Controller
         $tag->delete();
 
         return redirect()->route('listAllTags')->with('success', 'Tag deleted successfully');
+    }
+
+    public function showTags(){
+        $tags = Tag::all();  
+        return view('tags.listTags', compact('tags'));
     }
 }
