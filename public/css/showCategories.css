@@ -1,0 +1,61 @@
+.titleCategory {
+    color: #9B12CB;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #9B12CB;
+    margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.cardCategory {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 200px;
+    height: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f4f6;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardCategory:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardCategoryDescription {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.cardCategoryTitle {
+    font-weight: 600;
+    color: black;
+}
+
+.contentCategory {
+    display: flex;
+    flex-direction: column;
+}
+
+.containerCardCategory {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    row-gap: 15px;
+}
+
+.containerCardCategory > a {
+    text-decoration: none;
+    margin-right: 35px;
+}

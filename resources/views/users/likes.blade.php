@@ -35,7 +35,6 @@
 
             <div class="settings-content">
                 <div class="left">
-                    <!-- Exibindo os tópicos do usuário como cards -->
                     <h3>Likes</h3>
 
                     @if (isset($topics) && $topics->isNotEmpty())

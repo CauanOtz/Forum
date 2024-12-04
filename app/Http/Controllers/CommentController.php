@@ -32,8 +32,6 @@ class CommentController extends Controller
             'topic_id' => 'required|exists:topics,id',
         ]);
         
-        
-
         $comment = new Comment();
         $comment->content = $validatedData['content'];
         $comment->user_id = auth()->id();

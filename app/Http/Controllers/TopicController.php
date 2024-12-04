@@ -25,8 +25,11 @@ class TopicController extends Controller
     public function listTopicById($id)
     {
         $topic = Topic::findOrFail($id);
+        $categories = Category::all();
+        $tags = Tag::all();
+        $suggestedUsers = User::inRandomOrder()->take(5)->get();
 
-        return view('topics.listTopicById', compact('topic'));
+        return view('topics.listTopicById', compact('topic', 'categories', 'tags', 'suggestedUsers'));
     }
 
     public function showTopics(Request $request)

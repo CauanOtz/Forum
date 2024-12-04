@@ -24,9 +24,12 @@ Route::post('/comments/create', [CommentController::class, 'createComment'])->na
 
 Route::post('/tags/create', [TagController::class, 'createTag'])->name('createTag');
 Route::get('/tags/list', [TagController::class, 'showTags'])->name('showTags');
+
 Route::post('/topics', [TopicController::class, 'createTopic'])->name('createTopic');
 Route::get('/tags/{id}', [TagController::class, 'listTagById'])->name('listTagById');
 Route::post('/categories/create', [CategoryController::class, 'createCategory'])->name('createCategory');
+Route::get('/categories/{id}/show', [CategoryController::class, 'show'])->name('show');
+Route::get('/categories/list', [CategoryController::class, 'showCategories'])->name('showCategories');
 
 Route::get('/banned', function () {
     return view('users.banned');
@@ -42,18 +45,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/question', [UserController::class, 'question'])->name('question');
     Route::get('/answers', [UserController::class, 'answers'])->name('answers');
     Route::get('/likes', [UserController::class, 'likes'])->name('likes');
-
+    
     Route::post('/posts/{postId}/rate', [RateController::class, 'ratePost'])->name('ratePost');
 
     Route::put('/topics/{id}/update-home', [TopicController::class, 'updateTopicFromHome'])->name('updateTopicHome');
-
+    Route::get('/topics/{id}', [TopicController::class, 'listTopicById'])->name('listTopicById');
     Route::delete('/topics/{id}/deleteFromHome', [TopicController::class, 'deleteTopicHome'])->name('deleteTopicHome');
+    Route::delete('/users/{id}/delete', [UserController::class, 'deleteUser'])->name('deleteUser');
 });
 
 Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
     // Gerenciamento de tópicos
     Route::get('/topics', [TopicController::class, 'listAllTopics'])->name('listAllTopics');
-    Route::get('/topics/{id}', [TopicController::class, 'listTopicById'])->name('listTopicById');
     
     Route::put('/topics/{id}/update', [TopicController::class, 'updateTopic'])->name('updateTopic');
     Route::get('/topics/{id}/edit', [TopicController::class, 'editTopic'])->name('editTopic');
@@ -80,6 +83,8 @@ Route::middleware(['auth', 'role:moderator,admin'])->group(function () {
     Route::put('/tags/{id}/update', [TagController::class, 'updateTag'])->name('updateTag');
     Route::get('/tags/{id}/edit', [TagController::class, 'editTag'])->name('editTag');
     Route::get('/tags/{id}/delete', [TagController::class, 'deleteTag'])->name('deleteTag');
+
+    
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -88,7 +93,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/users/{id}', [UserController::class, 'listUserById'])->name('listUserById');
 
     Route::get('/users/{id}/edit', [UserController::class, 'editUser'])->name('editUser');
-    Route::delete('/users/{id}/delete', [UserController::class, 'deleteUser'])->name('deleteUser');
+    
     Route::put('/users/{id}/ban', [UserController::class, 'banUser'])->name('banUser');
     Route::put('/users/{id}/unban', [UserController::class, 'unbanUser'])->name('unbanUser');
 

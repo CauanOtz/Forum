@@ -18,10 +18,13 @@ class TagController extends Controller
 
     public function listTagById($id)
     {
+        $tags = Tag::all();
         $tag = Tag::findOrFail($id);
         $topics = $tag->topics;
+        $suggestedUsers = User::inRandomOrder()->take(5)->get();
+        $categories = Category::all();
 
-        return view('tags.listTagById', compact('tag', 'topics'));
+        return view('tags.listTagById', compact('tag','tags', 'topics', 'categories', 'suggestedUsers'));
     }
 
     public function createTag(Request $request)

@@ -1,3 +1,6 @@
+@import url('sidebar.css');
+@import url('card.css');
+
 .landing {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr; 
@@ -8,62 +11,6 @@
     width: 100%;
 }
 
-.sidebar {
-    width: 100%;
-}
-
-.sidebar-menu {
-    margin-bottom: 40px;
-}
-
-.sidebar .sidebar-menu,
-.sidebar .sidebar-personalnav {
-    display: flex;
-    flex-direction: column;
-    width: 80%; 
-}
-
-.sidebar-menu > h2,
-.sidebar-personalnav > h2 {
-    font-size: 20px;
-    font-weight: 300;
-    color: #594545;
-    margin-bottom: 20px;
-    margin-left: 60px;
-}
-
-.sidebar-menu a,
-.sidebar-personalnav a {
-    transition: background-color 0.6s;
-    width: 100%; 
-    display: flex;
-    padding-left: 60px;
-    cursor: pointer;
-    height: 50px;
-    box-sizing: border-box;
-    align-items: center;
-    font-weight: 500;
-    text-decoration: none;
-    color: #594545;
-}
-
-.sidebar-menu a:hover,
-.sidebar-personalnav a:hover {
-    background-color: #9a12cb2d;
-}
-
-.sidebar-menu a i,
-.sidebar-personalnav a i {
-    margin-right: 10px;
-    background: none;
-    color: #594545;
-    font-size: 18px;
-}
-
-.sidebar-personalnav a, .sidebar-personalnav a {
-    color: #594545;
-    text-decoration: none;
-}
 
 .center {
     width: 100%;
@@ -94,53 +41,6 @@
 
 .filter > p > i {
     margin-right: 8px;
-}
-
-/* Estilos para os cards de conteúdo */
-
-
-.question > .question-top > .question-title {
-    font-size: 20px;
-    width: 400px;
-}
-
-.edit-topic-btn {
-    background: none;
-    border: none;
-}
-
-.question-top {
-    margin-bottom: 30px;
-}
-
-.question-view {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 500px;
-}
-
-.votes {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.votes > i, .votes > span{
-    font-size: 20px;
-    margin: 0px 50px;
-}
-
-.card {
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    width: 900px;
-    background: #fff;
-    height: 200px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.23);
-    margin: auto;
-    margin-top: 20px;
 }
 
 
@@ -174,61 +74,6 @@
     margin-right: 2px;
 }
 
-.topics > button {
-    padding: 15px;
-    border: none;
-    background: #9B12CB;
-    color: white;
-    border-radius: 5px;
-    width: 200px;
-}
-
-.topics > button > i {
-    margin-right: 10px;
-}
-
-.suggestions > h3 {
-    font-size: 20px;
-    color: #808080;
-    font-weight: 300;
-    
-}
-
-.suggestions {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-}
-
-.suggestions-users {
-    margin-top: 30px;
-}
-
-.suggestions-users > .user{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 200px;
-    height: 60px;
-}
-.suggestions-users > .user > p{
-    margin-bottom: 0px;
-}
-
-.suggestions-users > .user> form > button {
-    width: 90px;
-    border: none;
-    padding: 7px;
-    background: #9B12CB;
-    color: white;
-    border-radius: 5px;
-}
-
-.suggestions-users > .user > button > i {
-    margin-right: 5px;
-}
-
 .filter.active, .filter.active p, .filter.active i {
     background-color: #9B12CB; 
     color: white;
@@ -241,70 +86,10 @@
     margin: 0;
 }
 
-.vote-up.voted {
-    color: green;  
-}
-
-.vote-down.voted {
-    color: red;  
-}
-
-.edit-topic-btn {
-    color:  #9B12CB;
-}
-
-.delete-topic-btn {
-    background: none;
-    border: none;
-    color: red;
-    cursor: pointer;
-}
-
-.delete-topic-btn:hover {
-    color: darkred;
-}
-
-.question-crud {
-    display: flex;  
-}
-
-.question-crud > button {
-    margin-right: 10px;
-}
-
-.card-low {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-}
-
-.card-top > .question-crud{
-    margin: 30px;
-    background: #e8e8e8;;
-    border-radius: 10px;
-    width: 80px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: -17px;
-}
-
-.card-top > .question-crud > span {
-    margin: 0px;
-    margin-right: 10px;
-}
-
-.card-content {
-    width: 100%;
-    height: 200px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 0px;
-}
-
 .font-color {
     color: #594545;
+}
+
+.menu-item {
+    margin: 0px;
 }

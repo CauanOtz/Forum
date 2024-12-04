@@ -7,13 +7,13 @@
     <div class="landing">
         @include('layouts.sidebarLeft.sidebar')
         <div class="center">
-            <h1 class="text-center mb-4 titleTag">Explore Tags</h1>
+            <h1 class="titleTag">Explore Tags</h1>
             <div class="row justify-content-center">
                 <div class="containerTag">
 
                     @if($tags->isNotEmpty())
                     @foreach($tags as $tag)
-                    <a href="{{ route('listTagById', $tag->id) }}" style="text-decoration: none;">
+                    <a href="{{ route('listTagById', $tag->id) }}" style="text-decoration: none;  cursor: pointer;">
                         <div class="cardTag">
                             <h5 class="cardTagTitle">{{ $tag->title }}</h5>
                         </div>

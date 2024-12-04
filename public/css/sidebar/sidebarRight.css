@@ -1,0 +1,126 @@
+
+.topics > button {
+    padding: 15px;
+    border: none;
+    background: #9B12CB;
+    color: white;
+    border-radius: 5px;
+    width: 200px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.topics > button > i {
+    margin-right: 10px;
+}
+
+.topics > button:hover {
+    background-color: #7a0d9f; 
+}
+
+.suggestions {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestions > h3 {
+    font-size: 20px;
+    color: #808080;
+    font-weight: 300;
+    margin-bottom: 15px;
+    text-align: center; 
+}
+
+.suggestions-users {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.suggestions-users > .user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.suggestions-users > .user:hover {
+    background-color: #f0e7f7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.suggestions-users > .user > img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.suggestions-users > .user > p {
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1; 
+    margin-right: 20px; 
+}
+
+.suggestions-users > .user > form > button {
+    width: 90px;
+    border: none;
+    padding: 7px;
+    background: #9B12CB;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suggestions-users > .user > form > button:hover {
+    background-color: #7a0d9f;
+}
+
+
+@media (max-width: 768px) {
+    .topics > button {
+        width: 100%; 
+    }
+
+    .suggestions > h3 {
+        font-size: 18px;
+    }
+
+    .suggestions-users > .user {
+        width: 100%; 
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .suggestions-users > .user > p {
+        font-size: 13px; 
+    }
+
+    .suggestions-users > .user > form > button {
+        width: 100%;
+        margin-top: 10px;
+    }
+}

@@ -34,13 +34,6 @@
                     <td><a href="{{ route('listAllTopics') }}">/topics</a></td>
                     <td>GET</td>
                 </tr>
-                <!-- Rotas de Posts -->
-                <tr>
-                    <td>3</td>
-                    <td>Posts</td>
-                    <td><a href="{{ route('listAllPosts') }}">/posts</a></td>
-                    <td>GET</td>
-                </tr>
                 <!-- Rotas de Tags -->
                 <tr>
                     <td>4</td>

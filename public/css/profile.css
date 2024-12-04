@@ -21,9 +21,8 @@
 
 .settings-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 0.5fr;
     border-top: 2px solid #9B12CB;
-    margin-right: 40px;
 }
 
 .settings-content > .left > form, .right {
@@ -70,13 +69,22 @@
 
 .delete {
     background: red;
-    width: 50px;
+    width: 80px;
     padding: 8px;
     color: white;
     border: none;
     border-radius: 5px;
 }
 
+.edit {
+    background: #9B12CB;
+    width: 50px;
+    padding: 8px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
 .right > p {
     color: #9B12CB;
     font-weight: bold;
@@ -98,25 +106,4 @@
     width: 300px;
     height: 300px;
     border-radius: 50%;
-}
-.right > .user-wrapper > .edit {
-    width: 70px;
-    height: 40px;
-    background: #f0f0f0;
-    border: 1px solid #9B12CB;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 50px;
-}
-
-.right > .user-wrapper > .edit > i {
-    margin-right: 5px;
-}
-
-.right > .user-wrapper > .edit > i, 
-.right > .user-wrapper > .edit > p {
-    color: #9B12CB;
 }

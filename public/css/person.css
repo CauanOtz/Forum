@@ -1,0 +1,23 @@
+.titlePerson > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.titlePerson > h1 {
+    color: #9B12CB;
+}
+
+.titlePerson > h6 {
+    color: #9B12CB;
+}
+
+.titlePerson {
+    text-align: center;
+}
+
+.titleTopics {
+    color: #9B12CB;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #9B12CB;
+}

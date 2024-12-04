@@ -1,3 +1,11 @@
 .questionHeader {
-    width: 90%;
+    width: 100%;
+}
+
+.questionTitle {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #9B12CB;
+    width: 100%;
+    color: #9B12CB;
+    margin-bottom: 60px;
 }
