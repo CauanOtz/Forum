@@ -12,8 +12,7 @@
             <span><strong>|</strong></span>
             @endif
             @if($topic->post->user_id === Auth::id())
-            <form action="{{ route('deleteTopicHome', $topic->id) }}" method="POST"
-                onsubmit="return confirmDelete(this);;">
+            <form action="{{ route('deleteTopicHome', $topic->id) }}" method="POST" onsubmit="return confirmDelete(this);;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="delete-topic-btn">
