@@ -139,3 +139,10 @@
 .question-crud > button {
     margin-right: 10px;
 }
+
+.imgAuthor {
+    margin-right: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}

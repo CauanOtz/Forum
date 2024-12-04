@@ -99,3 +99,13 @@
 .comment-container button.btn-postComment:hover {
     background-color: #5a34a3;
 }
+
+.imgComment {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.titleComment {
+    color: #9B12CB;
+}

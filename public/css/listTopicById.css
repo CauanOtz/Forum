@@ -15,7 +15,7 @@
 .card-title {
     font-size: 1.75rem;
     font-weight: 600;
-    color: #6f42c1;
+    color: #9B12CB !important;
     margin-bottom: 1rem;
 }
 
@@ -107,18 +107,19 @@
     padding-right: 15px;
 }
 
-/* Responsividade */
-@media (max-width: 767px) {
-    .col-md-3, .col-md-6 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    .comment-container input.contentComment {
-        padding: 0.5rem;
-        font-size: 0.875rem;
-    }
-    .comment-container button.btn-postComment {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-    }
+.cardTitle {
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
 }
+
+.imgAuthorTopic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.cardAuthor {
+    margin-bottom: 35px;
+}
+

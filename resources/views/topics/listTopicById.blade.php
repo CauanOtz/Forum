@@ -4,15 +4,17 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar esquerda -->
         <div class="col-md-3">
             @include('layouts.sidebarLeft.sidebar')
         </div>
 
-        <!-- Conteúdo principal -->
         <div class="col-md-6">
             <div class="card mb-4 shadow-lg border-light rounded">
-                <div class="card-body">
+                <div class="card-body"> 
+                    <div class="cardAuthor">
+                        <img src="{{ $topic->post->user->photo ? asset('storage/' . $topic->post->user->photo) : asset('img/user.png') }}" alt="" class="imgAuthorTopic">
+                        <strong>{{ $topic->post->user->name }}</strong>
+                    </div>
                     <h3 class="card-title text-purple font-weight-bold">{{ $topic->title }}</h3>
                     <p class="text-muted mb-3">
                         Posted by <strong>{{ $topic->post->user->name }}</strong> on
@@ -43,7 +45,7 @@
             </div>
 
             <!-- Formulário de comentário -->
-            <h4>Post a Comment</h4>
+            <h4 class="titleComment">Post a Comment</h4>
             <div class="commentContainer">
                 <form action="{{ route('createComment') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -58,13 +60,16 @@
             </div>
 
             <!-- Exibição de comentários -->
-            <h4 class="mt-4">Comments</h4>
+            <h4 class="mt-4 titleComment">Comments</h4>
             @if($topic->comments->isNotEmpty())
                 @foreach($topic->comments as $comment)
                 <div class="card mb-2 shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <p class="mb-0"><strong>{{ $comment->user->name }}</strong></p>
+                            <div class="d-flex">
+                                <img src="{{ $comment->user->photo ? asset('storage/' . $comment->user->photo) : asset('img/user.png') }}" class="imgComment">
+                                <p class="mb-0"><strong>{{ $comment->user->name }}</strong></p>
+                            </div>
                             <p class="mb-0 text-muted">{{ $comment->created_at->format('M d, Y') }}</p>
                         </div>
                         <p class="mt-2">{{ $comment->content }}</p>

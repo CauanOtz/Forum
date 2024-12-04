@@ -19,7 +19,7 @@ Swal.fire({
 <div class="comment-container">
     <h1 class="text-center">Comments</h1>
     <div class="text-center mb-3">
-        <button type="button" class="btn btn-purple mb-3" data-bs-toggle="modal" data-bs-target="#createCommentModal">
+        <button type="button" class="btn btn-purple mb-3" data-bs-toggle="modal"  onclick="toggleModal('createCommentModal')">
             Create New Comment
         </button>
     </div>

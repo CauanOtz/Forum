@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="{{ asset('css/sidebar/sidebarRight.css') }}">
 <link rel="stylesheet" href="{{ asset('css/sidebar/sidebarLeft.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/createCommentModal.css') }}">
 
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

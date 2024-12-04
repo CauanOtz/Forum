@@ -61,7 +61,7 @@
 
     <div class="card-low">
         <div class="question-author">
-            <p class="question-author">Publicado por: <strong>{{ $topic->post->user->name }}</strong></p>
+            <img src="{{ $topic->post->user->photo ? asset('storage/' . $topic->post->user->photo) : asset('img/user.png') }}" alt="" class="imgAuthor"><strong>{{ $topic->post->user->name }}</strong>
         </div>
         <div class="views">
             <p><i class="fa-regular fa-eye"></i>{{ $topic->views_count ?? 0 }}</p>
